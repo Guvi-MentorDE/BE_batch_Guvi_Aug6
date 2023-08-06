@@ -1,0 +1,26 @@
+1. how to find if there is mutiple occurnce of same value in list/sting/tuple. 
+
+l1 = ["eat", "sleep", "repeat" , "eat"]
+
+#l1.index("eat") = 0,3
+
+    solve: using "enumerate" concept. 
+    solve: using looping concept. (for/while)
+
+#open to discuss: pop (list/string) and discard (sets) are same ?
+
+
+2. 
+#find if below two strings annagrams or not 
+
+str1 = "save"
+str2 = "vase"
+
+
+#find if any given string is palidrome or not 
+inp_string="madam"
+inp_string="maths"
+
+if else
+
+for 

@@ -1,0 +1,11 @@
+{
+    INDIA:states 
+        Maharastara :{
+            Mumbai:finance "capital"
+            pune : "it hub"
+        }
+        tamil nadu :{
+            Chennai :"metro"
+        }
+
+}
