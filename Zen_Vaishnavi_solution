@@ -1,0 +1,117 @@
+# multilpple occurences using enumerate
+
+l1 = ["eat", "sleep", "repeat" , "eat"]
+occurrences = {}
+    
+for index, value in enumerate(l1):
+    if value in occurrences:
+        occurrences[value].append(index)
+else:
+       occurrences[value] = [index]
+
+for k,v in occurrences.items():
+   if len(v)>1:
+        print(f"{k}:{v}")
+
+
+#Multiple occurences using looping
+
+occurrences = {}
+index_list = list(range(0,len(l1)))
+
+for i,j in zip(l1,index_list):
+    if i in occurrences:
+        occurrences[i].append(j)
+    else:
+        occurrences[i] = [j]
+
+for k,v in occurrences.items():
+       if len(v)>1:
+        print(f"{k}:{v}")
+
+
+#find if below two strings annagrams or not 
+
+str1 = "save"
+str2 = "vase"
+l1 = [i for i in str1]
+l2 = [i for i in str2]
+
+if len(str1)==len(str2):
+    if l1.sort()==l2.sort():
+        print('Annagrams')
+else:
+    print("Not annagrams")
+
+#Palindromes
+
+str = input()
+
+rev_str = str[::-1]
+
+if str==rev_str:
+    print("Palindrome")
+else:
+    print("Not a palindrome")
+
+#annagram and palindrome
+
+def is_annagram(str1, str2):
+    result=False
+    l1=[i for i in str1]
+    l2 =[i for i in str2]
+    if len(str1)==len(str2):
+        if l1.sort()==l2.sort():
+            result=True
+    else:
+        result=False
+    return result
+
+def is_palindrome(s):
+    rev_s = s[::-1]
+    result = False
+    if s==rev_s:
+        result=True
+    return result
+
+if __name__ == '__main__':
+
+    s1 = 'save'
+    s2 = 'vase'
+    s3 = 'madam'
+    s4 = 'more'
+
+    annagram = is_annagram(s1, s2)
+    palindrome1 = is_palindrome(s3)
+    palindrome2 = is_palindrome(s4)
+
+    if annagram:
+        print(f'{s1} and {s2} are annagrams')
+    else:
+        print(f'{s1} and {s2} are not annagrams')
+
+    if palindrome1:
+        print(f'{s3} is a palindrome')
+    else:
+        print(f'{s3} is not a palindrome')
+
+    if palindrome2:
+        print(f'{s4} is a palindrome')
+    else:
+        print(f'{s4} is not a palindrome')
+
+# funcion to find the even number
+
+try:
+    num = int(input())
+    is_even = lambda num: True if num%2==0 else False
+    if is_even:
+      print(f"{num} is an even number")
+    else:
+      print(f"{num} is an odd number")
+except(ValueError):
+    print("Enter an integer to find if it is even or odd")
+
+
+
+
