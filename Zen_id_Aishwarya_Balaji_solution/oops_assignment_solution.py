@@ -12,16 +12,18 @@ class my_class:
   def __init__(self, my_str):
     self.my_str = my_str
 
-  #Palindrome function
+  #Palindrome method
   def check_palindrome(self):
     return(f"{self.my_str} is palindrome" if(self.my_str == self.my_str[::-1]) else f"{self.my_str} is not a palindrome")
 
 #Main
 if __name__ == '__main__':
+  #Get the string
   get_str = input("Enter a string: ")
 
-  #Call the class
+  #Create an object for the class
   obj = my_class(get_str)
+  #Call the methods
   print(obj.check_palindrome())
 
 
