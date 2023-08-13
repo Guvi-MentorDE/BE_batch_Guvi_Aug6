@@ -27,3 +27,12 @@ if __name__=="__main__":
   print("PASS" if arun.is_pass(ip) else "FAIL")
   print("Actual Passmark : ")
   print(arun.get_pass_mark())
+
+  #with passmark of 60  
+  grad_student = Students(60)
+  ip = input("Enter marks for English,maths,science,social in comma separated : ").split(",")
+  ip = list(map(int, ip))
+  print("Students Results : ")
+  print("PASS" if grad_student.is_pass(ip) else "FAIL")
+  print("Actual Passmark : ")
+  print(grad_student.get_pass_mark())
