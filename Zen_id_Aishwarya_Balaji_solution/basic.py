@@ -27,6 +27,6 @@ s2 = input("Enter a string2: ")
 check = [s2[i] in s1 for i in range(len(s2))]
 print("Anagram") if(len(set(check)) == 1) else print("Not an anagram")
 
-'''3) find if any given string is palindrome or not 'madam' & 'maths''''
+'''3) find if any given string is palindrome or not "madam" & "maths"'''
 s1 = input("Enter a string: ")
 print("Palindrome") if(s1 == s1[::-1]) else print("Not a palindrome")
