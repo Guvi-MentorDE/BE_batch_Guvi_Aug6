@@ -1,0 +1,69 @@
+
+Class       --
+Object      --
+Method      --
+Encapsulation --
+Polymorphism 
+Inheritance  
+Data Abstraction
+
+
+Object Oriented programming is a programming style that is associated with the concept of 
+Class, Objects and various other concepts revolving around these two, like Inheritance, Polymorphism, Abstraction, Encapsulation etc.
+
+Class
+Here we can take Human Being as a class. 
+A class is a blueprint for any functional entity which defines its properties and its functions. 
+Like Human Being, having body parts, and performing various actions.
+
+class Vehnicle:     
+        <statement-1>     
+        .     
+        .      
+        <statement-N> 
+
+Objects
+My name is Dave, and I am an instance/object of class Male. 
+When we say, Human Being, Male or Female, we just mean a kind, you, your friend, me we are the forms of these classes. We have a physical existence while a class is just a logical definition. We are the objects.
+
+class car:  
+    def __init__(self,modelname, year):     #fucntion 
+        self.modelname = modelname  
+        self.year = year   
+    def display(self):                 #function 
+        print(self.modelname,self.year)  
+  
+tata = car("tata indica","1999")
+
+hyundai = car("creta","2015")
+
+bmw = car("x3","2001")
+
+c1.display()  
+
+
+def: The keyword is used to define function.
+__init__() Method: It is a reserved method. This method gets called as soon as an object of a class is instantiated.
+self:   The first argument self refers to the current object. 
+        It binds the instance to the __init__() method. 
+        It’s usually named self to follow the naming convention.
+
+
+
+Inheritance:
+Considering HumanBeing a class, which has properties like hands, legs, eyes etc, and functions like walk, talk, eat, see etc. 
+Male and Female are also classes, but most of the properties and functions are included in HumanBeing, hence they can inherit everything from class HumanBeing using the concept of Inheritance.
+
+
+Abstraction:
+Abstraction means, showcasing only the required things to the outside world while hiding the details. 
+Human Being's can talk, walk, hear, eat, but the details are hidden from the outside world
+
+
+Encapsulation:
+This binding of the properties to functions is called Encapsulation.
+
+
+Polymorphism:
+Polymorphism, or Poly + Morph, means "many forms
+Polymorphism is a concept, which allows us to redefine the way something works, by either changing how it is done or by changing the parts using which it is done
