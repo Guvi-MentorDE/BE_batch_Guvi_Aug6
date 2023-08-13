@@ -16,18 +16,19 @@ class Calculator:
   def add(self):
     return(self.num1+self.num2)
 
-  #adding two numbers
+  #adding two numbers by passing parameters
   def add(self, n1, n2):
     return(n1+n2)
 
+  #Subtracting two numbers
   def sub(self):
     return(self.num1-self.num2)
 
-  #adding two numbers
+  #multiplying two numbers
   def mul(self):
     return(self.num1*self.num2)
 
-  #adding two numbers
+  #dividing two numbers
   def div(self):
     return(self.num1/self.num2)    
 
