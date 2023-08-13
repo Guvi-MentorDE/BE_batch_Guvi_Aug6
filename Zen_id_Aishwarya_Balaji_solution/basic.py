@@ -21,12 +21,13 @@ print(s)
 '''2) Find if below two strings anagrams or not
 str1 = "save"
 str2 = "vase"'''
-
+print("To check anagrams")
 s1 = input("Enter a string1: ")
 s2 = input("Enter a string2: ")
 check = [s2[i] in s1 for i in range(len(s2))]
 print("Anagram") if(len(set(check)) == 1) else print("Not an anagram")
 
 '''3) find if any given string is palindrome or not "madam" & "maths"'''
+print("To check palindrome")
 s1 = input("Enter a string: ")
 print("Palindrome") if(s1 == s1[::-1]) else print("Not a palindrome")
