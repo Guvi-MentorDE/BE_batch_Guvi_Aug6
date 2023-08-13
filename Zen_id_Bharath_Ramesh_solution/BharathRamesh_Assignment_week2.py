@@ -36,19 +36,19 @@ class Calculator:
         self.b = b
     
     def add(self):
-        c = self.a + self.b
+        c = "Addition of two numbers is " + str(self.a + self.b)
         return c
 
     def sub(self):
-        c = self.a - self.b
+        c = "Subtraction of two numbers is " + str(self.a - self.b)
         return c
 
     def multip(self):
-        c = self.a * self.b
+        c = "Multiplication of two numbers is " + str(self.a * self.b)
         return c
 
     def divis(self):
-        c = self.a / self.b
+        c = "Division of two numbers is " + str(self.a / self.b)
         return c
 
 if __name__ == "__main__":
@@ -56,20 +56,17 @@ if __name__ == "__main__":
     a = int(input())
     print("Enter the second number: ")
     b = int(input())
-    print("Enter the operation: ")
-    c = input()
 
     obj = Calculator(a, b)
 
-    if c == "Addition":
-        result = obj.add()
-    elif c == "Subtraction":
-        result = obj.sub()
-    elif c == "Multiplication":
-        result = obj.multip()
-    elif c == "Division":
-        result = obj.divis()
-    else:
-        result = "The operation is invalid"
+    result = obj.add()
+    print(result)
 
+    result = obj.sub()
+    print(result)
+
+    result = obj.multip()
+    print(result)
+
+    result = obj.divis()
     print(result)
