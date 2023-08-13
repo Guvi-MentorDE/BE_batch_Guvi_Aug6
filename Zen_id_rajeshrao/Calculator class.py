@@ -35,7 +35,6 @@ if __name__ == '__main__':
   #Call the methods
   print(calc.add())
   print(calc.sub())
-#   print(calc.mul())
-#   print(calc.dec_div())
-#   print(calc.int_div())
-#   print(calc.mod())
+  print(calc.mul())
+  print(calc.dec_div())
+  print(calc.int_div())
