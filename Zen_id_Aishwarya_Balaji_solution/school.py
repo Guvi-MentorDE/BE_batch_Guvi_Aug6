@@ -54,6 +54,7 @@ class students(high_school):
 
 #Main program
 if __name__ == '__main__':
+	#try - block
 	try:
 		subjects = ["English", "Maths", "Science", "Social"]
 		marks = []
@@ -75,9 +76,11 @@ if __name__ == '__main__':
 			print(stud1.pass_fail(subjects, marks))
 		else:
 			print("Enter valid marks")
+	#except - block
 	except ValueError as ve:
 		print("Enter a decimal number: ", ve)
 	except Exception as e:
 		print("An exception was raised: ",e)
+	#finally - block
 	finally:
 		print("Thank you!")
