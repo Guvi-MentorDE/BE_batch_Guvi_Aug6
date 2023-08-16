@@ -8,8 +8,8 @@ class Student:
         self.name = name   # object variables / intance variable 
         self.age = age
     
-    #def show()        # class methods 
-        
+    def show():        # class methods 
+        print("hi my name and age is:" +self.name+' '+ self.age)
 
 if __name__ == "__main__": 
     s1 = Student("Harry", 12)
@@ -28,3 +28,8 @@ if __name__ == "__main__":
     # Modify class variables
     s1.school_name = 'XYZ School'
     print('School name:', s1.school_name)
+    
+    
+    s2 = Student()
+    s2.name= 'abc'
+    s2.age = '10'

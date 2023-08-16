@@ -7,10 +7,10 @@ def simple():
     for i in range(10):  
         if(i%2==0):  
             yield i  
-  
+            #return i 
 #Successive Function call using for loop  
-#for i in simple():  
-#    print(i)  
+for i in simple():  
+    print(i)  
 
 #yield vs. return
 #The yield statement is responsible for controlling the flow of the generator function. 
