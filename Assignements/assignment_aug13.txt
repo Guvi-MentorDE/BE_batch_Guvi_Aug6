@@ -1,0 +1,34 @@
+
+#Q1) 
+1. Create a base class called high_school
+    1.a) define a method , and define a static variable of pass mark = 40 
+2. create a child class caleed students 
+3. accept input list of marks for english, maths, science, social from studetns = [50,40,30,90] 
+4. inherit base class from child class
+5. determine if a student is pass of failed in respective subject 
+
+#import , class (methods , instance variables) , main , object 
+
+#Q2) 
+1. get an input from user for an array as int  
+2. make sure you have '5'
+3. write a logic to seach the array for '5' and print its index position. 
+hint : looping , dont use .index() 
+
+#Q3)  
+reverse a string without using any inbuilt functions 
+hind: looping. 
+
+
+#Q4) 
+dict1 ={"INDIA":"INR","US":"USD"}
+dict2 ={"INDIA":"INR","UK":"GBP","JAPAN":"YEN"}
+
+
+write a logic to compare dict1 and dict2 , create a new dict3 with only commen keys.
+
+RESULT:
+dict3={"INDIA":"INR"}
+
+
+
