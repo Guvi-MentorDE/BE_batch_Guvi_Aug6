@@ -1,6 +1,6 @@
 
 """
-Question 2   :    1. accept a string from user.
+Question 4   :    1. accept a string from user.
                   2. check if the list is palindrome or not.
                   3. create a class and object 
                          3.a) create a constructor. 

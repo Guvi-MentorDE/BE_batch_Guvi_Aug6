@@ -1,5 +1,5 @@
 """
-impliment the logic : odd_or_even and modify the code for the above logic thats fits into class and objects. 
+Question 3 :impliment the logic : odd_or_even and modify the code for the above logic thats fits into class and objects. 
 """
 class NUM:
     def __init__(self):
