@@ -1,15 +1,19 @@
 #import stmsts 
 
+
+#.py -> interpreter -> go to main line , check for class - objects -> if there is __init__ 
+
+
 #class declaration
 class Arithmetic:
     a=0;
     b=0;                #initialization 
     pi=3.14;
     operation='sub'
-#class method
-    #def __init__(self):
-    #    ......
-        
+    
+    #def __init__(self): #constructor 
+    #    pass 
+    
     def fun(self):
         #print("self.operation="+self.operation)
         if self.operation=='add':
