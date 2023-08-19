@@ -1,6 +1,6 @@
 def reverse(a):
     str = ""
-    for i in s:
+    for i in a:
         str = i + str
     return str
  
