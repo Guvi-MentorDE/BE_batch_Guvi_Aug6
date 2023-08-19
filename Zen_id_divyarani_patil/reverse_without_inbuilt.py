@@ -1,13 +1,13 @@
-def reverse(s):
+def reverse(a):
     str = ""
     for i in s:
         str = i + str
     return str
  
-s = input()
+a = input()
  
 print("The string is : ", end="")
-print(s)
+print(a)
  
 print("Reversed string is  : ", end="")
-print(reverse(s))
+print(reverse(a))
