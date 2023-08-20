@@ -1,0 +1,26 @@
++-------------+----------+------+-----+---------+----------------+
+| Field       | Type     | Null | Key | Default | Extra          |
++-------------+----------+------+-----+---------+----------------+
+| ID          | int      | NO   | PRI | NULL    | auto_increment |
+| Name        | char(35) | NO   |     |         |                |
+| CountryCode | char(3)  | NO   | MUL |         |                |
+| District    | char(20) | NO   |     |         |                |
+| Population  | int      | NO   |     | 0       |                |
++-------------+----------+------+-----+---------+----------------+
+
+
+Fields: Column names 
+
+Data types: 
+
+integral:
+int     
+long 
+
+decimal: 
+float : eg: 7.1
+double : eg:7.12
+
+Strings:
+char : only A to Z 
+varchar :  can contain both numbers & A to Z 
