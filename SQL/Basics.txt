@@ -1,0 +1,106 @@
+RDBMS - Relational Database Management system. 
+    - system of tables / db and nformation organized in relational model to acceess, store and retrive the information. 
+
+Database : Collection of information organized in tables. 
+list all the databases under server : show databases;
+Select a DB: use <DB_name>;
+
+Tables : information with field definetions. 
+list the tables under DB: show tables;
+
+kEYS: PK,.FK
+
+access: SQL 
+SELECT 
+FROM
+JOIN 
+ON
+WHERE 
+;
+
+SQL : structured query language. 
+
+Create 
+Insert 
+Update
+Delete
+Select (access)
+
+RDMS examples: (SQL)
+MYSQL 
+Oracle
+IBM DB2
+Teradata
+postgress ........  
+
+
+DDL (Data Definition Lang):
+Create 
+Alter
+Drop
+Truncate 
+
+DML: (Data Manipulation language):
+Insert 
+Update
+Delete 
+
+
+DQL: (Data Query language)
+Select (access the information , do some caluclations, reporting)
+
+DCL: (data Control Lang) 
+Admins 
+
+Grant 
+Rovoke 
+
+
+
+MYSQL workbench:
+
+Server , Workbench for SQL DEV. 
+
+DQL:
+-----
+---------------------------select (SQL)------------
+
+SELECT <list of items >   MANDATORY
+
+FROM  <location>  MANDATORY 
+
+WHERE  <filter condtions> 
+;
+
+SELECT ID, Name, District , Population
+FROM world.CITY
+WHERE Countrycode= 'BRA'
+;
+
+
+---------------------------
+
+
+Object of MYSQL DB 
+
+Keys 
+index
+views 
+
+------------------------------
+
+
+
+
+Key: 
+----
+Primary key : unique key which basically has only one record for the key.
+foreign  key (surrogate key) : non unique key which may contain more than one record in for each key. 
+
+SHOW KEYS FROM COUNTRY WHERE Key_name = 'PRIMARY'
+
+SHOW KEYS FROM COUNTRY WHERE Key_name = 'FOREIGN KEY' 
+
+index:
+--------
+SHOW INDEXES FROM COUNTRY

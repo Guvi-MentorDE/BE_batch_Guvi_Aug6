@@ -1,0 +1,67 @@
+create table orders
+(
+ cust_id int,
+ order_id int,
+ country varchar(50),
+ state varchar(50)
+);
+
+
+insert into orders values(1,100,'USA','Seattle');
+insert into orders values(2,101,'INDIA','UP');
+insert into orders values(2,103,'INDIA','Bihar');
+insert into orders values(4,108,'USA','WDC');
+insert into orders values(5,109,'UK','London');
+insert into orders values(4,110,'USA','WDC');
+insert into orders values(3,120,'INDIA','AP');
+insert into orders values(2,121,'INDIA','Goa');
+insert into orders values(1,131,'USA','Seattle');
+insert into orders values(6,142,'USA','Seattle');
+insert into orders values(7,150,'USA','Seattle');
+
+
+select country, count(*) as country_cpount from orders group by country;
+
+
+create table if not exists employee(
+    id int,
+    name VARCHAR(50),
+    age int,
+    hiring_date date,
+    salary int,
+    city varchar(50)
+);
+
+insert into employee values(1,'John', 24, '2021-08-10', 10000, 'London');
+
+insert into employee values(2,'Jack', 25, '2021-08-10', 20000, 'Paris');
+insert into employee values(3,'Traci', 22, '2021-08-11', 11000, 'London');
+insert into employee values(5,'Amit', 25, '2021-08-11', 12000, 'NewYork');
+insert into employee values(6,'Akshay', 26, '2021-08-12', 50000, 'Berlin');
+
+# Write a query to find the total salary by each age group 
+select * from employee;
+select age, sum(salary) as total_salary_byage from employee group by age;
+
+# calculate different aggregated metrices for salary
+select age, 
+	   sum(salary) as total_salary_by_age_group,
+       max(salary) as max_salary_by_age_group,
+       min(salary) as min_salary_by_age_group,
+       avg(salary) as avg_salary_by_age_group,
+       count(*) as total_employees_by_age_group
+from employee group by age;
+
+# Use of Having Clause
+# Write a query to find the country where only 1 order was placed
+select country from orders group by country having count(*)=1;
+
+
+select * from employees where salary > (select salary from employees where name='Rohit');
+
+
+# How to use GROUP_CONCAT
+# Query - Write a query to print distinct states present in the dataset for each country?
+select country, GROUP_CONCAT(state) as states_in_country from orders group by country;
+
+select country, GROUP_CONCAT(distinct state) as states_in_country from orders group by country;

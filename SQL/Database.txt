@@ -1,0 +1,34 @@
+#database is used to store the collection of records in an organized form of Tables, columns, data. 
+
+#1) creating Database 
+CREATE DATABASE [IF NOT EXISTS] database_name  
+
+CREATE DATABASE IF NOT EXISTS mydb;
+
+#2) show the created Database
+SHOW CREATE DATABASE database_name; 
+
+#3) list all the Database
+SHOW DATABASES;
+
+#4) Select a Database
+USE database_name; 
+
+
+#5) Deleting a Database
+DROP DATABASE [IF EXISTS] database_name;
+
+
+
+
+
++-------------+----------+------+-----+---------+----------------+
+| Field       | Type     | Null | Key | Default | Extra          |
++-------------+----------+------+-----+---------+----------------+
+| ID          | int      | NO   | PRI | NULL    | auto_increment |
+| Name        | char(35) | NO   |     |         |                |
+| CountryCode | char(3)  | NO   | MUL |         |                |
+| District    | char(20) | NO   |     |         |                |
+| Population  | int      | NO   |     | 0       |                |
++-------------+----------+------+-----+---------+----------------+
+
