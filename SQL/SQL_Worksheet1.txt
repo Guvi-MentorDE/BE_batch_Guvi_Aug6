@@ -17,6 +17,9 @@ CREATE TABLE if not EXISTS employee
 -- display the create table statement. 
 show create table employee;
 
+to delete a table:
+
+DROP TABLE <TABLE_NAME>;
 
 --- create another table 
 CREATE TABLE if not EXISTS employee
@@ -42,6 +45,11 @@ insert into employee values(3,'Julia',5000,'2021-10-28'),
 
 select * from employee;
 
+-----------------------------
+UPDATE <TABLE_NAME>
+SET <UPDATE CONDITION FOR ANY FIELD>
+WHERE <FOR WHICH RECORD>;
+
 
 UPDATE employee    
 SET salary = '10000'    
@@ -66,8 +74,16 @@ CREATE TABLE if not EXISTS employee_with_constraints
 -- case of failure 
 insert into employee_with_constraints values(1,null,3000,'2021-11-20');
 
+insert into employee_with_constraints values(3,'ram',3000,'2021-11-20');
+
+
+insert into employee_with_constraints values(4,'Ashok',13000,null);
+
+
 -- success 
 insert into employee_with_constraints values(1,'kumar',3000,'2021-11-20');
+
+insert into employee_with_constraints values(2,'Ryan',30000,'2021-11-20');
 
 
 --- Exception on PK
@@ -100,7 +116,6 @@ Create table persons
     id int, 
     name varchar(50), 
     age int,
-    ---Primary Key (id) 
     constraint pk Primary Key (id) 
 );
 
@@ -119,12 +134,10 @@ create table customer
 
 create table orders
 (
-    order_id int,
+    order_id int,    
     order_num int,
-    customer_id int,
+    customer_id int,   
     constraint pk Primary Key (order_id),
     constraint fk Foreign Key (customer_id) REFERENCES customer(cust_id)
 );
 
-#system ts 
-SELECT NOW();

@@ -13,17 +13,19 @@ insert into employee values(1, 'Guvi', 'address 1', 'Delhi');
 
 select * from employee;
 
+To modify table definitions : "ALTER"
+
 --- add new column named DOB in the TABLE
-alter table employee add DOB date;
+ALTER table employee ADD DOB date;
 
 select * from employee;
 
 
 --- modify existing column in a TABLE or change datatype of name column or increase lenght of name column
-alter table employee modify column name varchar(100);
+ALTER table employee modify column name varchar(100);
 
 --- delete existing column from given TABLE or remove city column from employee table
-alter table employee drop column city;
+ALTER table employee drop column city;
 
 select * from employee;
 
@@ -55,7 +57,7 @@ alter table employee add constraint id_unique UNIQUE(id);
 insert into employee values(1,'XYZ', 25, '2021-08-10', 50000, 'Gurgaon');
 
 --- drop constraint from existing TABLE
-alter table employee drop constraint id_unique;
+ALTER table employee drop constraint id_unique;
 
 insert into employee values(1,'XYZ', 25, '2021-08-10', 50000, 'Gurgaon');
 
@@ -75,11 +77,13 @@ create table table_incr
 (
   id int auto_increment,
   name varchar(20),
+  age int
   primary key (id)
 );
 
-insert into table_incr(name) values('Jack');
-insert into table_incr(name) values('Adam');
+insert into table_incr(name,age) values('Jack',20);
+insert into table_incr(name,age) values('Adam',21);
+
 
 select * from table_incr;
 
@@ -121,11 +125,15 @@ select * from employee where hiring_date > '2021-08-11' or salary<20000;
 # get all those employees whose name starts with 'S'
 select * from employee where name like 'A%';
 
+#A.....
+
 # get all those employees whose name starts with 'Sh'
 select * from employee where name like 'Tr%';
 
 # get all those employees whose name ends with 'l'
-select * from employee where name like '%l';
+select * from employee where name like '%y';
+
+#......l
 
 # get all those employees whose name starts with 'S' and ends with 'k'
 select * from employee where name like 'S%k';
