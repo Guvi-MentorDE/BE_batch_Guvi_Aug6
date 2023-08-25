@@ -54,7 +54,7 @@ from employee group by age;
 
 # Use of Having Clause
 # Write a query to find the country where only 1 order was placed
-select country from orders group by country having count(*)=1;
+select country from orders group by country having count(*)>1;
 
 
 select * from employees where salary > (select salary from employees where name='Rohit');
