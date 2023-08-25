@@ -27,7 +27,7 @@ db_connection = mysql.connector.connect(
 
 cursor_db=db_connection.cursor()
 
-cursor_db.execute("CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))")
+cursor_db.execute("CREATE TABLE if not exists customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))")
 
 sql = "INSERT INTO customers (name, address) VALUES (%s, %s)"
 val = ("Ram", "London")
