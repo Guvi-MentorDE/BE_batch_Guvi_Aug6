@@ -20,7 +20,7 @@ def myfun():
     c=a+b
     print("next function",c)
     
-def foumule(a,b):    # a=1, b = 2 ;  # main methof i can pass any value to a,b 
+def foumule(a,b):    # a=1, b = 2 ;  # main method i can pass any value to a,b 
     result = (a*a)+(b*b)+ 2*(a*b) 
     #print('my calulated result for (a+b)^2:',result)
     return result 

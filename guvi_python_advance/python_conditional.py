@@ -2,12 +2,12 @@
 #If - else 
 #if - else - elseif 
 #nested if else statements 
-#indendation. python is a indend based prog lang
+#indendation. python is a indentaion based prog lang
 
 if condition is true:
     <i will execute if true>
 else: 
-    <i wll execute if false>
+    <i will execute if false>
     
     
 if 2 is even:
