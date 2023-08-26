@@ -24,3 +24,7 @@ double : eg:7.12
 Strings:
 char : only A to Z 
 varchar :  can contain both numbers & A to Z 
+
+Others:
+Data
+timestamp 

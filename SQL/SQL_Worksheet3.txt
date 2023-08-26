@@ -19,8 +19,64 @@ insert into orders values(1,131,'USA','Seattle');
 insert into orders values(6,142,'USA','Seattle');
 insert into orders values(7,150,'USA','Seattle');
 
+Q) what are the no of records in Orders:
 
-select country, count(*) as country_cpount from orders group by country;
+SELECT COUNT(*) 
+FROM orders 
+;
+
+Q) what are the no of records in Orders where country = USA:
+SELECT COUNT(*) 
+FROM orders 
+WHERE country='USA'
+;
+
+Q) find unique countries where i am doing my business
+
+SELECT DISTINCT country
+FROM orders 
+;
+
+
+Q) GET THE COUNT OF the unique countries where i am doing my business
+
+SELECT COUNT(DISTINCT country)
+FROM orders 
+;
+
+SELECT COUNT(DISTINCT order_id)
+FROM orders 
+;
+
+Requirement:
+----------------------------
+result:  get the count of country where the orders are more than 5 
+
+country      count(order_id)
+USA          6
+India 		 4
+UK			 1
+----------------------------
+
+SELECT country ,count(*)
+FROM orders 
+group by country
+;
+
+
+SELECT country ,count(order_id)
+FROM orders 
+group by country
+;
+
+
+
+SELECT country ,count(*)
+FROM orders 
+GROUP BY country
+HAVING count(*) > 5
+;
+
 
 
 create table if not exists employee(
@@ -38,6 +94,30 @@ insert into employee values(2,'Jack', 25, '2021-08-10', 20000, 'Paris');
 insert into employee values(3,'Traci', 22, '2021-08-11', 11000, 'London');
 insert into employee values(5,'Amit', 25, '2021-08-11', 12000, 'NewYork');
 insert into employee values(6,'Akshay', 26, '2021-08-12', 50000, 'Berlin');
+
+
+Requirement:
+-------------
+
+Q) find unique records 
+
+SELECT DISTINCT  id,name , age, hiring_date, salary, city 
+FROM emploee
+
+Q) find count of dulicate records.
+
+SELECT id, name , age, hiring_date, salary, city , COUNT(*)
+FROM EMPLOYEE 
+GROUP BY id, name , age, hiring_date, salary, city 
+HAVING COUNT(*) > 1;
+
+Q) ELIMINATE THE DUPLICATE RECORDS 
+SELECT id, name , age, hiring_date, salary, city , COUNT(*)
+FROM EMPLOYEE 
+GROUP BY id, name , age, hiring_date, salary, city 
+HAVING COUNT(*) = 1;
+
+
 
 # Write a query to find the total salary by each age group 
 select * from employee;
@@ -58,6 +138,13 @@ select country from orders group by country having count(*)>1;
 
 
 select * from employees where salary > (select salary from employees where name='Rohit');
+
+
+#group states within a country
+
+INDIA 	(AP,Goa,UP,Bihar)
+USA      (Seattle,WDC)
+UK
 
 
 # How to use GROUP_CONCAT
