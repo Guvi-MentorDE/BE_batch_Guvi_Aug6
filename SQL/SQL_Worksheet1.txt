@@ -72,7 +72,9 @@ CREATE TABLE if not EXISTS employee_with_constraints
 );
 
 -- case of failure 
-insert into employee_with_constraints values(1,null,3000,'2021-11-20');
+insert into employee_with_constraints values(1,'abc',3000,'2021-11-20');
+
+insert into employee_with_constraints values(2,'abc',300,'2021-11-20');
 
 insert into employee_with_constraints values(3,'ram',3000,'2021-11-20');
 
@@ -126,7 +128,7 @@ insert into persons values(1,'Jack',29);
 --- create tables for Foreign Key  
 create table customer
 (
-    cust_id int,
+    cust_id int,                    100,200,300
     name VARCHAR(50), 
     age int,
     constraint pk Primary Key (cust_id) 
@@ -136,8 +138,8 @@ create table orders
 (
     order_id int,    
     order_num int,
-    customer_id int,   
-    constraint pk Primary Key (order_id),
+    customer_id int,      100,200,300 , 1000, 2000,3000 
+    constraint pk Primary Key (order_id),  
     constraint fk Foreign Key (customer_id) REFERENCES customer(cust_id)
 );
 

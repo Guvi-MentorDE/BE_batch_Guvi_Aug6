@@ -20,7 +20,7 @@ DROP DATABASE [IF EXISTS] database_name;
 
 
 
-
+describe table_name;
 
 +-------------+----------+------+-----+---------+----------------+
 | Field       | Type     | Null | Key | Default | Extra          |

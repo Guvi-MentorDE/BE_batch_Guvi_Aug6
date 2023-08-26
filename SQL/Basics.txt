@@ -8,31 +8,9 @@ Select a DB: use <DB_name>;
 Tables : information with field definetions. 
 list the tables under DB: show tables;
 
-kEYS: PK,.FK
+Constraints: 
 
-access: SQL 
-SELECT 
-FROM
-JOIN 
-ON
-WHERE 
-;
-
-SQL : structured query language. 
-
-Create 
-Insert 
-Update
-Delete
-Select (access)
-
-RDMS examples: (SQL)
-MYSQL 
-Oracle
-IBM DB2
-Teradata
-postgress ........  
-
+kEYS: PK,FK
 
 DDL (Data Definition Lang):
 Create 
@@ -46,12 +24,17 @@ Update
 Delete 
 
 
-DQL: (Data Query language)
+DQL: (Data Query language) 80 %
 Select (access the information , do some caluclations, reporting)
+
+access: SQL 
+SELECT 
+FROM
+WHERE 
+;
 
 DCL: (data Control Lang) 
 Admins 
-
 Grant 
 Rovoke 
 
@@ -77,17 +60,25 @@ FROM world.CITY
 WHERE Countrycode= 'BRA'
 ;
 
+1) select 
+    1.a) ordering ; order by [asc/dec]
+    1.b) wild characters using LIKE 
+2) Filter ; where conditions 
+3) distinct 
+4) aggregate : count , sum ,  avg , max , min 
+5) grouping ; goup by having 
+    5.a) how to eliminate duplicates 
+    5.b) how to get only unique values. 
+6) group_concat 
+7) Joins 
 
----------------------------
+
+8) WINDOWS - RANK, ROW NUMBER.. 
+9) PYTHON - SQL 
+ 
 
 
-Object of MYSQL DB 
 
-Keys 
-index
-views 
-
-------------------------------
 
 
 
@@ -104,3 +95,10 @@ SHOW KEYS FROM COUNTRY WHERE Key_name = 'FOREIGN KEY'
 index:
 --------
 SHOW INDEXES FROM COUNTRY
+
+
+
+
+
+
+
