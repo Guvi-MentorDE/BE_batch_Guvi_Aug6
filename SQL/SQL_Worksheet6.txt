@@ -101,10 +101,21 @@ select *,
        sum(sales_amount) over(order by shop_id desc) as running_sum_of_sales
 from store;
 
+
+select *,
+       AVG(sales_amount) over(order by shop_id desc) as running_sum_of_sales
+from store;
+
 # If we only use Partition By
 select *,
        sum(sales_amount) over(partition by shop_id) as total_sum_of_sales
 from store;
+
+
+select *,
+       MIN(sales_amount) over(partition by shop_id) as total_sum_of_sales
+from store;
+
 
 # If we only use Partition By & Order By together
 select *,
@@ -120,7 +131,22 @@ select *,
        as running_max_of_sales,
        min(sales_amount) over(partition by shop_id order by sales_date desc) 
        as running_min_of_sales
+from store
+LIMIT 4;
+
+
+select *,
+       sum(sales_amount) over(partition by shop_id) 
+       as running_sum_of_sales,
+       avg(sales_amount) over(partition by shop_id) 
+       as running_avg_of_sales,
+       max(sales_amount) over(partition by shop_id) 
+       as running_max_of_sales,
+       min(sales_amount) over(partition by shop_id) 
+       as running_min_of_sales
 from store;
+
+
 
 create table sale_table
 (
@@ -210,14 +236,7 @@ from (select *,
     from employees) tmp
 where tmp.row_num = 1;
 
-# Query - get one employee from each department who is getting maximum salary (employee can be random if salary is same)
-
-select 
-    tmp.*
-from (select *,
-        row_number() over(partition by dept_name order by salary desc) as row_num
-    from employees) tmp
-where tmp.row_num = 1;
+ 
 
 # Query - get all employees from each department who are getting maximum salary
 select 
@@ -234,6 +253,8 @@ from (select *,
         dense_rank() over(partition by dept_name order by salary desc) as dense_rank_num
     from employees) tmp
 where tmp.dense_rank_num <= 2;
+
+---------------TO BE COVERED IN THE NEXT CLASS ------------
 
 # Example for lag and lead
 create table daily_sales
@@ -293,7 +314,7 @@ create table employees(
   salary int 
 );
 
-insert into employees values(1,'Shashank',778768768,'Software',1000);
+insert into employees values(1,'Arun',778768768,'Software',1000);
 insert into employees values(2,'Rahul',876778877,'IT',2000);
 insert into employees values(3,'Amit',098798998,'HR',5000);
 
@@ -381,7 +402,7 @@ create table amazon_employees(
 
  );
 
- insert into amazon_employees values(1,'Shashank', 100, 10000);
+ insert into amazon_employees values(1,'Arun', 100, 10000);
  insert into amazon_employees values(2,'Rahul', 100, 20000);
  insert into amazon_employees values(3,'Amit', 101, 15000);
  insert into amazon_employees values(4,'Mohit', 101, 17000);

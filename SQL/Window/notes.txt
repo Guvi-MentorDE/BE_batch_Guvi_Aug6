@@ -1,0 +1,16 @@
+Window Functions In SQL
+● Window functions: These are special SQL functions that perform a calculation across a set of related rows.
+● How it works: Instead of operating on individual rows, a window function operates on a group or 'window' of rows that are
+somehow related to the current row. This allows for complex calculations based on these related rows.
+● Window definition: The 'window' in window functions refers to a set of rows. The window can be defined using different
+criteria depending on the requirements of your operation.
+● Partitions: By using the PARTITION BY clause, you can divide your data into smaller sets or 'partitions'. The window
+function will then be applied individually to each partition.
+● Order of rows: You can specify the order of rows in each partition using the ORDER BY clause. This order influences how
+some window functions calculate their result.
+● Frames: The ROWS/RANGE clause lets you further narrow down the window by defining a 'frame' or subset of rows within
+each partition.
+● Comparison with Aggregate Functions: Unlike aggregate functions that return a single result per group, window
+functions return a single result for each row of the table based on the group of rows defined in the window.
+● Advantage: Window functions allow for more complex operations that need to take into account not just the current row,
+but also its 'neighbours' in some way.
