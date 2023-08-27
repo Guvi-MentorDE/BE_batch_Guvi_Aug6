@@ -16,7 +16,7 @@ select * from employee;
 To modify table definitions : "ALTER"
 
 --- add new column named DOB in the TABLE
-ALTER table employee ADD DOB date;
+ALTER table employee ADD city varchar(100);
 
 select * from employee;
 
