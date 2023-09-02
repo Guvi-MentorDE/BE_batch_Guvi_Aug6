@@ -394,7 +394,7 @@ from daily_sales;
 # How to work with Range Between
 
 select *,
-      sum(sales_amount) over(order by sales_amount range between 100 preceding and 200 following) as prev_plus_next_sales_sum
+      sum(sales_amount) over(order by sales_amount range between 100 preceding and 100 following) as prev_plus_next_sales_sum
 from daily_sales;
 
 select *,
