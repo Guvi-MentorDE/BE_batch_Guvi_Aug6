@@ -98,7 +98,7 @@ insert into store values('2022-02-20','S3',300);
 
 # If we only use Order by In Over Clause
 select *,
-       sum(sales_amount) over(order by shop_id desc) as running_sum_of_sales
+       sum(sales_amount) over(order by shop_id) as running_sum_of_sales
 from store;
 
 
@@ -256,6 +256,8 @@ where tmp.dense_rank_num <= 2;
 
 ---------------TO BE COVERED IN THE NEXT CLASS ------------
 
+preceeding and foloowing. 
+
 # Example for lag and lead
 create table daily_sales
 (
@@ -274,13 +276,29 @@ insert into daily_sales values('2022-03-16',200);
 select * from daily_sales;
 
 select *,
-      lag(sales_amount, 1) over(order by sales_date) as pre_day_sales
+      lag(sales_amount, 1) over(order by sales_date desc) as pre_day_sales
+from daily_sales;
+
+select *,
+      lead(sales_amount, 2) over(order by sales_date) as pre_day_sales
 from daily_sales;
 
 # we can use this to replace null with defualt value like 0
 select *,
   coalesce(lag(sales_amount,1) over(order by sales_date), 0) as prev_sales
 from daily_sales;
+
+select sales_date, sales_amount , prev_sales , (sales_amount - prev_sales) as diff_sales
+from 
+(select *,
+  coalesce(lag(sales_amount,1) over(order by sales_date), 0) as prev_sales
+from daily_sales)tmp;
+
+
+select *,
+  (sales_amount - (coalesce(lag(sales_amount,1) over(order by sales_date), 0))) diff_sales 
+from daily_sales
+
 
 # Query - Calculate the differnce of sales with previous day sales
 # Here null will be derived
@@ -346,9 +364,11 @@ select *,
       sum(sales_amount) over(order by sales_date rows between 1 preceding and current row) as prev_plus_next_sales_sum
 from daily_sales;
 
+
 select *,
       sum(sales_amount) over(order by sales_date rows between current row and 1 following) as prev_plus_next_sales_sum
 from daily_sales;
+
 
 select *,
       sum(sales_amount) over(order by sales_date rows between 2 preceding and 1 following) as prev_plus_next_sales_sum
@@ -376,6 +396,16 @@ from daily_sales;
 select *,
       sum(sales_amount) over(order by sales_amount range between 100 preceding and 200 following) as prev_plus_next_sales_sum
 from daily_sales;
+
+select *,
+      sum(sales_amount) over(order by sales_amount range between 100 preceding and current row) as prev_plus_next_sales_sum
+from daily_sales;
+
+
+select *,
+      sum(sales_amount) over(order by sales_amount range between current row and unbounded following) as prev_plus_next_sales_sum
+from daily_sales;
+
 
 # Calculate the running sum for a week
 # Calculate the running sum for a month
