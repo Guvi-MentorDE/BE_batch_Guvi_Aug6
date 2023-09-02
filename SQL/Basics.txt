@@ -71,8 +71,9 @@ WHERE Countrycode= 'BRA'
     5.b) how to get only unique values. 
 6) group_concat 
 7) Joins 
-8) WINDOWS - RANK, ROW NUMBER , DENSE rANK 
-9) union & union all 
+8) WINDOWS - RANK, ROW NUMBER , DENSE rANK , Lead , Lag , Rows 
+    - except Ranges. 
+9) union (eliminate duplicates) & union all (retain duplicates)
  
 
 select temp.roll_no, temp.name, temp.marks 

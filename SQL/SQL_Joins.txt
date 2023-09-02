@@ -69,11 +69,12 @@ FROM
     members m
 CROSS JOIN committees c;
 
+#---full = left table + right table ; regarless of join keys. 
 
-SELECT * FROM Table1
-LEFT OUTER JOIN Table2
-ON Table1.column_match=Table2.column_match
-UNION
-SELECT * FROM Table1
-RIGHT OUTER JOIN Table2
-ON Table1.column_match=Table2.column_match;
+select * from members 
+left outer join committees 
+on member_id = committee_id
+union 
+select * from members 
+right outer join committees 
+on member_id = committee_id;
