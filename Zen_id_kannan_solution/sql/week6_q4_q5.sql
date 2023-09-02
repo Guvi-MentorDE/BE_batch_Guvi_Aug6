@@ -104,7 +104,7 @@ select
 	 s.cust_id
     ,o.order_amt as current_order_amount
     ,lag(o.order_amt,1,0) over(partition by s.cust_id order by s.sale_date) as prev_amount
-    ,s.sale_date
+	,(o.order_amt - lag(o.order_amt,1,0) over(partition by s.cust_id order by s.sale_date)) as Diff_amount
 from sales s
 join orders o
 on s.cust_id = o.cust_id;
