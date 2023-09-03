@@ -60,6 +60,10 @@ FROM world.CITY
 WHERE Countrycode= 'BRA'
 ;
 
+Databases, Tables (columns, desc, Check constratits , PK, FK ) , views 
+
+views -> table 
+
 1) select 
     1.a) ordering ; order by [asc/dec]
     1.b) wild characters using LIKE 
@@ -71,7 +75,7 @@ WHERE Countrycode= 'BRA'
     5.b) how to get only unique values. 
 6) group_concat 
 7) Joins 
-8) WINDOWS - RANK, ROW NUMBER , DENSE rANK , Lead , Lag , Rows 
+8) WINDOWS - RANK, ROW NUMBER , DENSE rANK , Lead , Lag , Rows       
     - except Ranges. 
 9) union (eliminate duplicates) & union all (retain duplicates)
  
@@ -106,6 +110,11 @@ SHOW INDEXES FROM COUNTRY
 
 
 
+OLTP (online transaction processing)  VS OLAP (online analytical processing):
+--------------------------------------------------------------------------------
 
+OLTP: which takes care of insert , update and delete ; typically a transactional database. 
+
+OTAP : all the windows , analytical functions ..
 
 
