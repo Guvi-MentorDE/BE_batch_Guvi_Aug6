@@ -31,3 +31,6 @@ print(info)
 info1 = pd.DataFrame({"x":[25,15,12,19], "y":[47, 24, 17, 29]})     
 info2 = pd.DataFrame({"x":[25, 15, 12],"y":[47, 24, 17],"z":[38, 12, 45]})    
 res=info1.append(info2, ignore_index = True)    
+
+df=info2.dropna(how='all')
+print(df)
