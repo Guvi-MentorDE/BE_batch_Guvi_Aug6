@@ -16,4 +16,4 @@ NumPy array elements must be all string, or all integers, or all booleans - you 
 pandas Series is flexible
 
 2) Dataframe:
-    A pandas DataFrame is a two-dimensional data structure that has labels for both its rows and columns
+    A pandas DataFrame is a two-dimensional data structure that has labels for both its rows and columns.

@@ -1,0 +1,9 @@
+order_id,cust_id,product,country,order_status,order_amount
+1000,1,100,UK,in progress,1000
+1000,1,200,UK,pending,2000
+1000,1,250,UK,completed,100
+1001,2,100,USA,in progress,1000
+1001,2,300,USA,pending,2000
+1001,2,250,USA,completed,100
+1002,3,100,USA,in progress,1000
+1002,3,300,USA,pending,500

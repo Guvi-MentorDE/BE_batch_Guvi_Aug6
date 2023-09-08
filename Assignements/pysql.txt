@@ -10,3 +10,5 @@ Python - SQL:
 4. save the table2. 
 5. Assignment: create a new table , write a sql query which should contains only completed orders and total value of the orders -> commit the table. 
 6. close the db. 
+
+select order_id, total_sales from(select *, sum(order_amount) over(partition by order_id order by cust_id) as total_sales  from orders_v2)tmp where tmp.order_status='completed'; 
