@@ -35,9 +35,9 @@ def execute_ddl(cursor_db):
 def csv_read(cursor_db,db_connection):
     print(csv_read)
     
-    with open('D:/Guvi/dataset/sample3.csv') as csvfile:
+    with open('/sample.csv') as csvfile:
         reader = csv.DictReader(csvfile, delimiter = ',')
-        db_connection = mysql.connector.connect(host="localhost",user="root",password="root",database=db)
+        db_connection = mysql.connector.connect(host="localhost",user="root",password="Password123#@!",database=db)
         cursor_db=db_connection.cursor()
         for row in reader:
             print(row)  
