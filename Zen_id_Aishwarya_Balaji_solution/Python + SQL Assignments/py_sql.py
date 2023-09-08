@@ -1,8 +1,23 @@
+'''
+requirement. 
+table 1 - > all columns varchar 
+table 2 -> peoper ordering of varchar , int and decimal. cast(column as <target datype>)
+
+Python - SQL: 
+1. connect to a db do all the below steps 
+2. read the CSV and store in a SQL DB. [insert] -> table 1 -> save. 
+3. Read the data from Table1 -> tranform the data according to table 2.
+4. save the table2. 
+5. Assignment: create a new table , write a sql query which should contains only completed orders and total value of the orders -> commit the table. 
+6. close the db. 
+'''
+
+
 import mysql.connector #pip install mysql.connector  / python -m pip install mysql.connector 
 import csv 
 
 def connect_db(db):
-    db_connection = mysql.connector.connect(host="localhost",user="root",password="root",database=db)
+    db_connection = mysql.connector.connect(host="localhost",user="root",password="Password123#@!",database=db)
     cursor_db=db_connection.cursor()
     return cursor_db,db_connection
 
