@@ -168,3 +168,19 @@ HAVING MIN(delivery_status) = 'pending';
 ----------all the sales happened on '2023-05-01' vs '2023-04-31'
 
 ----------result : current row , previous date , diff. 
+
+-------Solution 1:
+SELECT temp1.sale_date AS current_row, 
+LAG(temp1.sale_date, 1, 0) OVER(ORDER BY temp1.total_amt) AS previous_date, 
+temp1.total_amt - LAG(temp1.total_amt, 1, 0) OVER(ORDER BY temp1.sale_date) AS sales_diff 
+FROM (
+    SELECT temp.sale_date, SUM(temp.order_amt) AS total_amt 
+    FROM (
+        SELECT orders.cust_id, order_id, country, state, MIN(order_amt) AS order_amt, 
+        MIN(sale_date) AS sale_date, MIN(delivery_status) AS curr_delivery_status 
+        FROM orders 
+        JOIN sales on sales.cust_id = orders.cust_id 
+        GROUP BY order_id, orders.cust_id, country, state
+        ) temp 
+    GROUP BY sale_date
+    ) temp1;
