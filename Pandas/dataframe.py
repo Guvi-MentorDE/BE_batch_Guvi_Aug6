@@ -52,4 +52,10 @@ print(df3)
 print("#7 determine no of rows and columns in a dataframe")
 print(df1.shape)
 
-print(df.loc['x'])
+print("#8 select operation")
+
+print(df.loc['Dhoni'])
+
+
+print("different types of select operations:")
+
