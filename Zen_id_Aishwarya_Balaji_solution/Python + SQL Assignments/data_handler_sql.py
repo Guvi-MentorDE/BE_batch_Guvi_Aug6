@@ -17,7 +17,7 @@ import mysql.connector #pip install mysql.connector  / python -m pip install mys
 import csv 
 
 def connect_db(db):
-    db_connection = mysql.connector.connect(host="localhost",user="root",password="Password123#@!",database=db)
+    db_connection = mysql.connector.connect(host="localhost",user="root",password="Aishu@0206",database=db)
     cursor_db=db_connection.cursor()
     return cursor_db,db_connection
 
@@ -35,9 +35,9 @@ def execute_ddl(cursor_db):
 def csv_read(cursor_db,db_connection):
     print(csv_read)
     
-    with open('/sample.csv') as csvfile:
+    with open('/home/aishwarya/Documents/Guvi/BE_batch_Guvi_Aug6/Zen_id_Aishwarya_Balaji_solution/Python + SQL Assignments/sample.csv') as csvfile:
         reader = csv.DictReader(csvfile, delimiter = ',')
-        db_connection = mysql.connector.connect(host="localhost",user="root",password="Password123#@!",database=db)
+        db_connection = mysql.connector.connect(host="localhost",user="root",password="Aishu@0206",database=db)
         cursor_db=db_connection.cursor()
         for row in reader:
             print(row)  
