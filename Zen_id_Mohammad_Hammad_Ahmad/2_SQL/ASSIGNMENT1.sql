@@ -194,7 +194,7 @@ ORDER BY sales.cust_id,order_id;
 
 /*
 
-QUESTION 5: compare sales from todays date with previous date, all the sales happened on '2023-05-01' vs '2023-04-31'
+QUESTION 5: compare sales from todays date with previous date, all the sales happened on '2023-05-01' vs '2023-04-30'
 
 Format of result : current_day_sale = sale on 2023-05-01 , previous_day_sale = sale on 2023-04-30 , sale difference. 
 
