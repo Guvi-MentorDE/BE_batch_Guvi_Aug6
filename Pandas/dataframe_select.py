@@ -31,6 +31,7 @@ print(df.loc['r1':'r4'])
 
 # Select Alternate rows By indeces
 print(df.loc['r1':'r4':2])
-
+#0  1    2  3   4 
+#r1 r2 r4    r4
 # Using Conditions
-print(df.loc[df['Fee'] >= 24000])
+print(df.loc[df['Fee'] >= 24000]) 

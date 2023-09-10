@@ -68,7 +68,7 @@ result : rank, country, total amount  of orders.
 Q4) join sales vs orders. 
 find the orders that are still pedning to be delivered 
 
-result : only cust_id , pending status 
+result -> order_id , cust_id, pending status 
 
 
 Q5) compare sales from todays date with previous date. 
