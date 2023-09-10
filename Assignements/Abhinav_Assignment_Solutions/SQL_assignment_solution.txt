@@ -1,0 +1,101 @@
+mysql> use mydb;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_mydb |
++----------------+
+| orders         |
+| sales          |
++----------------+
+2 rows in set (0.03 sec)
+
+mysql> select * from orders;
++---------+----------+---------+---------+-----------+
+| cust_id | order_id | country | state   | order_amt |
++---------+----------+---------+---------+-----------+
+|       1 |      100 | USA     | Seattle |     10000 |
+|       2 |      101 | INDIA   | UP      |     12000 |
+|       2 |      103 | INDIA   | Bihar   |     42000 |
+|       4 |      108 | USA     | WDC     |     32000 |
+|       5 |      109 | UK      | London  |     13000 |
+|       4 |      110 | USA     | WDC     |      1000 |
+|       3 |      120 | INDIA   | AP      |      2000 |
+|       2 |      121 | INDIA   | Goa     |      5300 |
+|       1 |      131 | USA     | Seattle |      6900 |
+|       6 |      142 | USA     | Seattle |      7600 |
+|       7 |      150 | USA     | Seattle |      8900 |
++---------+----------+---------+---------+-----------+
+11 rows in set (0.01 sec)
+
+mysql> select * from sales;
++---------+------------+-----------------+
+| cust_id | sale_date  | delivery_status |
++---------+------------+-----------------+
+|       1 | 2023-05-01 | pending         |
+|       1 | 2023-05-02 | inprogress      |
+|       3 | 2023-05-01 | pending         |
+|       3 | 2023-05-02 | inprogress      |
+|       3 | 2023-05-03 | completed       |
+|       7 | 2023-05-01 | completed       |
+|       7 | 2023-05-01 | inprogress      |
+|       6 | 2023-05-01 | completed       |
+|       6 | 2023-04-30 | pending         |
+|       5 | 2023-04-30 | pending         |
++---------+------------+-----------------+
+10 rows in set (0.01 sec)
+
+Question 1)
+-----------
+mysql> select country, count(order_id) as orders from orders group by country order by orders desc limit 3;
++---------+--------+
+| country | orders |
++---------+--------+
+| USA     |      6 |
+| INDIA   |      4 |
+| UK      |      1 |
++---------+--------+
+3 rows in set (0.00 sec)
+
+Question 2)
+-----------
+mysql> select country, sum(order_amt) as sum_of_order_amounts from orders group by country order by sum_of_order_amounts desc;
++---------+----------------------+
+| country | sum_of_order_amounts |
++---------+----------------------+
+| USA     |                66400 |
+| INDIA   |                61300 |
+| UK      |                13000 |
++---------+----------------------+
+3 rows in set (0.00 sec)
+
+Question 3)
+-----------
+mysql> select rank() over(order by tmp.sum_of_order_amounts desc) as order_rank, tmp.*
+    -> from (select country, sum(order_amt) as sum_of_order_amounts
+    -> from orders
+    -> group by country
+    -> order by sum_of_order_amounts desc) tmp;
++------------+---------+----------------------+
+| order_rank | country | sum_of_order_amounts |
++------------+---------+----------------------+
+|          1 | USA     |                66400 |
+|          2 | INDIA   |                61300 |
+|          3 | UK      |                13000 |
++------------+---------+----------------------+
+3 rows in set (0.01 sec)
+
+Question 4)
+-----------
+mysql> select distinct(o.cust_id), s.delivery_status
+    -> from orders o inner join sales s
+    -> on o.cust_id= s.cust_id where s.delivery_status= 'pending';
++---------+-----------------+
+| cust_id | delivery_status |
++---------+-----------------+
+|       1 | pending         |
+|       5 | pending         |
+|       3 | pending         |
+|       6 | pending         |
++---------+-----------------+
+4 rows in set (0.01 sec)
+

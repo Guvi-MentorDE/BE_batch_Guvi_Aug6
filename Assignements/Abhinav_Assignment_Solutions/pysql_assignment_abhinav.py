@@ -1,12 +1,12 @@
-import mysql.connector #pip install mysql.connector  / python -m pip install mysql.connector 
+import mysql.connector
 import csv 
 
 def connect_db(db):
-    db_connection = mysql.connector.connect(host="localhost",user="root",password="@Abhinav98",database=db)
+    db_connection = mysql.connector.connect(host="localhost",user="root",password="*******",database=db)
     cursor_db=db_connection.cursor()
     return cursor_db,db_connection
 
-def execute_ddl(cursor_db):
+#def execute_ddl(cursor_db):
     print(execute_ddl)
     #cursor_db.execute("CREATE TABLE IF NOT EXISTS customers (cust_id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))")
     drop_orders = '''drop table if EXISTS orders;'''
@@ -15,17 +15,18 @@ def execute_ddl(cursor_db):
     sql =''' CREATE TABLE IF NOT EXISTS orders (order_uniq_id INT AUTO_INCREMENT PRIMARY KEY, order_id varchar(50), cust_id varchar(50), product varchar(255), country varchar(255) , order_status varchar(50), order_amount varchar(50));'''
     sql1 =''' CREATE TABLE IF NOT EXISTS orders_v2 (order_uniq_id INT , order_id INT, cust_id INT, product INT, country varchar(50) , order_status varchar(50), order_amount double);'''
     sql2 =''' CREATE TABLE IF NOT EXISTS orders_sales (order_id INT, total_sales double);'''
-    cursor_db.execute(drop_orders)
+    '''cursor_db.execute(drop_orders)
     cursor_db.execute(drop_orders_v2)
     cursor_db.execute(drop_orders_sales)
     cursor_db.execute(sql)
     cursor_db.execute(sql1)
-    cursor_db.execute(sql2)
+    cursor_db.execute(sql2)'''
+
     db_connection.commit() #save 
     #db_connection.rollback() #undo
     cursor_db.close()
 
-def csv_read(cursor_db,db_connection):
+#def csv_read(cursor_db,db_connection):
     print(csv_read)
     
     with open('C:/Users/prera/OneDrive/Desktop/GUVI_GIT/Github_Repo_GUVI_DE21E22/BE_batch_Guvi_Aug6/Python_SQL/dataset/sample3.csv') as csvfile:
@@ -42,7 +43,7 @@ def csv_read(cursor_db,db_connection):
         
         db_connection.commit()
 
-def tansform_result(cursor_db,db_connection):
+#def tansform_result(cursor_db,db_connection):
     query = "insert into orders_v2 (order_uniq_id,order_id,cust_id,product,country,order_status,order_amount) SELECT order_uniq_id, cast(order_id as DECIMAL) as order_id , cast(cust_id as DECIMAL) as cust_id, cast(product as DECIMAL) as product, country, order_status, cast(order_amount as DECIMAL) as order_amount FROM orders"
     cursor_db.execute(query)
     db_connection.commit()
@@ -50,14 +51,14 @@ def tansform_result(cursor_db,db_connection):
 
     
 def select_result(cursor_db,db_connection):
-    query = "SELECT * FROM orders"
+    query = "select order_id, total_sales from(select *, sum(order_amount) over(partition by order_id order by cust_id) as total_sales from orders_v2)tmp where tmp.order_status='completed';"
     cursor_db.execute(query)
-    myresult = cursor_db.fetchall()
+    myresult = cursor_db.fetchall() 
     for x in myresult:
         print(x)
     close_connection(cursor_db,db_connection)
     
-def find_sales(cursor_db,db_connection):
+#def find_sales(cursor_db,db_connection):
     query = '''insert into orders_sales (order_id,total_sales) select order_id, total_sales from(select *, sum(order_amount) over(partition by order_id order by cust_id) as total_sales  from orders_v2)tmp where tmp.order_status="completed"; '''
     cursor_db.execute(query)
     db_connection.commit()
@@ -73,13 +74,40 @@ def close_connection(cursor_db,db_connection):
 if __name__ == "__main__":
     db='pysql'
     cursor_db,db_connection=connect_db(db)
-    execute_ddl(cursor_db)
-    close_connection(cursor_db,db_connection)
-    cursor_db,db_connection=connect_db(db)
-    csv_read(cursor_db,db_connection)
-    #select_result(cursor_db,db_connection)
-    cursor_db,db_connection=connect_db(db)
-    tansform_result(cursor_db,db_connection)
-    cursor_db,db_connection=connect_db(db)
-    find_sales(cursor_db,db_connection)
-    
+    #execute_ddl(cursor_db)
+    #close_connection(cursor_db,db_connection)
+    #cursor_db,db_connection=connect_db(db)
+    #csv_read(cursor_db,db_connection)
+    select_result(cursor_db,db_connection)
+    #cursor_db,db_connection=connect_db(db)
+    #tansform_result(cursor_db,db_connection)
+    #cursor_db,db_connection=connect_db(db)
+    #find_sales(cursor_db,db_connection)
+
+
+
+'''Output:
+--------
+PS C:\Users\prera\OneDrive\Desktop\GUVI_GIT\Github_Repo_GUVI_DE21E22\BE_batch_Guvi_Aug6> python
+Python 3.11.2 (tags/v3.11.2:878ead1, Feb  7 2023, 16:38:35) [MSC v.1934 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> db='pysql'
+>>> cursor_db,db_connection=connect_db(db)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'connect_db' is not defined
+>>> db_connection = mysql.connector.connect(host="localhost",user="root",password="@Abhinav98",database=db)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'mysql' is not defined
+>>> import mysql.connector
+>>> db_connection = mysql.connector.connect(host="localhost",user="root",password="@Abhinav98",database=db)
+>>> cursor_db=db_connection.cursor()
+>>> query = "select order_id, total_sales from(select *, sum(order_amount) over(partition by order_id order by cust_id) as total_sales from orders_v2)tmp where tmp.order_status='completed';"
+>>> cursor_db.execute(query)
+>>> myresult = cursor_db.fetchall()
+>>> for x in myresult:
+...     print(x)       
+...
+(1000, 3100.0)
+(1001, 3100.0)'''
