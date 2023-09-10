@@ -1,4 +1,4 @@
-installing pandas: pip install pandas
+installing pandas: pip install pandas / python -m pip install pandas
 importing pandas : import pandas as pd
 
 

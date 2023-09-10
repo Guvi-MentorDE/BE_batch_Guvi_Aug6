@@ -16,7 +16,7 @@ def main(db_connection):
     print("table created if not exists")
     sql = "INSERT INTO customers (name, address) VALUES (%s, %s)"
     #val = [("John", "London"),("Ramesh", "India")]
-    val = ("Ram", "London")
+    val = ["Ram", "London"]
     for i in val:
         cursor_db.execute(sql, i)
     db_connection.commit() #saving

@@ -21,7 +21,7 @@ df_join3=data.join(stats.set_index('Players'), on='Players')
 #print(df_join3) 
 
 #df joins:
-df2=data.join(stats, lsuffix="_left", rsuffix="_right")
+df2=data.join(stats, lsuffix="_left", rsuffix="_right") #select a.* , b.* from a join b ;
 print(df2)
 
 df3=data.join(stats, lsuffix="_left", rsuffix="_right", how='inner')

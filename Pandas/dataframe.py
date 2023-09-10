@@ -15,8 +15,8 @@ print("#2 example")
 data = {'Players':['sachin', 'Dhoni', 'Rohit', 'Kholi'], 'Matches':[200, 180, 140, 166]}
 df = pd.DataFrame(data)
 print(df)
-df.head(n=2)
-df.tail(n=2)
+df.head(n=2) #select * from limit 2;
+df.tail(n=2) #select * from order by desc limit 2
 
 print("#4 matrix")
 
@@ -38,7 +38,7 @@ print(df1)
 
 print("#6 drop the newly added columns")
 
-df2=df1.drop('A + B', axis = 1)
+df2 = df1.drop('A + B', axis = 1)
 print(df2)
 
 #df.drop('A + B', axis=1, inplace=True) alternative way
