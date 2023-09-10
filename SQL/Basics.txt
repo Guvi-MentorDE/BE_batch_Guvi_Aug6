@@ -1,0 +1,120 @@
+RDBMS - Relational Database Management system. 
+    - system of tables / db and nformation organized in relational model to acceess, store and retrive the information. 
+
+Database : Collection of information organized in tables. 
+list all the databases under server : show databases;
+Select a DB: use <DB_name>;
+
+Tables : information with field definetions. 
+list the tables under DB: show tables;
+
+Constraints: 
+
+kEYS: PK,FK
+
+DDL (Data Definition Lang):
+Create 
+Alter
+Drop
+Truncate 
+
+DML: (Data Manipulation language):
+Insert 
+Update
+Delete 
+
+
+DQL: (Data Query language) 80 %
+Select (access the information , do some caluclations, reporting)
+
+access: SQL 
+SELECT 
+FROM
+WHERE 
+;
+
+DCL: (data Control Lang) 
+Admins 
+Grant 
+Rovoke 
+
+
+
+MYSQL workbench:
+
+Server , Workbench for SQL DEV. 
+
+DQL:
+-----
+---------------------------select (SQL)------------
+
+SELECT <list of items >   MANDATORY
+
+FROM  <location>  MANDATORY 
+
+WHERE  <filter condtions> 
+;
+
+SELECT ID, Name, District , Population
+FROM world.CITY
+WHERE Countrycode= 'BRA'
+;
+
+Databases, Tables (columns, desc, Check constratits , PK, FK ) , views 
+
+views -> table 
+
+1) select 
+    1.a) ordering ; order by [asc/dec]
+    1.b) wild characters using LIKE 
+2) Filter ; where conditions 
+3) distinct 
+4) aggregate : count , sum ,  avg , max , min 
+5) grouping ; goup by having 
+    5.a) how to eliminate duplicates 
+    5.b) how to get only unique values. 
+6) group_concat 
+7) Joins 
+8) WINDOWS - RANK, ROW NUMBER , DENSE rANK , Lead , Lag , Rows       
+    - except Ranges. 
+9) union (eliminate duplicates) & union all (retain duplicates)
+ 
+
+select temp.roll_no, temp.name, temp.marks 
+from 
+    (
+    select rol_no name, class, marks,  () over(partition by class order by marks <asc/desc/none=asc>) as rnum from students
+    )temp  
+where 
+temp.rnum=1 
+and temp.calss > 7 ;
+
+
+
+
+
+
+Key: 
+----
+Primary key : unique key which basically has only one record for the key.
+foreign  key (surrogate key) : non unique key which may contain more than one record in for each key. 
+
+SHOW KEYS FROM COUNTRY WHERE Key_name = 'PRIMARY'
+
+SHOW KEYS FROM COUNTRY WHERE Key_name = 'FOREIGN KEY' 
+
+index:
+--------
+SHOW INDEXES FROM COUNTRY
+
+
+
+
+OLTP (online transaction processing)  VS OLAP (online analytical processing):
+--------------------------------------------------------------------------------
+
+OLTP: which takes care of insert , update and delete ; typically a transactional database. 
+
+OTAP : all the windows , analytical functions ..
+
+

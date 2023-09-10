@@ -1,0 +1,145 @@
+--list all available db 
+Show databases;
+
+-- create a new db 
+create database mydb;
+
+--select the db 
+use mydb;
+
+-- create table 
+CREATE TABLE if not EXISTS employee
+(
+	id INT,
+    emp_name VARCHAR(20)
+);
+
+-- display the create table statement. 
+show create table employee;
+
+to delete a table:
+
+DROP TABLE <TABLE_NAME>;
+
+--- create another table 
+CREATE TABLE if not EXISTS employee
+(
+	id INT,
+    name VARCHAR(50),
+    salary DOUBLE, 
+    hiring_date DATE 
+);
+
+
+-- insert some values into the table. 
+insert into employee values(1,'John',1000,'2021-09-15');
+insert into employee values(1,'Jack','2021-09-15');
+
+--alternative way to insert.
+insert into employee(salary,name,id) 
+values(2000,'Traci',2);
+
+insert into employee values(3,'Julia',5000,'2021-10-28'),
+(4,'Amit',3500,'2021-09-16'),
+(5,'Akshay',4000,'2021-09-20');
+
+select * from employee;
+
+-----------------------------
+UPDATE <TABLE_NAME>
+SET <UPDATE CONDITION FOR ANY FIELD>
+WHERE <FOR WHICH RECORD>;
+
+
+UPDATE employee    
+SET salary = '10000'    
+WHERE id = '4';  
+
+select * from employee;
+
+
+------------------------
+--creating table with constraints
+
+CREATE TABLE if not EXISTS employee_with_constraints
+(
+	id INT,
+    name VARCHAR(50) NOT NULL,
+    salary DOUBLE, 
+    hiring_date DATE DEFAULT '2021-01-01',
+    UNIQUE (id),
+    CHECK (salary > 1000)
+);
+
+-- case of failure 
+insert into employee_with_constraints values(1,'abc',3000,'2021-11-20');
+
+insert into employee_with_constraints values(2,'abc',300,'2021-11-20');
+
+insert into employee_with_constraints values(3,'ram',3000,'2021-11-20');
+
+
+insert into employee_with_constraints values(4,'Ashok',13000,null);
+
+
+-- success 
+insert into employee_with_constraints values(1,'kumar',3000,'2021-11-20');
+
+insert into employee_with_constraints values(2,'Ryan',30000,'2021-11-20');
+
+
+--- Exception on PK
+insert into employee_with_constraints values(1,'Rahul',5000,'2021-10-23');
+
+-- success 
+insert into employee_with_constraints values(2,'Rahul',5000,'2021-10-23');
+
+insert into employee_with_constraints 
+values(null,'Rahul',5000,'2021-10-23');
+
+--failure 
+insert into employee_with_constraints 
+values(null,'Rajat',2000,'2020-09-20');
+
+other inserts:
+insert into employee_with_constraints 
+values(5,'Amit',500,'2023-10-24');
+insert into employee_with_constraints(id,name,salary)
+values(7,'Neeraj',3000);
+
+
+select * from employee_with_constraints;
+
+
+--- create table with Primary_Key
+
+Create table persons
+(
+    id int, 
+    name varchar(50), 
+    age int,
+    constraint pk Primary Key (id) 
+);
+
+
+insert into persons values(1,'Jack',29);
+
+
+--- create tables for Foreign Key  
+create table customer
+(
+    cust_id int,                    100,200,300
+    name VARCHAR(50), 
+    age int,
+    constraint pk Primary Key (cust_id) 
+);
+
+create table orders
+(
+    order_id int,    
+    order_num int,
+    customer_id int,      100,200,300 , 1000, 2000,3000 
+    constraint pk Primary Key (order_id),  
+    constraint fk Foreign Key (customer_id) REFERENCES customer(cust_id)
+);
+

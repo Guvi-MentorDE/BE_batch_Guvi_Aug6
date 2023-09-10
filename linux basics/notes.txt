@@ -1,0 +1,150 @@
+1)   pwd  - Present Working Directory
+
+2)   mkdir  data  : This creates india  directory
+
+3)   mkdir -p /home/rkde_guvi/data/india_Sub : Creates the
+                                             complete directory even if the india directory does not exist
+
+4)   ls : lists the contents of the current directory
+
+5)   cd india  : change directory to india 
+
+6)   ls -l : long listing : Shows files along with file properties
+
+      Using space as the delimiter, first column shows the file type and permissions
+
+
+d      - Type of the file. d shows it is a directory
+rwx    - Permissions for the owner
+rwx    - Permissions for the group
+r-x    - Permissions for all other users
+
+
+r  - Read permission
+w  - Write permission
+x  - Execute permission
+
+7) chmod u=r test.txt  : change mod - this command alters the permssions of the renamedfile.txt file
+
+8) chmod u=rw,g=rw,o=r renamedfile.txt ( THis is symbolic notation to change file permissions )
+
+9) ls -la  : shows hidden files also
+
+10)  touch .myhiddenfile.txt : Creates (hidden( file called .myhiddenfile.txt in the current directory
+
+11)  ls -lt : Lists the contents in the descending order of timestamp (most recent file at the top)
+
+12) ls -lrt : lists the contents in the reverse order of timestamp (most recent file at the bottom)
+
+13) rmdir india : to remove directory named india (This command will only work if the directory is empty)
+
+14) rm renamedfile.txt  : to remove the file, renamedfile.txt
+
+15) rm -r india : to delete a directory forcefully even if it contains files and sub-directories
+
+16) vi vi_sample.txt : opens the file vi_sample.txt in vi editor
+
+
+VI editor
+=========
+
+    INSERT mode
+    ===========
+
+        To change from Insert mode to Command mode, press Esc
+
+        Add text to the file
+
+        i : starts inserting the text from the cursor position
+
+        I : Will move the cursor to the beginning of the line and Insert mode
+
+        a : Will move the cursor to the next column and goes into Insert mode
+
+        A : Will move the cursor to the end of the line and goes into Insert mode
+
+        o : Will insert a new blank line below and goes into Insert mode
+
+        O : Will insert a new blank line above and goes into Insert mode
+
+
+17)  chmod a=r vi_sample.txt  : a stands for all ( i.e,. user + group + other )
+
+     read       -  4
+     write      -  2
+     execute    -  1
+
+     chmod 760 vi_sample.txt  : Octal notation to change the file permissions of files
+
+
+19)     rm -i orcl_grants.sql  : will ask for confirmation before deleting the file
+
+20)     cp orcl_grants_new.sql  ../.   : copies the orcl_grants_new.sql to one directory backwards
+
+21)     diff  orcl_grants.sql  ./sqlfiles/orcl_grants_new.sql  : Shows the difference of contents
+                                                                 If no difference, no output is produced
+
+
+22)     head orcl_grants.sql  : will display the first 10 lines of orcl_grants.sql
+              
+        head -25 orcl_grants.sql : will display the first 25 lines
+
+23)     tail orcl_grants.sql  : will display the last 10 lines of orcl_grants.sql
+
+           tail -4 orcl_grants.sql  : will display the last 4 lines of the file
+
+        How to display lines 22 to 25 from a file?
+
+24)     head -25 test.txt | tail -4
+
+
+30)   grep command is used to search for word from the command prompt
+      ===============================================================
+
+      grep employees *.sql     : check for files containing employees word in the current directory
+
+      grep -i EMPLOYEES *.sql   : Ignores the case in search
+
+       grep -v employees delete_employees.sql  : displays lines not containing employees word
+
+31)  cut command is used to extract specific characters from each line
+ 
+     cut -c2,3 test.txt  : extracts 2nd and 3rd characters from update_employees.sql from each line
+
+     cut -c2-8 test.txt  : extracts 2nd to 8th character from update_employees.sql
+
+     cut -d"," -f2 test.txt  : extracts 2nd word from update_employees.sql using space as delimiter
+
+
+32)  grep -i employees *.sql | cut -d ":" -f1
+
+
+35)  du -h   : Disk usage in human readable form
+     du -sh  : Disk usage summary
+
+
+36)  df -h   : Disk free in human readable form
+
+
+37)  sort sorttest.txt  : Will sort the contents based on the first column
+
+     sort -r sorttest.txt  : Will sort in the descending order
+
+
+38)  echo  Hello WOrld  : This will print Hello World in the standard output
+
+
+39)  $?   : Stores the return code of the command
+
+
+40)  find command is used to search for files and directories
+     ========================================================
+
+     find   delete_employees.sql   : Will check for existence of delete_employees.sql in the current directory
+
+     find /home/ubuntu/porur -name "update*.sql" : will search for files starting with update and
+                                                          having .sql extension in /home/ubuntu/porur directory
+
+42)  sed   : stream editor
+
+       sed  -n '3,7p' states.txt   : will print lines 3 to 7 from states.txt file

@@ -1,0 +1,14 @@
+
+requirement. 
+table 1 - > all columns varchar 
+table 2 -> peoper ordering of varchar , int and decimal. cast(column as <target datype>)
+
+Python - SQL: 
+1. connect to a db do all the below steps 
+2. read the CSV and store in a SQL DB. [insert] -> table 1 -> save. 
+3. Read the data from Table1 -> tranform the data according to table 2.
+4. save the table2. 
+5. Assignment: create a new table , write a sql query which should contains only completed orders and total value of the orders -> commit the table. 
+6. close the db. 
+
+select order_id, total_sales from(select *, sum(order_amount) over(partition by order_id order by cust_id) as total_sales  from orders_v2)tmp where tmp.order_status='completed'; 

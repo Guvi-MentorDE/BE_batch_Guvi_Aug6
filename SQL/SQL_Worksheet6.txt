@@ -1,0 +1,549 @@
+ # In, Not In Operation
+
+CREATE TABLE Orders (
+    OrderID INT,
+    ProductID INT,
+    ProductName VARCHAR(255),
+    Quantity INT
+);
+
+INSERT INTO Orders VALUES 
+(1, 101, 'Apple', 10),
+(2, 102, 'Banana', 20),
+(3, 103, 'Cherry', 30),
+(4, 104, 'Date', 40),
+(5, 105, 'Elderberry', 50);
+
+SELECT * FROM Orders WHERE ProductName IN ('Apple', 'Banana');
+
+
+SELECT * FROM Orders WHERE ProductName NOT IN ('Apple', 'Banana');
+
+-------------------------
+
+# EXISTS Operation
+
+CREATE TABLE Customers (
+    CustomerID INT,
+    CustomerName VARCHAR(50)
+);
+
+INSERT INTO Customers VALUES 
+(1, 'John Doe'),
+(2, 'Alice Smith'),
+(3, 'Bob Johnson'),
+(4, 'Charlie Brown'),
+(5, 'David Williams');
+
+CREATE TABLE Orders (
+    OrderID INT,
+    CustomerID INT,
+    OrderDate DATE
+);
+
+INSERT INTO Orders VALUES 
+(1001, 1, '2023-01-01'),
+(1002, 2, '2023-02-01'),
+(1003, 1, '2023-03-01'),
+(1004, 3, '2023-04-01'),
+(1005, 5, '2023-05-01');
+
+Example: Let's find the customers who have placed at least one order.
+
+SELECT c.CustomerName
+FROM Customers c
+WHERE EXISTS (
+    SELECT 1
+    FROM Orders o
+    WHERE o.CustomerID = c.CustomerID
+);
+
+------------------------
+
+
+# NOT EXISTS Operation
+
+Example: Let's find the customers who have not placed any orders.
+
+SELECT c.CustomerName
+FROM Customers c
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Orders o
+    WHERE o.CustomerID = c.CustomerID
+);
+
+---------------------------
+
+
+
+# Window Functions
+create table store
+(
+sales_date date,
+shop_id varchar(5),
+sales_amount int
+);
+
+insert into store values('2022-02-14','S1',200);
+insert into store values('2022-02-15','S1',300);
+insert into store values('2022-02-14','S2',600);
+insert into store values('2022-02-15','S3',500);
+insert into store values('2022-02-18','S1',400);
+insert into store values('2022-02-17','S2',250);
+insert into store values('2022-02-20','S3',300);
+
+# Total count of sales for each shop using window function
+# Working functions - SUM(), MIN(), MAX(), COUNT(), AVG()
+
+# If we only use Order by In Over Clause
+select *,
+       sum(sales_amount) over(order by shop_id) as running_sum_of_sales
+from store;
+
+
+select *,
+       AVG(sales_amount) over(order by shop_id desc) as running_sum_of_sales
+from store;
+
+# If we only use Partition By
+select *,
+       sum(sales_amount) over(partition by shop_id) as total_sum_of_sales
+from store;
+
+
+select *,
+       MIN(sales_amount) over(partition by shop_id) as total_sum_of_sales
+from store;
+
+
+# If we only use Partition By & Order By together
+select *,
+       sum(sales_amount) over(partition by shop_id order by sales_amount desc) as running_sum_of_sales
+from store;
+
+select *,
+       sum(sales_amount) over(partition by shop_id order by sales_date desc) 
+       as running_sum_of_sales,
+       avg(sales_amount) over(partition by shop_id order by sales_date desc) 
+       as running_avg_of_sales,
+       max(sales_amount) over(partition by shop_id order by sales_date desc) 
+       as running_max_of_sales,
+       min(sales_amount) over(partition by shop_id order by sales_date desc) 
+       as running_min_of_sales
+from store
+LIMIT 4;
+
+
+select *,
+       sum(sales_amount) over(partition by shop_id) 
+       as running_sum_of_sales,
+       avg(sales_amount) over(partition by shop_id) 
+       as running_avg_of_sales,
+       max(sales_amount) over(partition by shop_id) 
+       as running_max_of_sales,
+       min(sales_amount) over(partition by shop_id) 
+       as running_min_of_sales
+from store;
+
+
+
+create table sale_table
+(
+    sales_date date,
+    sales_amount int
+);
+
+insert into sale_table values('2022-08-21',500);
+insert into sale_table values('2022-08-22',600);
+insert into sale_table values('2022-08-19',300);
+
+insert into sale_table values('2022-08-18',200);
+
+insert into sale_table values('2022-08-25',800);
+
+
+# Query - Calculate the date wise rolling average of amazon sales
+select * from sale_table;
+
+select *,
+       avg(sales_amount) over(order by sales_date) as rolling_avg
+from sale_table;
+
+select *,
+       avg(sales_amount) over(order by sales_date) as rolling_avg,
+       sum(sales_amount) over(order by sales_date) as rolling_sum
+from sale_table;
+
+# Rank(), Row_Number(), Dense_Rank() window functions
+
+insert into store values('2022-02-19','S1',400);
+insert into store values('2022-02-20','S1',400);
+insert into store values('2022-02-22','S1',300);
+insert into store values('2022-02-25','S1',200);
+insert into store values('2022-02-15','S2',600);
+insert into store values('2022-02-16','S2',600);
+insert into store values('2022-02-16','S3',500);
+insert into store values('2022-02-18','S3',500);
+insert into store values('2022-02-19','S3',300);
+
+select * from (
+select *,
+       row_number() over(partition by shop_id order by sales_amount desc) as row_num
+from store)t 
+where t.row_num=1;
+
+select *,
+       rank() over(partition by shop_id order by sales_amount desc) as rank_val
+from store;
+
+select *,
+       dense_rank() over(partition by shop_id order by sales_amount desc) as dense_rank_val
+from store;
+
+
+select *,
+       row_number() over(partition by shop_id order by sales_amount desc) as row_num,
+       rank() over(partition by shop_id order by sales_amount desc) as rank_val,
+       dense_rank() over(partition by shop_id order by sales_amount desc) as dense_rank_val
+from store;
+
+---------------
+create table employees
+(
+    emp_id int,
+    salary int,
+    dept_name VARCHAR(30)
+
+);
+
+insert into employees values(1,10000,'Software');
+insert into employees values(2,11000,'Software');
+insert into employees values(3,11000,'Software');
+insert into employees values(4,11000,'Software');
+insert into employees values(5,15000,'Finance');
+insert into employees values(6,15000,'Finance');
+insert into employees values(7,15000,'IT');
+insert into employees values(8,12000,'HR');
+insert into employees values(9,12000,'HR');
+insert into employees values(10,11000,'HR');
+
+
+# Query - get one employee from each department who is getting maximum salary (employee can be random if salary is same)
+
+select 
+    tmp.*
+from (select *,
+        row_number() over(partition by dept_name order by salary desc) as row_num
+    from employees) tmp
+where tmp.row_num = 1;
+
+ 
+
+# Query - get all employees from each department who are getting maximum salary
+select 
+    tmp.*
+from (select *,
+        rank() over(partition by dept_name order by salary desc) as rank_num
+    from employees) tmp
+where tmp.rank_num = 1;
+  
+# Query - get all top 2 ranked employees from each department who are getting maximum salary
+select 
+    tmp.*
+from (select *,
+        dense_rank() over(partition by dept_name order by salary desc) as dense_rank_num
+    from employees) tmp
+where tmp.dense_rank_num <= 2;
+
+---------------TO BE COVERED IN THE NEXT CLASS ------------
+
+preceeding and foloowing. 
+
+# Example for lag and lead
+create table daily_sales
+(
+sales_date date,
+sales_amount int
+);
+
+
+insert into daily_sales values('2022-03-11',400);
+insert into daily_sales values('2022-03-12',500);
+insert into daily_sales values('2022-03-13',300);
+insert into daily_sales values('2022-03-14',600);
+insert into daily_sales values('2022-03-15',500);
+insert into daily_sales values('2022-03-16',200);
+
+select * from daily_sales;
+
+select *,
+      lead(sales_amount, 1) over(order by sales_date desc) as pre_day_sales
+from daily_sales;
+
+select *,
+      lead(sales_amount, 2) over(order by sales_date) as pre_day_sales
+from daily_sales;
+
+# we can use this to replace null with defualt value like 0
+select *,
+  coalesce(lag(sales_amount,1) over(order by sales_date), 0) as prev_sales
+from daily_sales;
+
+select sales_date, sales_amount , prev_sales , (sales_amount - prev_sales) as diff_sales
+from 
+(select *,
+  coalesce(lag(sales_amount,1) over(order by sales_date), 0) as prev_sales
+from daily_sales)tmp;
+
+
+select *,
+  (sales_amount - (coalesce(lag(sales_amount,1) over(order by sales_date), 0))) diff_sales 
+from daily_sales
+
+
+# Query - Calculate the differnce of sales with previous day sales
+# Here null will be derived
+select sales_date,
+       sales_amount as curr_day_sales,
+       lag(sales_amount, 1) over(order by sales_date) as prev_day_sales,
+       sales_amount - lag(sales_amount, 1) over(order by sales_date) as sales_diff
+from daily_sales;
+
+# Here we can replace null with 0
+select sales_date,
+       sales_amount as curr_day_sales,
+       lag(sales_amount, 1, 0) over(order by sales_date) as prev_day_sales,
+       sales_amount - lag(sales_amount, 1, 0) over(order by sales_date) as sales_diff
+from daily_sales;
+
+# Diff between lead and lag
+select *,
+      lag(sales_amount, 1) over(order by sales_date) as pre_day_sales
+from daily_sales;
+
+select *,
+      lead(sales_amount, 1) over(order by sales_date) as next_day_sales
+from daily_sales;
+
+
+
+# How to use Frame Clause - Rows BETWEEN
+select * from daily_sales;
+
+select *,
+      sum(sales_amount) over(order by sales_date rows between 1 preceding and 1 following) as prev_plus_next_sales_sum
+from daily_sales;
+
+select *,
+      sum(sales_amount) over(order by sales_date rows between 1 preceding and current row) as prev_plus_next_sales_sum
+from daily_sales;
+
+
+select *,
+      sum(sales_amount) over(order by sales_date rows between current row and 1 following) as prev_plus_next_sales_sum
+from daily_sales;
+
+
+select *,
+      sum(sales_amount) over(order by sales_date rows between 2 preceding and 1 following) as prev_plus_next_sales_sum
+from daily_sales;
+
+select *,
+      sum(sales_amount) over(order by sales_date rows between unbounded preceding and current row) as prev_plus_next_sales_sum
+from daily_sales;
+
+select *,
+      sum(sales_amount) over(order by sales_date rows between current row and unbounded following) as prev_plus_next_sales_sum
+from daily_sales;
+
+select *,
+      sum(sales_amount) over(order by sales_date rows between unbounded preceding and unbounded following) as prev_plus_next_sales_sum
+from daily_sales;
+
+# Alternate way to esclude computation of current row
+select *,
+      sum(sales_amount) over(order by sales_date rows between unbounded preceding and unbounded following) - sales_amount as prev_plus_next_sales_sum
+from daily_sales;
+
+# How to work with Range Between
+
+select *,
+      sum(sales_amount) over(order by sales_amount range between 100 preceding and 100 following) as prev_plus_next_sales_sum
+from daily_sales;
+
+select *,
+      sum(sales_amount) over(order by sales_amount range between 100 preceding and current row) as prev_plus_next_sales_sum
+from daily_sales;
+
+
+select *,
+      sum(sales_amount) over(order by sales_amount range between current row and unbounded following) as prev_plus_next_sales_sum
+from daily_sales;
+
+
+
+
+Data set: Better example for Range between 
+--------------
+create database mydb;
+use mydb;
+show tables;
+
+create table orders
+(
+ cust_id int,
+ order_id int,
+ country varchar(50),
+ state varchar(50),
+ order_amt int(100)
+);
+
+
+insert into orders values(1,100,'USA','Seattle','10000');
+insert into orders values(2,101,'INDIA','UP','12000');
+insert into orders values(2,102,'INDIA','Bihar','12000');
+insert into orders values(2,103,'INDIA','Bihar','10000');
+insert into orders values(2,104,'INDIA','Bihar','10000');
+insert into orders values(4,101,'USA','WDC','32000');
+insert into orders values(5,109,'UK','London','13000');
+insert into orders values(4,102,'USA','WDC','1000');
+
+select *, sum(order_amt) over( order by order_id range between 1 preceding and current row)
+from orders;
+
+
+select *,
+      sum(sales_amount) over(order by sales_amount range between 100 preceding and current row) as prev_plus_next_sales_sum
+from daily_sales;
+
+
+# Calculate the running sum for a week
+# Calculate the running sum for a month
+insert into daily_sales values('2022-03-20',900);
+insert into daily_sales values('2022-03-23',200);
+insert into daily_sales values('2022-03-25',300);
+insert into daily_sales values('2022-03-29',250);
+
+
+select * from daily_sales;
+
+ 
+select *,
+       sum(sales_amount) over(order by sales_date range between interval '6' day preceding and current row) as running_weekly_sum
+from daily_sales;
+ 
+
+
+--- Common table expression
+
+create table amazon_employees(
+    emp_id int,
+    emp_name varchar(20),
+    dept_id int,
+    salary int
+
+ );
+
+ insert into amazon_employees values(1,'Arun', 100, 10000);
+ insert into amazon_employees values(2,'Rahul', 100, 20000);
+ insert into amazon_employees values(3,'Amit', 101, 15000);
+ insert into amazon_employees values(4,'Mohit', 101, 17000);
+ insert into amazon_employees values(5,'Nikhil', 102, 30000);
+
+ create table department
+ (
+    dept_id int,
+    dept_name varchar(20) 
+  );
+
+  insert into department values(100, 'Software');
+    insert into department values(101, 'HR');
+      insert into department values(102, 'IT');
+        insert into department values(103, 'Finance');
+
+--- Write a query to print the name of department along with the total salary paid in each department
+--- Normal approach
+
+ select dept_id , sum(salary) as total_salary from amazon_employees group by dept_id;
+
+select tmp.dept_id, d.dept_name, tmp.total_salary
+from (select dept_id , sum(salary) as total_salary from amazon_employees group by dept_id) tmp
+inner join department d on tmp.dept_id = d.dept_id
+
+--- how to do it using with clause??
+with dept_wise_salary as (select dept_id , sum(salary) as total_salary from amazon_employees group by dept_id)
+
+select d.dept_name, tmp.total_salary
+from dept_wise_salary tmp
+inner join department d on tmp.dept_id = d.dept_id;
+
+with dept_wise_salary as (select dept_id , sum(salary) as total_salary from amazon_employees group by dept_id), 
+dept_wise_max_salary as (select dept_id , max(salary) as max_salary from amazon_employees group by dept_id)
+
+select * from dept_wise_max_salary;
+
+select * from dept_wise_salary;
+
+
+
+
+--- Write a Query to generate numbers from 1 to 10 in SQL
+
+with recursive generate_numbers as   
+(
+  select 1 as n
+  union 
+  select n+1 from generate_numbers where n<10
+) 
+
+select * from generate_numbers;
+
+
+create table emp_mgr
+(
+id int,
+name varchar(50),
+manager_id int,
+designation varchar(50),
+primary key (id)
+);
+
+
+insert into emp_mgr values(1,'Shripath',null,'CEO');
+insert into emp_mgr values(2,'Satya',5,'SDE');
+insert into emp_mgr values(3,'Jia',5,'DA');
+insert into emp_mgr values(4,'David',5,'DS');
+insert into emp_mgr values(5,'Michael',7,'Manager');
+insert into emp_mgr values(6,'Arvind',7,'Architect');
+insert into emp_mgr values(7,'Asha',1,'CTO');
+insert into emp_mgr values(8,'Maryam',1,'Manager');
+insert into emp_mgr values(9,'Asha',1,'CTO');
+
+
+select * from emp_mgr;
+
+--- for our CTO 'Asha', present her org chart
+
+with recursive emp_hir as  
+(
+   select name, manager_id, designation from emp_mgr where name='Asha' 
+   union all 
+   select name, manager_id, designation from emp_mgr where name='Asha' 
+)
+select * from emp_hir;
+
+with t1 (
+select name, manager_id, designation from emp_mgr where name='Asha';)
+
+
+
+--- Print level of employees as well
+with recursive emp_hir as  
+(
+   select id, name, manager_id, designation, 1 as lvl from emp_mgr where name='Asha'
+   UNION
+   select em.id, em.name, em.manager_id, em.designation, eh.lvl + 1 as lvl from emp_hir eh inner join emp_mgr em on eh.id = em.manager_id
+)
+
+select * from emp_hir;

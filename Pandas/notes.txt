@@ -1,0 +1,19 @@
+installing pandas: pip install pandas
+importing pandas : import pandas as pd
+
+
+Introduction:
+1) Pandas is a widely-used Python library built on top of NumPy
+2) Pandas stands for ‘panel data’. Note that pandas is typically stylized as an all-lowercase word.
+3) Pandas was designed to work with two-dimensional data (similar to Excel spreadsheets)
+
+Types:
+1) Series:
+    Series are a special type of data structure available in the pandas Python library. 
+    Pandas Series are similar to NumPy arrays, except that we can give them a named or datetime index instead of just a numerical index.
+Main Advantage of Pandas Series:
+NumPy array elements must be all string, or all integers, or all booleans - you get the point
+pandas Series is flexible
+
+2) Dataframe:
+    A pandas DataFrame is a two-dimensional data structure that has labels for both its rows and columns.
