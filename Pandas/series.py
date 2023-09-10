@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-labels = ['a', 'b', 'c']
+labels = ['x', 'y', 'z']
 
 my_list = [10, 20, 30]
 
