@@ -32,6 +32,7 @@ def execute_ddl(cursor_db):
     #db_connection.rollback() #undo
     cursor_db.close()
 
+
 def csv_read(cursor_db,db_connection):
     print(csv_read)
     
