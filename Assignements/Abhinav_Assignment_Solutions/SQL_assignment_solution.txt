@@ -1,3 +1,5 @@
+Preparing the datasets:
+------------------------
 mysql> use mydb;
 Database changed
 mysql> show tables;
@@ -44,8 +46,9 @@ mysql> select * from sales;
 +---------+------------+-----------------+
 10 rows in set (0.01 sec)
 
-Question 1)
------------
+
+Question 1 -- Solution)
+-----------------------
 mysql> select country, count(order_id) as orders from orders group by country order by orders desc limit 3;
 +---------+--------+
 | country | orders |
@@ -56,8 +59,8 @@ mysql> select country, count(order_id) as orders from orders group by country or
 +---------+--------+
 3 rows in set (0.00 sec)
 
-Question 2)
------------
+Question 2 -- Solution)
+-----------------------
 mysql> select country, sum(order_amt) as sum_of_order_amounts from orders group by country order by sum_of_order_amounts desc;
 +---------+----------------------+
 | country | sum_of_order_amounts |
@@ -68,8 +71,8 @@ mysql> select country, sum(order_amt) as sum_of_order_amounts from orders group 
 +---------+----------------------+
 3 rows in set (0.00 sec)
 
-Question 3)
------------
+Question 3 -- Solution)
+-----------------------
 mysql> select rank() over(order by tmp.sum_of_order_amounts desc) as order_rank, tmp.*
     -> from (select country, sum(order_amt) as sum_of_order_amounts
     -> from orders
@@ -84,8 +87,9 @@ mysql> select rank() over(order by tmp.sum_of_order_amounts desc) as order_rank,
 +------------+---------+----------------------+
 3 rows in set (0.01 sec)
 
-Question 4)
------------
+
+Question 4 -- Solution)
+-----------------------
 mysql> select distinct(o.cust_id), s.delivery_status
     -> from orders o inner join sales s
     -> on o.cust_id= s.cust_id where s.delivery_status= 'pending';
@@ -99,3 +103,16 @@ mysql> select distinct(o.cust_id), s.delivery_status
 +---------+-----------------+
 4 rows in set (0.01 sec)
 
+
+Question 5 -- Solution)
+-----------------------
+mysql> select tmp.curr_date as curr_sale_date, lag(tmp.curr_date, 1, 0) over(order by tmp.curr_date) as prev_date, abs(tmp.total_amt - lag(tmp.total_amt, 1, 0) over(order by tmp.curr_date)) as sales_diff from (select s.sale_date as curr_date, sum(o.order_amt) as total_amt from orders o inner join sales s on o.cust_id=s.cust_id group by curr_date order by curr_date) tmp;
++----------------+------------+------------+
+| curr_sale_date | prev_date  | sales_diff |
++----------------+------------+------------+
+| 2023-04-30     | 0          |      20600 |
+| 2023-05-01     | 2023-04-30 |      23700 |
+| 2023-05-02     | 2023-05-01 |      25400 |
+| 2023-05-03     | 2023-05-02 |      16900 |
++----------------+------------+------------+
+4 rows in set (0.01 sec)
