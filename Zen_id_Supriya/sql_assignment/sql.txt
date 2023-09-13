@@ -71,11 +71,25 @@ result ; country , sum of order amounts.
 Q3) provide ranking for the countries based on the total amount of order. 
 result : rank, country, total amount  of orders. 
 
+--------Query:
+select rank() over(order by result.total_amount_orders desc) as 'rank', result.country, result.total_amount_orders
+from
+  (select country,sum(order_amt) over(partition by country) as total_amount_orders 
+  from orders1) result
+group by country, total_amount_orders order by total_amount_orders desc;
+
 
 Q4) join sales vs orders. 
 find the orders that are still pedning to be delivered 
 
 result : only cust_id , pending status 
+
+----------Query:
+select count(a.cust_id) as no_of_orders,a.cust_id, b.delivery_status 
+from orders1 a 
+inner join sales1 b 
+on a.cust_id=b.cust_id 
+where delivery_status='pending' group by cust_id;
 
 
 Q5) compare sales from todays date with previous date. 
