@@ -15,36 +15,39 @@ class high_school:
         self.lst_of_subjects=lst_of_subjects
         self.lst_of_marks=lst_of_marks
 
-    def view_list_of_marks(self):
-        for i in range(0,len(self.lst_of_marks)):
-            for j in range(0,len(self.lst_of_subjects)):
+    def view_list_of_marks(self,lst_of_subjects,lst_of_marks):
+        for i in range(0,len(lst_of_marks)):
+            for j in range(0,len(lst_of_subjects)):
                 if i==j:
-                    print(f"{self.lst_of_subjects}:{self.lst_of_marks}")
+                    #print("The list of subjects and their marks are:")
+                    print(f"{lst_of_subjects[j]}:{lst_of_marks[i]}")
+                #return lst_of_subjects[j],lst_of_marks[i]
+    
+                    
 
 class students(high_school):
         
-        def pass_or_fail(self):
-            for i in range(0,len(self.lst_of_marks)):
-                for j in range(0,len(self.lst_of_subjects)):
-                    if self.lst_of_marks[i]<40:
-                        print(f"Student has failed in {self.lst_of_subjects[i]}")
+        def pass_or_fail(self,lst_of_subjects,lst_of_marks):
+            for i in range(0,len(lst_of_marks)):
+                for j in range(0,len(lst_of_subjects)):
+                    if lst_of_marks[i]<40:
+                        print(f"Student has failed in {lst_of_subjects[i]}")
+                        break
                     else:
-                        print(f"Student has passed in {self.lst_of_subjects[i]}")
-                
-                        return self.lst_of_subjects[i]
+                        print(f"Student has passed in {lst_of_subjects[i]}")
+                        break
+            
 
 if __name__ == "__main__":
 
     lst_subjects=["English","Maths","Science","Social"]
-    lst=[]
-    stud=students(lst_subjects,lst)
-    subjects=int(input("Enter no.of subject marks"))
-    for i in range(0,subjects):
-        marks=int(input())
-        lst.append(marks)
-   #stud.view_list_of_marks)
-    
-    stud.pass_or_fail()
+    lst_marks=[]
+    stud=students(lst_subjects,lst_marks)
+    for i in lst_subjects:
+        lst_marks.append(int(input(f"Enter the mark for {i}: ")))
+    print("Marks for subjects are:")
+    stud.view_list_of_marks(lst_subjects,lst_marks)
+    stud.pass_or_fail(lst_subjects,lst_marks)
 
 
 

@@ -72,9 +72,9 @@ insert into sales values(7,'2023-05-01','inprogress');
 insert into sales values(7,'2023-04-31','pending');
 
 insert into sales values(6,'2023-05-01','completed');
-insert into sales values(6,'2023-04-31','pending');
+insert into sales values(6,'2023-04-30','pending'); --April has 30 days only
 
-insert into sales values(5,'2023-04-31','pending');
+insert into sales values(5,'2023-04-30','pending'); --April has 30 days only
 
 
 --------Q1) find the country which has 3 most highest no of orders ?  //solve:
@@ -133,13 +133,21 @@ GROUP BY country;
 ----------Q3) provide ranking for the countries based on the total amount of order. 
 ----------result : rank, country, total amount  of orders. 
 
--------Solution 1:
-SELECT RANK() OVER(ORDER BY tmp.country) AS 'rank', tmp.country, MAX(tmp.order_amt) AS  total_amt_of_orders
+-------Solution 1: Based on orders amount
+SELECT RANK() OVER(ORDER BY temp.total_amt_on_orders DESC) as 'rank', temp.country, MAX(temp.total_amt_on_orders) AS total_orders 
 FROM (
-    SELECT country, SUM(order_amt) OVER(PARTITION BY country ORDER BY order_id desc) AS order_amt 
+    SELECT country, SUM(order_amt) OVER(PARTITION BY country) AS total_amt_on_orders 
     FROM orders
-    ) tmp 
-GROUP BY country;
+    ) temp 
+GROUP BY country, total_amt_on_orders;
+
+-------Solution 2: Based on orders count
+SELECT RANK() OVER(ORDER BY temp.total_orders DESC) as 'rank', temp.country, MAX(temp.total_orders) AS total_orders 
+FROM (
+    SELECT country, COUNT(order_id) OVER(PARTITION BY country) AS total_orders 
+    FROM orders
+    ) temp 
+GROUP BY country, total_orders;
 
 
 ----------Q4) join sales vs orders. 
@@ -147,6 +155,12 @@ GROUP BY country;
 
 ----------result : only cust_id , pending status 
 
+-------Solution 1:
+SELECT orders.cust_id, MIN(delivery_status) AS delivery_status 
+FROM orders 
+JOIN sales ON sales.cust_id = orders.cust_id 
+GROUP BY orders.cust_id 
+HAVING MIN(delivery_status) = 'pending';
 
 
 ----------Q5) compare sales from todays date with previous date. 
@@ -154,3 +168,19 @@ GROUP BY country;
 ----------all the sales happened on '2023-05-01' vs '2023-04-31'
 
 ----------result : current row , previous date , diff. 
+
+-------Solution 1:
+SELECT temp1.sale_date AS current_row, 
+LAG(temp1.sale_date, 1, 0) OVER(ORDER BY temp1.total_amt) AS previous_date, 
+temp1.total_amt - LAG(temp1.total_amt, 1, 0) OVER(ORDER BY temp1.sale_date) AS sales_diff 
+FROM (
+    SELECT temp.sale_date, SUM(temp.order_amt) AS total_amt 
+    FROM (
+        SELECT orders.cust_id, order_id, country, state, MIN(order_amt) AS order_amt, 
+        MIN(sale_date) AS sale_date, MIN(delivery_status) AS curr_delivery_status 
+        FROM orders 
+        JOIN sales on sales.cust_id = orders.cust_id 
+        GROUP BY order_id, orders.cust_id, country, state
+        ) temp 
+    GROUP BY sale_date
+    ) temp1;
