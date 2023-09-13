@@ -1,0 +1,26 @@
+class check:
+  def __init__(self,str1):
+    self.str1=str1
+  def palindrome(self):
+    list1=[]
+    for i in range (0,len(str1)):
+      list1.append(str1[i])
+      list2=list1[:]
+      a=len(list1)-1
+    for i in range(0,len(list1)):
+      list2[a]=list1[i]
+      a=a-1
+    return list1,list2
+
+
+if __name__ == '__main__' :
+  str1=input("enter the string to check for palindrome : ")
+  obj=check(str1)
+  list1=[]
+  list2=[]
+  list1,list2=obj.palindrome()
+  if(list1==list2):
+    print('string is palindrome')
+  else:
+    print('string is not palindrome'))
+  
