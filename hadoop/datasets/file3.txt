@@ -1,0 +1,9 @@
+4009990,Stacey,Rouse,21,Actor
+4009991,Paul,Mullins,47,Reporter
+4009992,Erin,Blackwell,33,Electrician
+4009993,Becky,Wolfe,67,Musician
+4009996,TONya,McIntosh,56,Engineering technician
+4009997,RON,Grimes,36,Computer hardware engineer
+4009998,Tracey,Bullock,60,Computer hardware engineer
+4009999,Ray,Hewitt,64,Carpenter
+

@@ -1,0 +1,51 @@
+Company Name,Industry,Sector,HQ State,Founding Year,Annual Revenue 2022-2023 (USD in Billions),Market Cap (USD in Trillions),Stock Name,Annual Income Tax in 2022-2023 (USD in Billions),Employee Size
+Apple Inc.,Technology,Consumer Electronics,California,1905,387.53,2.52,AAPL,18.314,164000
+Microsoft Corporation,Technology,Software Infrastructure,Washington,1905,204.09,2.037,MSFT,15.139,221000
+Alphabet (Google),Technology,Software Infrastructure,California,1905,282.83,1.35,GOOG,11.356,190234
+Amazon,Technology,Software Application,Washington,1905,513.98,1.03,AMZN,-3.217,1541000
+NVIDIA Corporation,Technology,Semiconductors,California,1905,26.97,0.653,NVDA,0.189,22473
+Tesla,Technology,Software Infrastructure,Texas,1905,81.46,0.625,TSLA,1.132,127855
+Meta Platforms,Technology,Software Infrastructure,California,1905,116.6,0.524,META,5.619,86482
+Broadcom Inc.,Technology,Semiconductors,California,1905,34.41,0.266,AVGO,0.939,20000
+Oracle Corporation,Technology,Software Infrastructure,Texas,1905,46.07,0.236,ORCL,0.932,143000
+Cisco Systems Inc.,Technology,Communication Equipments,California,1905,53.16,0.208,CSCO,2.665,83300
+Salesforce Inc.,Technology,Software Application,California,1905,31.35,0.189,CRM,0.452,73541
+Adobe Inc.,Technology,Software Infrastructure,California,1905,17.6,0.172,ADBE,1.252,29239
+Texas Instruments Inc.,Technology,Semiconductors,Texas,1905,20.02,0.162,TXN,1.283,33000
+Advanced Micro Devices (AMD) Inc.,Technology,Semiconductors,California,1905,23.6,0.155,AMD,-0.122,25000
+Qualcomm Inc.,Technology,Semiconductors,California,1905,42.95,0.138,QCOM,2.012,51000
+Netflix,Technology,Software Application,California,1905,31.61,0.136,NFLX,0.772,12800
+Intel Corporation,Technology,Semiconductors,California,1905,63.05,0.118,INTC,-0.249,131900
+Intuit Inc.,Technology,Software Application,California,1905,13.68,0.118,INTU,0.476,17300
+IBM Corporation,Technology,IT Services,New York,1905,60.52,0.113,IBM,-0.626,345000
+Applied Materials Inc.,Technology,Semiconductors,California,1905,26.25,0.102,AMAT,1.074,33000
+Booking Holdings,Technology,Software Application,Connecticut,1905,17.09,0.097,BKNG,0.865,20700
+Analog Devices Inc.,Technology,Semiconductors,Massachusetts,1905,12.57,0.095,ADI,0.35,24450
+ServiceNow Inc.,Technology,Software Application,California,1905,7.24,0.09,NOW,0.074,20433
+Automatic Data Processing,Technology,Software Application,New Jersey,1905,16.67,0.09,ADP,0.855,60000
+PayPal Holdings Inc.,Technology,Software Infrastructure,California,1905,27.51,0.087,PYPL,0.947,29900
+Airbnb,Technology,Software Application,California,1905,8.39,0.078,ABNB,0.096,6132
+Fiserv Inc.,Technology,IT Services,Wisconsin,1905,17.73,0.071,FISV,0.551,44000
+Lam Research Corporation,Technology,Semiconductors,California,1905,19.04,0.069,LRCX,0.588,18700
+Uber Technologies Inc.,Technology,Software Application,California,1905,31.87,0.066,UBER,-0.181,32500
+Micron Technology,Technology,Semiconductors,Idaho,1905,27.15,0.064,MU,0.888,49000
+Equinix,Technology,IT Services,California,1905,7.26,0.064,EQIX,0.125,11451
+Activision Blizzard,Technology,Software Application,California,1905,7.52,0.063,ATVI,0.231,13000
+Palo Alto Networks Inc.,Technology,Software Infrastructure,California,1905,6.15,0.059,PANW,0.06,12561
+Synopsys Inc.,Technology,Software Infrastructure,California,1905,5.17,0.057,SNPS,0.137,19000
+Cadence Design Systems Inc.,Technology,Software Application,California,1905,3.56,0.057,CDNS,0.196,9300
+KLA Corporation,Technology,Semiconductors,California,1905,10.48,0.053,KLAC,0.167,14000
+Arista Networks Inc.,Technology,Computer Hardware,California,1905,4.38,0.052,ANET,0.229,2993
+VMware Inc.,Technology,Software Infrastructure,California,1905,13.34,0.051,VMW,0.265,37500
+Workday Inc.,Technology,Software Application,California,1905,6.21,0.049,WDAY,0.107,17522
+Fortinet Inc.,Technology,Software Infrastructure,California,1905,4.41,0.049,FTNT,0.031,11508
+Block Inc.,Technology,Software Infrastructure,California,1905,17.53,0.047,SQ,-0.012,8521
+Snowflake Inc.,Technology,Software Application,Montana,1905,2.06,0.046,SNOW,0.003,4991
+Roper Technologies,Technology,Electronic Components,Florida,1905,5.61,0.046,ROP,0.296,19300
+Microchip Technology Inc.,Technology,Semiconductors,Arizona,1905,8.05,0.045,MCHP,0.197,21000
+Autodesk Inc.,Technology,Software Application,California,1905,5,0.045,ADSK,0.068,12600
+GlobalFoundries,Technology,Semiconductors,New York,1905,8.1,0.038,GFS,0.086,14600
+IQVIA Holdings,Technology,Software Application,North Carolina,1905,14.41,0.037,IQV,0.26,85000
+Marvell Technology Inc.,Technology,Semiconductors,California,1905,5.91,0.035,MRVL,0.249,6695
+Dell Technologies Inc.,Technology,Computer Hardware,Texas,1905,102.3,0.028,DELL,0.981,133000
+HP Inc.,Technology,Computer Hardware,California,1905,59.78,0.028,HPQ,1.238,51000
