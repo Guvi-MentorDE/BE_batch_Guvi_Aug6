@@ -30,3 +30,8 @@ Instructions for Creating Hadoop cluster:
 3) go to Dataproc -> create cluster -> login via ssh 
 
 4) start using linux , hadoop , hive , spark. 
+
+
+Follow the video to setup google cloud cli:
+-----------------------------------------------
+https://www.youtube.com/watch?v=7mE-9E4D4Os
