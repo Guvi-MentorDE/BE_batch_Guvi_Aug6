@@ -1,0 +1,36 @@
+
+use use: (Job)
+--------
+1) load data to GCP. GCS buckets.     - Done 
+2) Downlaod the data from GCS to cluster - gsutil cp -r gs://guvispetember172023/ ./ ; Done 
+3) load the data from local to HDFS  -     hadoop fs -mkdir /usecase/     ;   hadoop fs -put /home/Raj/data/hive_data/Top_tech_companies_no_header.csv /usecase/
+4) build an hive table on top of HDFS files laoded.  
+
+create table top_companies(company_name string, 
+industry STRING, 
+sector string, 
+hq_state string , 
+founding_year int, 
+annaual_revenue decimal(22,2),
+market_cat decimal(22,2), 
+stock_name STRING,
+annual_income decimal(22,2),  
+employee_size double
+)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+stored as textfile;
+
+LOAD DATA INPATH <FROM> INTO TABLE <TO: hIVE TABLE >;
+
+
+LOAD DATA INPATH '/mydata/Top_tech_companies_no_header.csv' INTO TABLE top_companies;
+
+
+SET HIVE.CLI.PRINT.HEADER=TRUE;
+SELECT industry, hq_state, stock_name FROM top_companies LIMIT 10;
+
+
+5) Perform DAta processing & Data Tranformation. 
+
+select * from top_companies order by annaual_revenue desc;
