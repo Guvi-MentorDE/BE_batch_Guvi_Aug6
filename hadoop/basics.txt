@@ -113,6 +113,9 @@ fi
 sed '1d' Top_tech_companies.csv > Top_tech_companies_no_header.csv 
 
 
+
+
+
 gsutil:
 =======
 copy from google cloud stroage into your cluster 
@@ -162,3 +165,71 @@ hadoop fs -cat <file path>
 9) To check the block information
 
 hdfs fsck /mydata/txns_20181212_NY -files -locations -blocks
+
+
+Understanding hive:
+-------------------
+
+Dataypes in hive:
+--------------------
+NUMERIC TYPES	DESCRIPTION
+TINYINT	1-byte signed integer, from -128 to 127
+SMALLINT	2-byte signed integer, from -32,768 to 32,767
+INT/INTEGER	4-byte signed integer, from -2,147,483,648 to 2,147,483,647
+BIGINT	8-byte signed integer, from -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
+FLOAT	4-byte single precision floating point number
+DOUBLE	8-byte double precision floating point number
+DOUBLE PRECISIO N	Alias for DOUBLE, only available starting with Hive 2.2.0
+DECIMAL	It accepts a precision of 38 digits.
+NUMERIC	Same as DECIMAL type.
+
+DATE/TIME TYPES	DESCRIPTION
+TIMESTAMP	Accepts Both Date and Time
+DATE	Accepts just Date
+INTERVAL	Interval
+
+STRING TYPES	DESCRIPTION
+STRING	The string is an unbounded type. Not required to specify the lenght. It can accept max up to 32,767 bytes.
+VARCHAR	Variable length of characters. It is bounded meaning you still need to specify the length like VARCHAR(10).
+CHAR	Fixed length of Characters. if you define char(10) and assigning 5 chars, the remaining 5 characters space will be wasted.
+
+MISC TYPES	DESCRIPTION
+BOOLEAN	Accepts TRUE/FALSE values
+BINARY	Only available starting with Hive 0.8.0
+
+COMPLEX TYPES	DESCRIPTION
+Arrays	ARRAY<data_type>
+Maps	MAP<primitive_type, data_type>
+Structs	 STRUCT<col_name : data_type [COMMENT col_comment], ...>
+Union	UNIONTYPE<data_type, data_type, …>
+Note: Only available starting with Hive 0.7.0.
+
+
+creating database:
+==================
+CREATE DATABASE [IF NOT EXISTS] <database_name>
+
+selecting database:
+===================
+use <database name>
+
+creating tables:
+================
+
+create table top_companies(company_name string, 
+industry STRING, 
+sector string, 
+hq_state string , 
+founding_year int, 
+annaual_revenue decimal(22,2),
+market_cat decimal(22,2), 
+stock_name STRING,
+annual_income decimal(22,2),  
+employee_size double
+)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+stored as textfile;
+
+LOAD DATA INPATH '/mydata/Top_tech_companies_no_header.csv' OVERWRITE INTO TABLE top_companies;
+
