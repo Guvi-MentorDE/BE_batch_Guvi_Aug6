@@ -59,11 +59,13 @@ def tansform_result(cursor_db,db_connection):
     db_connection.commit()
     #close_connection(cursor_db,db_connection)
 
+#Solution1
 def tansform_result_from_orders_v2(cursor_db,db_connection):
     query = "insert into orders_v3 (order_uniq_id,order_id,cust_id,country,order_status,total_value_of_orders) SELECT * FROM (SELECT order_uniq_id, order_id, cust_id, country, order_status, SUM(order_amount) OVER(PARTITION BY cust_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_value_of_orders FROM orders_v2) tmp WHERE order_status = 'completed';"
     cursor_db.execute(query)
     db_connection.commit()
-    
+
+#Solution 2  
 def view_from_orders_v2(cursor_db,db_connection):
     query = "CREATE VIEW orders_v4 AS SELECT * FROM (SELECT order_uniq_id, order_id, cust_id, country, order_status, SUM(order_amount) OVER(PARTITION BY cust_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_value_of_orders FROM orders_v2) tmp WHERE order_status = 'completed'"
     cursor_db.execute(query)
