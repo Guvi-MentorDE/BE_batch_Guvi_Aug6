@@ -1,0 +1,36 @@
+Non partitioned table:
+---------------------------
+create table if not exists dept (col1 int,col2 string,col3 string,col4 int) row format delimited fields terminated by',' lines terminated by'\n'stored as textfile;
+
+load data local inpath '/home/Raj/data/hive_data/paritition_data/dept.txt' into table dept;
+
+Partitioned table
+---------------------------
+create table if not exists part_dept (deptno int,empname string,sal int) partitioned by (deptname string) row format delimited fields terminated by',' lines terminated by'\n'stored as textfile;
+
+Static partitioning Load
+---------------------------
+insert into table part_dept partition (deptname = 'HR') select col1,col3,col4 from dept where col2 = 'HR'; 
+
+load data local inpath '/home/Raj/data/hive_data/paritition_data/act'into table part_dept partition( deptname ='XZ');
+
+create table if not exists part_dept1 (deptno int,empname string,sal int) partitioned by (deptname string) row format delimited fields terminated by',' lines terminated by'\n'stored as textfile;
+
+Dynamic partitioning Load
+---------------------------
+insert into table part_dept1 partition (deptname) select col1,col3,col4,col2 from dept; 
+
+
+drop partition
+---------------------------
+alter table part_dept1 drop partition (deptname = 'HR');
+
+Add partition
+---------------------------
+alter table part_dept1 add partition (deptname = 'Dev');
+
+load data local inpath '/home/Raj/data/hive_data/paritition_data/dev' into table part_dept1 partition( deptname ='Dev');
+
+select * from part_dept1 where deptname='Dev';
+
+hadoop fs -mkdir /user/hive/warehouse/temp.db/part_dept1/deptname=finance
