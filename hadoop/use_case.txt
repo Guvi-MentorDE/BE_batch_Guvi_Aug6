@@ -1,10 +1,15 @@
 
 use use: (Job)
 --------
-1) load data to GCP. GCS buckets.     - Done 
+1) copy from windows to GCP. 
 2) Downlaod the data from GCS to cluster - gsutil cp -r gs://guvispetember172023/ ./ ; Done 
 3) load the data from local to HDFS  -     hadoop fs -mkdir /usecase/     ;   hadoop fs -put /home/Raj/data/hive_data/Top_tech_companies_no_header.csv /usecase/
 4) build an hive table on top of HDFS files laoded.  
+
+1) any analytical system : storage + compute. 
+2) Hive : schema on read. 
+
+csv : 15 comma seprations. 
 
 create table top_companies(company_name string, 
 industry STRING, 
@@ -27,6 +32,9 @@ LOAD DATA INPATH <FROM> INTO TABLE <TO: hIVE TABLE >;
 LOAD DATA INPATH '/mydata/Top_tech_companies_no_header.csv' INTO TABLE top_companies;
 
 
+select distinct sector from top_companies;
+
+
 SET HIVE.CLI.PRINT.HEADER=TRUE;
 SELECT industry, hq_state, stock_name FROM top_companies LIMIT 10;
 
@@ -34,3 +42,42 @@ SELECT industry, hq_state, stock_name FROM top_companies LIMIT 10;
 5) Perform DAta processing & Data Tranformation. 
 
 select * from top_companies order by annaual_revenue desc;
+
+
+
+-------------------------------------------- sep 23 ---------
+
+
+company:
+---------
+
+application / RDBMS -> files -> hadoop -> load into hive.
+
+hive table 
+
+hdfs://company/<files>.csv
+
+1 year = 300 GB 2023
+
+2 year = 600 GB 2022 
+
+3 year = 900GB 
+
+4 year > TB 
+
+
+flights:
+1. everyday i get passenger info to my hadoop 
+hdfs://day1= sep01
+hdfs://day2 =sep02
+hdfs://day3 = sep03
+
+2. load them into hive tables.
+3. perform analytics. 
+
+
+flights:
+----------
+1. get a file daily 
+2. sperate the partition baed on the "Airport_Country_Code"
+3. create a hive table. 

@@ -1,0 +1,299 @@
+creating database:
+==================
+CREATE DATABASE [IF NOT EXISTS] <database_name>
+
+selecting database:
+===================
+use <database name>
+
+creating tables:
+================
+
+create table top_companies(company_name string, 
+industry STRING, 
+sector string, 
+hq_state string , 
+founding_year int, 
+annaual_revenue decimal(22,2),
+market_cat decimal(22,2), 
+stock_name STRING,
+annual_income decimal(22,2),  
+employee_size double
+)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+stored as textfile;
+
+hadoop fs -put /home/Raj/data/hive_data/Top_tech_companies_no_header.csv /mydata/
+
+LOAD DATA INPATH '/mydata/Top_tech_companies_no_header.csv' OVERWRITE INTO TABLE top_companies;
+
+
+drop table top_companies;
+
+
+Different ways to load data into hive:
+======================================
+1) from hdfs 
+LOAD DATA INPATH '/mydata/Top_tech_companies_no_header.csv' OVERWRITE INTO TABLE top_companies;
+2) from local 
+LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/Top_tech_companies_no_header.csv' OVERWRITE INTO TABLE top_companies2;
+3) from table 
+4) directly from cloud 
+
+Types of tables in hive:
+========================
+1) Managed : droping a table leads to loss of schema + data.
+2) External  : dropping the table will only remove the schema , data is preserved.
+
+
+
+
+External Table:
+===============
+
+hadoop fs -mkdir /mydata/external_tech_companies_new
+hadoop fs -put /home/Raj/data/hive_data/Top_tech_companies_no_header.csv /mydata/external_tech_companies_new/
+
+create external table top_companies_external(company_name string, 
+industry STRING, 
+sector string, 
+hq_state string , 
+founding_year int, 
+annaual_revenue decimal(22,2),
+market_cat decimal(22,2), 
+stock_name STRING,
+annual_income decimal(22,2),  
+employee_size double
+)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+location '/mydata/external_tech_companies_new/';
+
+
+drop table top_companies_external;
+
+
+Hive Parition concepts:
+==========================
+
+1. static
+2. Dynamic
+
+
+static:
+=======
+sed '1d' /home/Raj/data/hive_data/airlines_dataset.csv > /home/Raj/data/hive_data/airlines_dataset_no_header_2023-09-01.csv
+
+cat /home/Raj/data/hive_data/airlines_dataset_no_header.csv | head -10 > /home/Raj/data/hive_data/airlines_dataset_no_header_2023_09_02.csv
+
+cat /home/Raj/data/hive_data/airlines_dataset_no_header.csv | tail -10 > /home/Raj/data/hive_data/airlines_dataset_no_header_2023_09_03.csv
+
+drop table airport_data_static;
+create table airport_data_static(
+passenger_id string,
+First_Name string,
+Last_Name string,
+Gender string,
+Age string,
+Nationality string, 
+Airport_Name string,
+Country_Name string,
+Airport_Continent string,
+Continents string,
+Departure_Date string,
+Arrival_Airport string,
+Pilot_Name string,
+Flight_Status string,
+Airport_Country_Code string
+)
+partitioned by(load_date date)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+stored as textfile;
+
+Day1:
+LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/airlines_dataset_no_header_2023-09-01.csv'
+OVERWRITE INTO TABLE airport_data_static
+PARTITION (load_date='2023-09-01');
+
+day2:
+LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/airlines_dataset_no_header_2023_09_02.csv'
+OVERWRITE INTO TABLE airport_data_static
+PARTITION (load_date='2023-09-02');
+
+day3:
+LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/airlines_dataset_no_header_2023_09_03.csv'
+OVERWRITE INTO TABLE airport_data_static
+PARTITION (load_date='2023-09-03');
+
+select * from airport_data_static where load_date='2023-09-03' limit 100;
+
+select distinct load_date from airport_data_static;
+
+
+SHOW PARTITIONS airport_data_static;
+
+
+
+--------------------------
+#this will contain only 1 day of information
+drop table airport_data_raw;
+create table airport_data_raw(
+passenger_id string,
+First_Name string,
+Last_Name string,
+Gender string,
+Age string,
+Nationality string, 
+Airport_Name string,
+Country_Name string,
+Airport_Continent string,
+Continents string,
+Departure_Date string,
+Arrival_Airport string,
+Pilot_Name string,
+Flight_Status string,
+Airport_Country_Code string
+)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+stored as textfile;
+
+LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/airlines_dataset_no_header.csv' INTO TABLE airport_data_raw;
+
+select * from airport_data_raw limit 10;
+
+
+
+drop table airport_data_stage;
+create table airport_data_stage(
+passenger_id string,
+First_Name string,
+Last_Name string,
+Gender string,
+Age string,
+Nationality string, 
+Airport_Name string,
+Country_Name string,
+Airport_Continent string,
+Continents string,
+Departure_Date string,
+Arrival_Airport string,
+Pilot_Name string,
+Flight_Status string
+)
+partitioned by(Airport_Country_Code string)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+stored as textfile;
+
+
+Insert into table airport_data_stage partition (Airport_Country_Code='US')
+select passenger_id,First_Name, Last_Name, Gender, Age, Nationality, Airport_Name, Country_Name, Airport_Continent, Continents, Departure_Date, Arrival_Airport, Pilot_Name, Flight_Status
+from airport_data_raw 
+where Airport_Country_Code='US';
+
+Insert into table airport_data_stage partition (Airport_Country_Code)
+select passenger_id,First_Name, Last_Name, Gender, Age, Nationality, Airport_Name, Country_Name, Airport_Continent, Continents, Departure_Date, Arrival_Airport, Pilot_Name, Flight_Status,Airport_Country_Code
+from airport_data_raw;
+
+
+select * from airport_data_stage limit 10;
+
+
+SHOW PARTITIONS airport_data_stage;
+
+
+Dynamic parition:
+====================
+set hive.exec.dynamic.partition.mode=nonstrict;
+
+
+drop table airport_data_external;
+create external table airport_data_external(
+passenger_id string,
+First_Name string,
+Last_Name string,
+Gender string,
+Age string,
+Nationality string, 
+Airport_Name string,
+Country_Name string,
+Airport_Continent string,
+Continents string,
+Departure_Date string,
+Arrival_Airport string,
+Pilot_Name string,
+Flight_Status string
+)
+partitioned by(Airport_Country_Code string)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+stored as textfile
+location '/tmp';
+
+set hive.exec.dynamic.partition.mode=nonstrict;
+set hive.exec.max.dynamic.partitions.pernode=1000;
+
+Insert into table airport_data_external partition (Airport_Country_Code)
+select passenger_id,First_Name, Last_Name, Gender, Age, Nationality, Airport_Name, Country_Name, Airport_Continent, Continents, Departure_Date, Arrival_Airport, Pilot_Name, Flight_Status,Airport_Country_Code
+from airport_data_raw;
+
+
+SHOW PARTITIONS airport_data_external;
+
+describe formatted airport_data_external;
+
+
+select distinct Airport_Country_Code from airport_data_raw;
+
+
+Alter parititions:
+=====================
+
+ALTER TABLE airport_data_external DROP IF EXISTS PARTITION (Airport_Country_Code='Arlyn Goldin');
+
+ALTER TABLE airport_data_external DROP IF EXISTS PARTITION (Airport_Country_Code='Barri Veal');
+
+
+
+
+
+
+drop table airport_data_managed;
+create external table airport_data_managed(
+passenger_id string,
+First_Name string,
+Last_Name string,
+Gender string,
+Age string,
+Nationality string, 
+Airport_Name string,
+Country_Name string,
+Airport_Continent string,
+Continents string,
+Departure_Date string,
+Arrival_Airport string,
+Pilot_Name string,
+Flight_Status string
+)
+partitioned by(Airport_Country_Code string)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+stored as textfile;
+
+Insert into table airport_data_managed partition (Airport_Country_Code)
+select passenger_id,First_Name, Last_Name, Gender, Age, Nationality, Airport_Name, Country_Name, Airport_Continent, Continents, Departure_Date, Arrival_Airport, Pilot_Name, Flight_Status,Airport_Country_Code
+from airport_data;
+
+SHOW PARTITIONS airport_data_managed;
+
+msck repair table airport_data_managed;
+
+
+show the paritition location:
+==================================
+
+DESCRIBE FORMATTED airport_data_managed PARTITION(Airport_Country_Code='US');
+SHOW TABLE EXTENDED LIKE airport_data_managed PARTITION(Airport_Country_Code='US');

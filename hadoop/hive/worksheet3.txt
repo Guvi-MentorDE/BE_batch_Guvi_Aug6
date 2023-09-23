@@ -1,0 +1,80 @@
+
+bucketing:
+------------
+
+create table if not exists emp_dept_location 
+(deptno int,
+deptname string,
+empname string,
+sal int,
+location string) 
+row format delimited fields terminated by',' lines terminated by'\n'
+stored as textfile;
+
+load data local inpath '/home/Raj/data/hive_data/bucket/dept_loc.txt' into table emp_dept_location;
+
+
+create table if not exists part_dept_location 
+(deptno int,
+empname string,
+sal int,
+location string) 
+partitioned by (deptname string)
+clustered by(location) into 4 buckets 
+row format delimited fields terminated by',' lines terminated by'\n'
+stored as textfile;
+
+
+insert into table part_dept_location partition(deptname)
+select deptno, empname, sal, location, deptname from emp_dept_location;
+
+show partitions part_dept_location;
+
+
+
+Table sampling:
+-----------------
+
+select deptno, empname,sal,location from part_dept_location tablesample(bucket 1 out of 2 on location);
+
+select deptno, empname,sal,location from part_dept_location tablesample(20 rows);
+
+
+Joins in hive:
+---------------
+
+create table if not exists emp_tab (col1 int,col2 string,col3 string,col4 int,col5 int,col6 int,col7 string) row format delimited fields terminated by',' lines terminated by'\n'stored as textfile;
+
+create table if not exists dept_tab (col1 int,col2 string,col3 string,col4 string) row format delimited fields terminated by',' lines terminated by'\n'stored as textfile;
+
+load data local inpath '/home/Raj/data/hive_data/Join/employee' into table emp_tab;
+
+load data local inpath '/home/Raj/data/hive_data/Join/dept' into table dept_tab;
+
+
+
+JOINS:
+------
+
+select emp_tab.col1,emp_tab.col2,emp_tab.col3,dept_tab.col1,dept_tab.col2,dept_tab.col3 
+from emp_tab 
+join dept_tab 
+on (emp_tab.col6 = dept_tab.col1);
+
+
+select emp_tab.col1,emp_tab.col2,emp_tab.col3,dept_tab.col1,dept_tab.col2,dept_tab.col3 
+from emp_tab 
+left join dept_tab 
+on (emp_tab.col6 = dept_tab.col1);
+
+
+select emp_tab.col1,emp_tab.col2,emp_tab.col3,dept_tab.col1,dept_tab.col2,dept_tab.col3 
+from emp_tab 
+full outer join dept_tab 
+on (emp_tab.col6 = dept_tab.col1);
+
+
+Map join:
+----------
+
+select /*+ MAPJOIN (emp_tab) */ emp_tab.col1,emp_tab.col2,emp_tab.col3,dept_tab.col1,dept_tab.col2,dept_tab.col3 from emp_tab join dept_tab on (emp_tab.col6 = dept_tab.col1);
