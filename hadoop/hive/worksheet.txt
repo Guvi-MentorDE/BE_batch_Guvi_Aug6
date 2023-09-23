@@ -83,6 +83,8 @@ Hive Parition concepts:
 
 static:
 =======
+sed '1d' /home/Raj/data/hive_data/airlines_dataset.csv > /home/Raj/data/hive_data/airlines_dataset_no_header.csv
+
 sed '1d' /home/Raj/data/hive_data/airlines_dataset.csv > /home/Raj/data/hive_data/airlines_dataset_no_header_2023-09-01.csv
 
 cat /home/Raj/data/hive_data/airlines_dataset_no_header.csv | head -10 > /home/Raj/data/hive_data/airlines_dataset_no_header_2023_09_02.csv
