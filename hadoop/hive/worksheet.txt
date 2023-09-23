@@ -28,6 +28,7 @@ hadoop fs -put /home/Raj/data/hive_data/Top_tech_companies_no_header.csv /mydata
 
 LOAD DATA INPATH '/mydata/Top_tech_companies_no_header.csv' OVERWRITE INTO TABLE top_companies;
 
+
 drop table top_companies;
 
 
@@ -42,16 +43,17 @@ LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/Top_tech_companies_no_header.cs
 
 Types of tables in hive:
 ========================
-1) Managed 
-2) External 
+1) Managed : droping a table leads to loss of schema + data.
+2) External  : dropping the table will only remove the schema , data is preserved.
+
 
 
 
 External Table:
 ===============
 
-hadoop fs -mkdir /mydata/external_tech_companies2
-hadoop fs -put /home/Raj/data/hive_data/Top_tech_companies_no_header.csv /mydata/external_tech_companies2/
+hadoop fs -mkdir /mydata/external_tech_companies_new
+hadoop fs -put /home/Raj/data/hive_data/Top_tech_companies_no_header.csv /mydata/external_tech_companies_new/
 
 create external table top_companies_external(company_name string, 
 industry STRING, 
@@ -66,7 +68,7 @@ employee_size double
 )
 row format delimited fields terminated by ','
 lines terminated by '\n'
-location '/mydata/external_tech_companies2/';
+location '/mydata/external_tech_companies_new/';
 
 
 drop table top_companies_external;
@@ -110,27 +112,32 @@ row format delimited fields terminated by ','
 lines terminated by '\n'
 stored as textfile;
 
-LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/airlines_dataset_no_header.csv'
+Day1:
+LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/airlines_dataset_no_header_2023-09-01.csv'
 OVERWRITE INTO TABLE airport_data_static
 PARTITION (load_date='2023-09-01');
 
-LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/airlines_dataset_no_header.csv'
+day2:
+LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/airlines_dataset_no_header_2023_09_02.csv'
 OVERWRITE INTO TABLE airport_data_static
 PARTITION (load_date='2023-09-02');
 
-LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/airlines_dataset_no_header.csv'
+day3:
+LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/airlines_dataset_no_header_2023_09_03.csv'
 OVERWRITE INTO TABLE airport_data_static
 PARTITION (load_date='2023-09-03');
 
-select * from airport_data_static limit 1;
+select * from airport_data_static where load_date='2023-09-03' limit 100;
+
+select distinct load_date from airport_data_static;
 
 
 SHOW PARTITIONS airport_data_static;
 
 
 
--------------
-
+--------------------------
+#this will contain only 1 day of information
 drop table airport_data_raw;
 create table airport_data_raw(
 passenger_id string,
@@ -187,10 +194,9 @@ select passenger_id,First_Name, Last_Name, Gender, Age, Nationality, Airport_Nam
 from airport_data_raw 
 where Airport_Country_Code='US';
 
-Insert into table airport_data_stage partition (Airport_Country_Code='CA')
-select passenger_id,First_Name, Last_Name, Gender, Age, Nationality, Airport_Name, Country_Name, Airport_Continent, Continents, Departure_Date, Arrival_Airport, Pilot_Name, Flight_Status
-from airport_data_raw 
-where Airport_Country_Code='CA';
+Insert into table airport_data_stage partition (Airport_Country_Code)
+select passenger_id,First_Name, Last_Name, Gender, Age, Nationality, Airport_Name, Country_Name, Airport_Continent, Continents, Departure_Date, Arrival_Airport, Pilot_Name, Flight_Status,Airport_Country_Code
+from airport_data_raw;
 
 
 select * from airport_data_stage limit 10;
@@ -227,6 +233,9 @@ lines terminated by '\n'
 stored as textfile
 location '/tmp';
 
+set hive.exec.dynamic.partition.mode=nonstrict;
+set hive.exec.max.dynamic.partitions.pernode=1000;
+
 Insert into table airport_data_external partition (Airport_Country_Code)
 select passenger_id,First_Name, Last_Name, Gender, Age, Nationality, Airport_Name, Country_Name, Airport_Continent, Continents, Departure_Date, Arrival_Airport, Pilot_Name, Flight_Status,Airport_Country_Code
 from airport_data_raw;
@@ -234,7 +243,8 @@ from airport_data_raw;
 
 SHOW PARTITIONS airport_data_external;
 
-msck repair table airport_data_external;
+describe formatted airport_data_external;
+
 
 select distinct Airport_Country_Code from airport_data_raw;
 
