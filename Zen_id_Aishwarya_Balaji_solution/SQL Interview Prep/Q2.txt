@@ -39,3 +39,19 @@ Result table:
 Employees with Id 1,2,3 are part of a team with team_id = 8.
 Employees with Id 4 is part of a team with team_id = 7.
 Employees with Id 5,6 are part of a team with team_id = 9.
+
+solution:
+
+CREATE TABLE employee(employee_id INT, team_id INT, constraint pk Primary Key (employee_id));
+
+INSERT INTO employee VALUES(1, 8);
+INSERT INTO employee VALUES(2, 8);
+INSERT INTO employee VALUES(3, 8);
+INSERT INTO employee VALUES(4, 7);
+INSERT INTO employee VALUES(5, 9);
+INSERT INTO employee VALUES(6, 9);
+
+SELECT employee_id, 
+    COUNT(team_id) OVER(PARTITION BY team_id) AS team_size 
+FROM employee 
+ORDER BY employee_id;
