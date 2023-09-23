@@ -38,7 +38,7 @@ Result table:
 
 solution:
 
-CREATE TABLE auth_views(article_id int, author_id int, viewer_id int, view_date date);
+CREATE TABLE auth_views(article_id INT, author_id INT, viewer_id INT, view_date DATE);
 
 SELECT * FROM auth_views;
 
