@@ -40,8 +40,6 @@ solution:
 
 CREATE TABLE auth_views(article_id INT, author_id INT, viewer_id INT, view_date DATE);
 
-SELECT * FROM auth_views;
-
 INSERT INTO auth_views VALUES(1, 3, 5, '2019-08-01');
 INSERT INTO auth_views VALUES(1, 3, 6, '2019-08-02');
 INSERT INTO auth_views VALUES(2, 7, 7, '2019-08-01');
@@ -49,5 +47,7 @@ INSERT INTO auth_views VALUES(2, 7, 6, '2019-08-02');
 INSERT INTO auth_views VALUES(4, 7, 1, '2019-07-22');
 INSERT INTO auth_views VALUES(3, 4, 4, '2019-07-21');
 INSERT INTO auth_views VALUES(3, 4, 4, '2019-07-21');
+
+SELECT * FROM auth_views;
 
 SELECT DISTINCT author_id FROM auth_views WHERE author_id = viewer_id ORDER BY author_id asc;
