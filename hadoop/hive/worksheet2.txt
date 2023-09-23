@@ -20,6 +20,7 @@ Dynamic partitioning Load
 ---------------------------
 insert into table part_dept1 partition (deptname) select col1,col3,col4,col2 from dept; 
 
+SHOW PARTITIONS part_dept1;
 
 drop partition
 ---------------------------
