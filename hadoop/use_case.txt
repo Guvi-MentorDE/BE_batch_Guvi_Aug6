@@ -57,7 +57,14 @@ hive table
 
 hdfs://company/<files>.csv
 
-1 year = 300 GB 2023
+1 year = 300 GB 2023 [2023-01-24]   bucketing. 
+    - Jan=01  [30 GB]
+    - feb=02  
+    - march=03 
+
+
+
+    - dec
 
 2 year = 600 GB 2022 
 

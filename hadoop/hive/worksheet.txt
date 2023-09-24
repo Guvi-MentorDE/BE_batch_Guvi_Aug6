@@ -9,6 +9,7 @@ use <database name>
 creating tables:
 ================
 
+--drop table table_name;
 create table top_companies(company_name string, 
 industry STRING, 
 sector string, 
@@ -35,11 +36,11 @@ drop table top_companies;
 Different ways to load data into hive:
 ======================================
 1) from hdfs 
-LOAD DATA INPATH '/mydata/Top_tech_companies_no_header.csv' OVERWRITE INTO TABLE top_companies;
-2) from local 
-LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/Top_tech_companies_no_header.csv' OVERWRITE INTO TABLE top_companies2;
+LOAD DATA INPATH '/mydata/Top_tech_companies_no_header.csv' <OVERWRITE> INTO TABLE top_companies;
+2) from local [linux]
+LOAD DATA LOCAL INPATH '/home/Raj/data/hive_data/Top_tech_companies_no_header.csv' <OVERWRITE> INTO TABLE top_companies2;
 3) from table 
-4) directly from cloud 
+4) directly from cloud 'gs://' , 's3://' . 'adls://'
 
 Types of tables in hive:
 ========================

@@ -1,6 +1,7 @@
 
 bucketing:
 ------------
+set hive.cli.print.header=true;
 
 create table if not exists emp_dept_location 
 (deptno int,
@@ -19,16 +20,25 @@ create table if not exists part_dept_location
 empname string,
 sal int,
 location string) 
-partitioned by (deptname string)
-clustered by(location) into 4 buckets 
+partitioned by (deptname string)            
+clustered by(location) into 4 buckets        
 row format delimited fields terminated by',' lines terminated by'\n'
 stored as textfile;
 
+set hive.exec.dynamic.partition.mode=nonstrict;
+--default = 100 dynamic partitions / per datanode
 
 insert into table part_dept_location partition(deptname)
 select deptno, empname, sal, location, deptname from emp_dept_location;
 
 show partitions part_dept_location;
+
+
+select location , count(*)
+from part_dept_location
+where deptname='HR'    
+and location in('Chandigarh','Houston','Denver','Pune') 
+group by location;
 
 
 
@@ -78,3 +88,6 @@ Map join:
 ----------
 
 select /*+ MAPJOIN (emp_tab) */ emp_tab.col1,emp_tab.col2,emp_tab.col3,dept_tab.col1,dept_tab.col2,dept_tab.col3 from emp_tab join dept_tab on (emp_tab.col6 = dept_tab.col1);
+
+
+SET hive.auto.convert.join=true;

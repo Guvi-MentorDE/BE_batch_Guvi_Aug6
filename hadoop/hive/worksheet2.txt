@@ -20,6 +20,7 @@ Dynamic partitioning Load
 ---------------------------
 insert into table part_dept1 partition (deptname) select col1,col3,col4,col2 from dept; 
 
+SHOW PARTITIONS part_dept1;
 
 drop partition
 ---------------------------
@@ -29,8 +30,24 @@ Add partition
 ---------------------------
 alter table part_dept1 add partition (deptname = 'Dev');
 
-load data local inpath '/home/Raj/data/hive_data/paritition_data/dev' into table part_dept1 partition( deptname ='Dev');
-
 select * from part_dept1 where deptname='Dev';
 
-hadoop fs -mkdir /user/hive/warehouse/temp.db/part_dept1/deptname=finance
+load data local inpath '/home/Raj/data/hive_data/paritition_data/dev' into table part_dept1 partition( deptname ='Dev');
+
+select * from part_dept1 where deptname='finance';
+
+---hadoop fs -mkdir /user/hive/warehouse/temp.db/part_dept1/deptname=finance
+
+
+hadoop fs -mkdir /user/hive/warehouse/sep23.db/part_dept1/deptname=finance
+
+add parititon/refresh to your metastore:
+--------------------------------
+
+msck repair table part_dept1;
+
+
+
+
+
+

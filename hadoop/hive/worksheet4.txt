@@ -1,0 +1,106 @@
+SCD: [slowly changing dimention]
+-----
+What are slowly changing dimensions?
+Slowly changing dimensions refer to how data in your data warehouse changes over time. 
+Slowly changing dimensions have the same natural key but other data columns that may or may not change over time depending on the type of dimensions that it is. 
+
+Slowly changing dimensions are important in data analytics to track how a record is changing over time. 
+The way the database is designed directly reflects whether historical attributes can be tracked or not, determining different metrics available for the business to use.
+
+#1 SCD Type 0 — Dimension is never updated
+
+#2 SCD Type 1 — Dimension is overwritten
+
+#3 SCD Type 2 — Maintain all the old records for the dimension by versioning the row
+
+Day1:
+----------
+
+drop table emp_raw_daily_table;
+create table if not exists emp_raw_daily_table 
+(emp_name string,
+sal int,
+txn_data date
+) 
+row format delimited fields terminated by',' lines terminated by'\n'
+stored as textfile;
+
+load data local inpath '/home/Raj/data/hive_data/rank.txt' into table emp_raw_daily_table;
+
+drop table emp_temp;
+create table if not exists emp_temp 
+(emp_name string,
+sal int,
+txn_data date
+) 
+row format delimited fields terminated by',' lines terminated by'\n'
+stored as textfile;
+
+insert into table emp_temp
+select emp_name , sal, txn_data from emp_raw_daily_table;
+
+insert into table emp_temp
+select emp_name , sal, txn_data from emp_master;
+
+truncate table emp_master;
+create table if not exists emp_master 
+(emp_name string,
+sal int,
+txn_data date
+) 
+row format delimited fields terminated by',' lines terminated by'\n'
+stored as textfile;
+
+insert into table emp_master
+select emp_name, sal , txn_data
+from(
+select row_number() over(partition by a.emp_name order by a.txn_data desc) rnum , emp_name, sal , txn_data 
+from emp_temp a)x
+where rnum = 1;
+
+
+Day2:
+-------
+
+
+drop table emp_raw_daily_table;
+create table if not exists emp_raw_daily_table 
+(emp_name string,
+sal int,
+txn_data date
+) 
+row format delimited fields terminated by',' lines terminated by'\n'
+stored as textfile;
+
+load data local inpath '/home/Raj/data/hive_data/rank2.txt' into table emp_raw_daily_table;
+
+drop table emp_temp;
+create table if not exists emp_temp 
+(emp_name string,
+sal int,
+txn_data date
+) 
+row format delimited fields terminated by',' lines terminated by'\n'
+stored as textfile;
+
+insert into table emp_temp
+select emp_name , sal, txn_data from emp_raw_daily_table;
+
+insert into table emp_temp
+select emp_name , sal, txn_data from emp_master;
+
+truncate table emp_master;
+create table if not exists emp_master 
+(emp_name string,
+sal int,
+txn_data date
+) 
+row format delimited fields terminated by',' lines terminated by'\n'
+stored as textfile;
+
+insert into table emp_master
+select emp_name, sal , txn_data
+from(
+select row_number() over(partition by a.emp_name order by a.txn_data desc) rnum , emp_name, sal , txn_data 
+from emp_temp a)x
+where rnum = 1;
