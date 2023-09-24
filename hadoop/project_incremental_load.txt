@@ -1,0 +1,31 @@
+use case:
+----------
+
+load the incremental data into hive data warehouse, by retaining only the latest records. 
+
+company: employee , wages , date= sep01
+company: employee , wages , date= sep02
+
+
+1. load your daily data file into hive table [raw table] - this should contain only current day data. 
+
+2. load the data into employee_master table with history [all days data should be available here] eg: sep01 , sep02..... sep24
+
+3. always maintain latest records in the master table. 
+    a) if emp1 from day1 = 1000 
+          emp1 from day2 = 1500   
+        then update the record of emp1 in master tabel to salary=1500 
+        result on day1
+        emp1 1000
+        
+        result on day2
+        emp1 1500 
+
+    b) if there is not change for emp1 
+        retain the same record. 
+
+4. automate the solution using shell script -> scheulde to run on daily basis based on date parameter. 
+
+    sh <job>.sh <sep01>
+
+    sh <job>.sh <sep02>
