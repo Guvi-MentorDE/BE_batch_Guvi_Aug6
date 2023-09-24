@@ -26,6 +26,11 @@ company: employee , wages , date= sep02
 
 4. automate the solution using shell script -> scheulde to run on daily basis based on date parameter. 
 
-    sh <job>.sh <sep01>
+    command to run the job : sh <job>.sh <sep01>
 
-    sh <job>.sh <sep02>
+    command to run the job : sh <job>.sh <sep02>
+
+    make to change permission for shell script before running the job.
+    command : chmod +x <job_name>.sh 
+
+5. Stop the cluster once the work is done. 
