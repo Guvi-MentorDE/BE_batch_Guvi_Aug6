@@ -40,3 +40,6 @@ Result table:
 "Database Sols" is not a movie
 "Alladin" is a movie, content for kids and was streamed in June 2020.
 "Cinderella" was not streamed in June 2020.
+
+solution:
+
