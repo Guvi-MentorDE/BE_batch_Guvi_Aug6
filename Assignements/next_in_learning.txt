@@ -1,4 +1,0 @@
-1. SQL -> mysql workbench download -> setup 
-2. python - sql. 
-3. Pandas. 
-4. SQL poblems in detail + interview questions. 
