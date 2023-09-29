@@ -121,7 +121,7 @@ FROM
 (
     SELECT product_name, SUM(unit) OVER(PARTITION BY ord.product_id) AS unit 
     FROM products 
-    LEFT JOIN orders ord on ord.product_id = products.product_id AND MONTH(ord.order_date) = 2
+    INNER JOIN orders ord on ord.product_id = products.product_id AND MONTH(ord.order_date) = 2
 ) 
 val 
 where val.unit>=100;
