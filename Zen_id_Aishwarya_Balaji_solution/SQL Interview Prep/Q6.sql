@@ -99,30 +99,36 @@ WHERE val.active_days>=5;
 -- 5 or more consecutive days
 
 --Solution 1: 
-SELECT final.id, final.name FROM
-(SELECT gets.id, gets.name, COUNT(gets.Prev_Days) OVER(PARTITION BY gets.Prev_Days, gets.id) AS count_val, gets.Prev_Days FROM
+SELECT final.id, final.name, sum(count_val) FROM
+(SELECT result.* FROM
+(SELECT DISTINCT gets.id, gets.name, COUNT(gets.Prev_Days) OVER(PARTITION BY gets.Prev_Days, gets.id) AS count_val, gets.Prev_Days FROM
 (SELECT val.id, val.name, val.login_date, DATE_SUB(val.login_date, INTERVAL val.active_days DAY) AS Prev_Days FROM
 (SELECT accounts.id, name, logins.login_date, ROW_NUMBER() OVER(PARTITION BY logins.id ORDER BY logins.login_date) as active_days 
 FROM accounts 
 INNER JOIN logins ON logins.id = accounts.id)
 val)
 gets)
+result WHERE result.count_val>1) 
 final GROUP BY final.id HAVING SUM(count_val)>=5;
 
-
+--Solution 2:
 WITH final AS
 (
-    SELECT gets.id, gets.name, COUNT(gets.Prev_Days) OVER(PARTITION BY gets.Prev_Days, gets.id) AS count_val, gets.Prev_Days FROM
+    SELECT result.* FROM
+    (
+        SELECT DISTINCT count_prev_date_gen.id, count_prev_date_gen.name, COUNT(count_prev_date_gen.Prev_Days) OVER(PARTITION BY count_prev_date_gen.Prev_Days, count_prev_date_gen.id) AS count_val, count_prev_date_gen.Prev_Days FROM
         (
-            SELECT val.id, val.name, val.login_date, DATE_SUB(val.login_date, INTERVAL val.active_days DAY) AS Prev_Days FROM
+            SELECT prev_date_gen.id, prev_date_gen.name, prev_date_gen.login_date, DATE_SUB(prev_date_gen.login_date, INTERVAL prev_date_gen.active_days DAY) AS Prev_Days FROM
                 (
                     SELECT accounts.id, name, logins.login_date, ROW_NUMBER() OVER(PARTITION BY logins.id ORDER BY logins.login_date) as active_days 
                     FROM accounts 
                     INNER JOIN logins ON logins.id = accounts.id
                 )
-            val
+            prev_date_gen
         )
-    gets
+        count_prev_date_gen
+    )
+    result WHERE count_val>1
 )
 
 SELECT final.id, final.name FROM final GROUP BY final.id HAVING SUM(count_val)>=5;
