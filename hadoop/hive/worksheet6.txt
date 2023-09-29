@@ -22,6 +22,7 @@ load data local inpath '/home/Raj/data/hive_data/test2.json' into table freshers
 
 --------------json load example 2 ------------
 
+drop table json_table;
 create table json_table ( name string, id int, skills array<string> ) row format serde 'org.apache.hadoop.hive.serde2.JsonSerDe' stored as textfile;
 
 load data local inpath 'file:////home/Raj/data/hive_data/course.json' into table json_table;

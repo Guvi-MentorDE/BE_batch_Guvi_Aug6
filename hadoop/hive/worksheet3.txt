@@ -180,3 +180,15 @@ select a.* , b.* from
 automobile_orders_sales a 
 join automobile_sales_product_info b 
 on a.PRODUCTCODE = b.PRODUCTCODE;
+
+
+
+loading with serde:
+--------------------
+
+create table automobile_sales_raw_serde ( ORDERNUMBER int, QUANTITYORDERED int, PRICEEACH float, ORDERLINENUMBER int, SALES float, STATUS string, QTR_ID int, MONTH_ID int, YEAR_ID int, PRODUCTLINE string, MSRP int, PRODUCTCODE string, PHONE string, CITY string, STATE string, POSTALCODE string, COUNTRY string, TERRITORY string, CONTACTLASTNAME string, CONTACTFIRSTNAME string, DEALSIZE string ) 
+row format serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+stored as textfile
+;
+
+load data local inpath '/home/Raj/data/hive_data/sales_ecom.txt' into table automobile_sales_raw_serde;
