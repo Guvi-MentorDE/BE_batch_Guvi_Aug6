@@ -1,0 +1,129 @@
+Q2:
+
+Employee table
++-------------+---------+
+| employee_id | team_id |
++-------------+---------+
+|           1 |       8 |
+|           2 |       8 |
+|           3 |       8 |
+|           4 |       7 |
+|           5 |       9 |
+|           6 |       9 |
++-------------+---------+
+
+Query:
+
+select employee_id, count(team_id) 
+over (partition by team_id) as team_size 
+from Employee 
+order by employee_id asc;
+
+Result: 
+
++-------------+-----------+
+| employee_id | team_size |
++-------------+-----------+
+|           1 |         3 |
+|           2 |         3 |
+|           3 |         3 |
+|           4 |         1 |
+|           5 |         2 |
+|           6 |         2 |
++-------------+-----------+
+
+Q3:
+
+TVProgram table:
+
++--------------+------------+------------+
+| program_date | content_id | channel    |
++--------------+------------+------------+
+| 2020-06-10   |          1 | LC-Channel |
+| 2020-05-11   |          2 | LC-Channel |
+| 2020-05-12   |          3 | LC-Channel |
+| 2020-06-18   |          4 | Disney Ch  |
+| 2020-05-18   |          5 | Disney Ch  |
+| 2020-07-15   |          6 | Disney Ch  |
++--------------+------------+------------+
+
+Content table:
+
++------------+----------------------+--------------+--------------+
+| content_id | title                | kids_content | content_type |
++------------+----------------------+--------------+--------------+
+|          1 | ScienceFiction Movie | N            | Movies       |
+|          2 | Alg. for Kids        | Y            | Series       |
+|          3 | Database Sols        | N            | Series       |
+|          4 | Aladdin              | Y            | Movies       |
+|          5 | Cindrella            | Y            | Movies       |
++------------+----------------------+--------------+--------------+
+
+Query: 
+
+select a.title
+from Content a
+join TVProgram b 
+ON a.content_id=b.content_id
+where a.kids_content='Y' 
+And program_date in 
+                (select program_date from TVProgram where extract(MONTH from program_date)=6 
+                and extract(year from program_date)=2020);
+
+Result:
+
++---------+
+| title   |
++---------+
+| Aladdin |
++---------+
+
+Note: Modified program_date so that I could get the correct result
+
+Q5:
+
+Products table:
+
++------------+-----------------------+------------------+
+| product_id | product_name          | product_category |
++------------+-----------------------+------------------+
+|          1 | Science Solutions     | Book             |
+|          2 | Jewels of Stringology | Book             |
+|          3 | HP                    | Laptop           |
+|          4 | Lenovo                | Laptop           |
+|          5 | Science Kit           | T-shirt          |
++------------+-----------------------+------------------+
+
+Orders table:
+
++------------+------------+------+
+| product_id | order_date | unit |
++------------+------------+------+
+|          1 | 2020-02-05 |   60 |
+|          1 | 2020-02-10 |   70 |
+|          2 | 2020-01-18 |   30 |
+|          2 | 2020-02-11 |   80 |
+|          3 | 2020-02-17 |    2 |
+|          3 | 2020-02-24 |    3 |
+|          4 | 2020-03-01 |   20 |
+|          4 | 2020-03-04 |   30 |
+|          4 | 2020-03-04 |   60 |
+|          5 | 2020-02-25 |   50 |
+|          5 | 2020-02-27 |   50 |
+|          5 | 2020-03-01 |   60 |
++------------+------------+------+
+
+Query:
+
+select distinct result.product_name,
+        result.unit 
+from
+    (select a.product_name, a.product_id, sum(b.unit) over(partition by a.product_id) as unit
+from Products a
+join Orders b
+ON a.product_id=b.product_id 
+where extract(Month from order_date)=2 and extract(Year from order_date)=2020) result
+where unit>=100;
+
+
+
