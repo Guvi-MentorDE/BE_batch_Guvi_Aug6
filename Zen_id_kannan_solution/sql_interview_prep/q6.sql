@@ -1,22 +1,24 @@
 --solution for q6 - some gaps need to revisit the logic
-with cte as 
+with cte1 as 
 (
-	select 
-		 l.id
-		,l.login_date
-        ,count(*) over(partition by l.id order by l.login_date range between interval '5' day preceding and current row) cnt
-		,datediff(lead(l.login_date) over(partition by l.id order by l.login_date), l.login_date) as diff
-	from (
-		select distinct id, login_date from logins
-	) l
+	select distinct id ,login_date from logins 
 )
-select distinct 
-     c.id
-    ,a.name 
-from cte c
-join accounts a
-    on c.id = a.id
-where c.cnt = 5;
+, cte2 as (
+	select *
+		,date_sub(login_date, interval row_number() over (partition by id order by login_date) day) as bucket
+	from cte1
+)
+, cte3 as (
+	select *
+	,count(*) over(partition by id, bucket) as cnt
+	from cte2
+)
+select distinct c.id, a.name 
+from cte3 c
+inner join accounts a
+on c.id = a.id
+where c.cnt >=5 ;
+
 
 
 --create table scripts and data loading scripts
