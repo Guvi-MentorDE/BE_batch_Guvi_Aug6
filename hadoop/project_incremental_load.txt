@@ -34,3 +34,17 @@ company: employee , wages , date= sep02
     command : chmod +x <job_name>.sh 
 
 5. Stop the cluster once the work is done. 
+
+
+Assignment:
+-------------
+30/09/2023
+
+redesign the solution to implimnet for SCD - type 2 , Maintain latest 3 records. 
+
+Albert  2500    2023-09-04
+Albert  2100    2023-09-03
+Albert  1900    2023-09-02
+
+deleted: since its not the latest 3 recors.
+Albert  1500    2023-09-01

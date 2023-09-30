@@ -10,13 +10,12 @@ row format delimited fields terminated by ','
 collection items terminated by '$';
 
 
-
 data:
 -----
-1,Anna,46000,SWE$Analyst$SAnalyst$PL,UK
-2,Brad,36000,SWE$Analyst$SAnalyst$PM,UK
-3,charlie,59000,SWE$Analyst$PL$PM,US
-4,Duke,36000,SWE$Analyst$SAnalyst,US
+1,Anna,46000,SWE$Analyst1$SAnalyst$PL,UK
+2,Brad,36000,SWE$Analyst2$SAnalyst$PM,UK
+3,charlie,59000,SWE$Analyst3$PL$PM,US
+4,Duke,36000,SWE$Analyst2$SAnalyst,US
 
 
 load data local inpath '/home/Raj/data/hive_data/arraytest.txt' into table array_example;

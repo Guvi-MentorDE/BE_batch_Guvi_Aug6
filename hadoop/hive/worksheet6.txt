@@ -7,6 +7,7 @@ vim test.data
 
 ------------- json load ----------------
 
+hive terminal->  add jar /home/Raj/data/jar/json-serde-1.3.7.3.jar
 
 test2.json
 
@@ -19,6 +20,8 @@ ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe' STORED AS TEXTFILE;
 
 
 load data local inpath '/home/Raj/data/hive_data/test2.json' into table freshers_json_table;
+
+select * from freshers_json_table;
 
 --------------json load example 2 ------------
 

@@ -53,8 +53,10 @@ select deptno, empname,sal,location from part_dept_location tablesample(20 rows)
 Joins in hive:
 ---------------
 
+drop table emp_tab;
 create table if not exists emp_tab (col1 int,col2 string,col3 string,col4 int,col5 int,col6 int,col7 string) row format delimited fields terminated by',' lines terminated by'\n'stored as textfile;
 
+drop table dept_tab;
 create table if not exists dept_tab (col1 int,col2 string,col3 string,col4 string) row format delimited fields terminated by',' lines terminated by'\n'stored as textfile;
 
 load data local inpath '/home/Raj/data/hive_data/Join/employee' into table emp_tab;
@@ -66,7 +68,9 @@ load data local inpath '/home/Raj/data/hive_data/Join/dept' into table dept_tab;
 JOINS:
 ------
 
-select emp_tab.col1,emp_tab.col2,emp_tab.col3,dept_tab.col1,dept_tab.col2,dept_tab.col3 
+set hive.cli.print.header=true;
+
+select distinct emp_tab.col1,emp_tab.col2,emp_tab.col3,dept_tab.col1,dept_tab.col2,dept_tab.col3 
 from emp_tab 
 join dept_tab 
 on (emp_tab.col6 = dept_tab.col1);
@@ -86,7 +90,7 @@ on (emp_tab.col6 = dept_tab.col1);
 
 Multi level partition:
 ========================
-
+[note: mostly not recommended.]
 
 
 drop table airport_data_multilevel;
@@ -111,13 +115,22 @@ stored as textfile
 location '/tmp';
 
 set hive.exec.dynamic.partition.mode=nonstrict;
-set hive.exec.max.dynamic.partitions.pernode=1000;
+set hive.exec.max.dynamic.partitions.pernode=500;
 
 Insert into table airport_data_multilevel partition (Continents, Airport_Country_Code)
 select passenger_id,First_Name, Last_Name, Gender, Age, Nationality, Airport_Name, Country_Name, Departure_Date, Arrival_Airport, Pilot_Name, Flight_Status,Continents, Airport_Country_Code
 from airport_data_raw;
 
+select distinct Continents , Airport_Country_Code from airport_data_raw ;
+
 select distinct Continents from airport_data_multilevel limit 10;
+
+how to kill a job [execute at your own discretion]:
+----------------------------------------------------
+yarn application -kill application_1696045670780_0002
+
+
+
 
 Performance optimizations:
 =============================
@@ -192,3 +205,10 @@ stored as textfile
 ;
 
 load data local inpath '/home/Raj/data/hive_data/sales_ecom.txt' into table automobile_sales_raw_serde;
+
+
+
+how to kill a job:
+-------------------
+
+yarn application -kill application_1696045670780_0001
