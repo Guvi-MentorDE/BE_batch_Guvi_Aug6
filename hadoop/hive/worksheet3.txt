@@ -53,8 +53,10 @@ select deptno, empname,sal,location from part_dept_location tablesample(20 rows)
 Joins in hive:
 ---------------
 
+drop table emp_tab;
 create table if not exists emp_tab (col1 int,col2 string,col3 string,col4 int,col5 int,col6 int,col7 string) row format delimited fields terminated by',' lines terminated by'\n'stored as textfile;
 
+drop table dept_tab;
 create table if not exists dept_tab (col1 int,col2 string,col3 string,col4 string) row format delimited fields terminated by',' lines terminated by'\n'stored as textfile;
 
 load data local inpath '/home/Raj/data/hive_data/Join/employee' into table emp_tab;
@@ -66,7 +68,9 @@ load data local inpath '/home/Raj/data/hive_data/Join/dept' into table dept_tab;
 JOINS:
 ------
 
-select emp_tab.col1,emp_tab.col2,emp_tab.col3,dept_tab.col1,dept_tab.col2,dept_tab.col3 
+set hive.cli.print.header=true;
+
+select distinct emp_tab.col1,emp_tab.col2,emp_tab.col3,dept_tab.col1,dept_tab.col2,dept_tab.col3 
 from emp_tab 
 join dept_tab 
 on (emp_tab.col6 = dept_tab.col1);
@@ -84,6 +88,54 @@ full outer join dept_tab
 on (emp_tab.col6 = dept_tab.col1);
 
 
+Multi level partition:
+========================
+[note: mostly not recommended.]
+
+
+drop table airport_data_multilevel;
+create table airport_data_multilevel(
+passenger_id string,
+First_Name string,
+Last_Name string,
+Gender string,
+Age string,
+Nationality string, 
+Airport_Name string,
+Country_Name string,
+Departure_Date string,
+Arrival_Airport string,
+Pilot_Name string,
+Flight_Status string
+)
+partitioned by(Continents string, Airport_Country_Code string)
+row format delimited fields terminated by ','
+lines terminated by '\n'
+stored as textfile
+location '/tmp';
+
+set hive.exec.dynamic.partition.mode=nonstrict;
+set hive.exec.max.dynamic.partitions.pernode=500;
+
+Insert into table airport_data_multilevel partition (Continents, Airport_Country_Code)
+select passenger_id,First_Name, Last_Name, Gender, Age, Nationality, Airport_Name, Country_Name, Departure_Date, Arrival_Airport, Pilot_Name, Flight_Status,Continents, Airport_Country_Code
+from airport_data_raw;
+
+select distinct Continents , Airport_Country_Code from airport_data_raw ;
+
+select distinct Continents from airport_data_multilevel limit 10;
+
+how to kill a job [execute at your own discretion]:
+----------------------------------------------------
+yarn application -kill application_1696045670780_0002
+
+
+
+
+Performance optimizations:
+=============================
+
+
 Map join:
 ----------
 
@@ -91,3 +143,72 @@ select /*+ MAPJOIN (emp_tab) */ emp_tab.col1,emp_tab.col2,emp_tab.col3,dept_tab.
 
 
 SET hive.auto.convert.join=true;
+
+
+Bucket Map Join
+---------------
+
+create table automobile_sales_raw ( ORDERNUMBER int, QUANTITYORDERED int, PRICEEACH float, ORDERLINENUMBER int, SALES float, STATUS string, QTR_ID int, MONTH_ID int, YEAR_ID int, PRODUCTLINE string, MSRP int, PRODUCTCODE string, PHONE string, CITY string, STATE string, POSTALCODE string, COUNTRY string, TERRITORY string, CONTACTLASTNAME string, CONTACTFIRSTNAME string, DEALSIZE string ) 
+row format delimited fields terminated by ',' 
+;
+
+load data local inpath '/home/Raj/data/hive_data/sales_ecom.txt' into table automobile_sales_raw;
+
+drop table automobile_sales_product_info;
+create table automobile_sales_product_info (PRODUCTCODE string , MSRP int) clustered by (PRODUCTCODE) sorted by (PRODUCTCODE) into 5 buckets
+stored as ORC 
+tblproperties("orc.compress"="SNAPPY");
+
+insert into table automobile_sales_product_info
+select distinct PRODUCTCODE, MSRP from automobile_sales_raw;
+
+drop table automobile_orders_sales;
+create table automobile_orders_sales ( ORDERNUMBER int, QUANTITYORDERED int, PRICEEACH float, ORDERLINENUMBER int, SALES float, STATUS string,  PRODUCTCODE string, MSRP int) clustered by (PRODUCTCODE) sorted by (PRODUCTCODE) into 5 buckets
+stored as ORC 
+tblproperties("orc.compress"="SNAPPY");
+
+insert into table automobile_orders_sales 
+select distinct ORDERNUMBER, QUANTITYORDERED, PRICEEACH, ORDERLINENUMBER, SALES, STATUS, PRODUCTCODE, MSRP 
+from automobile_sales_raw;
+
+
+select a.* , b.* from 
+automobile_orders_sales a 
+join automobile_sales_product_info b 
+on a.PRODUCTCODE = b.PRODUCTCODE;
+
+
+
+
+sort merge join:
+-----------------
+
+set hive.enforce.sortmergebucketmapjoin=false; 
+set hive.auto.convert.sortmerge.join=true; 
+set hive.optimize.bucketmapjoin = true; 
+set hive.optimize.bucketmapjoin.sortedmerge = true;
+
+
+select a.* , b.* from 
+automobile_orders_sales a 
+join automobile_sales_product_info b 
+on a.PRODUCTCODE = b.PRODUCTCODE;
+
+
+
+loading with serde:
+--------------------
+
+create table automobile_sales_raw_serde ( ORDERNUMBER int, QUANTITYORDERED int, PRICEEACH float, ORDERLINENUMBER int, SALES float, STATUS string, QTR_ID int, MONTH_ID int, YEAR_ID int, PRODUCTLINE string, MSRP int, PRODUCTCODE string, PHONE string, CITY string, STATE string, POSTALCODE string, COUNTRY string, TERRITORY string, CONTACTLASTNAME string, CONTACTFIRSTNAME string, DEALSIZE string ) 
+row format serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+stored as textfile
+;
+
+load data local inpath '/home/Raj/data/hive_data/sales_ecom.txt' into table automobile_sales_raw_serde;
+
+
+
+how to kill a job:
+-------------------
+
+yarn application -kill application_1696045670780_0001

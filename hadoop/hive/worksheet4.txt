@@ -7,11 +7,39 @@ Slowly changing dimensions have the same natural key but other data columns that
 Slowly changing dimensions are important in data analytics to track how a record is changing over time. 
 The way the database is designed directly reflects whether historical attributes can be tracked or not, determining different metrics available for the business to use.
 
-#1 SCD Type 0 — Dimension is never updated
+#1 SCD Type 0 — Dimension is never updated 
 
-#2 SCD Type 1 — Dimension is overwritten
+#2 SCD Type 1 — Dimension is overwritten  [daily new data -> insert overwrites without any partitions] 
 
 #3 SCD Type 2 — Maintain all the old records for the dimension by versioning the row
+
+method1:
+day 1 -- 1000 , in cart/fav
+
+day 2 --1000 , buy now 
+
+day 3 -- 1000 , paid 
+
+day 4 --- 1000 , delivered
+
+
+method2 :
+day 1 -- 1000 , in cart/fav
+
+day 2 --1000 , buy now 
+
+day 3 -- 1000 , paid 
+
+
+method:3
+day 4 --- 1000 , delivered
+day 3 -- 1000 , paid 
+
+
+method:4
+day 4 --- 1000 , delivered
+
+
 
 Day1:
 ----------
