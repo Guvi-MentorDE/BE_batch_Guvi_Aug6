@@ -111,6 +111,6 @@ WITH salary_after_tax_CTE AS
     WHERE max_salary > 10000
 )
 
-SELECT company_id, employee_id, employee_name, salary_after_tax AS salary 
+SELECT company_id, employee_id, employee_name, ROUND(salary_after_tax, 0) AS salary 
 FROM salary_after_tax_CTE 
 ORDER BY company_id ASC;
