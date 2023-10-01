@@ -1,0 +1,89 @@
+complex data types:
+----------------------
+
+This is an ordered sequence of similar elements. 
+It maintains an index in order to access the elements; for example, an array day, containing a list of elements ['Sunday', 'Monday', 'Tuesday', 'Wednesday']. 
+In this, the first element Sunday can be accessed using day[0], and similarly, the third element can be accessed using day[2].
+
+create table array_example (id int,name string,sal bigint,desig array<string>,city string)
+row format delimited fields terminated by ','
+collection items terminated by '$';
+
+
+data:
+-----
+1,Anna,46000,SWE$Analyst1$SAnalyst$PL,UK
+2,Brad,36000,SWE$Analyst2$SAnalyst$PM,UK
+3,charlie,59000,SWE$Analyst3$PL$PM,US
+4,Duke,36000,SWE$Analyst2$SAnalyst,US
+
+
+load data local inpath '/home/Raj/data/hive_data/arraytest.txt' into table array_example;
+
+
+select * from array_example;
+
+select desig[0] from array_example;
+
+select desig[1] from array_example;
+
+select desig[2] from array_example;
+
+
+-----------------------------------------------------------------
+
+struct:
+---------
+STRUCT: The struct data type is a record type that holds a set of named fields that can be of any primitive data types. Fields in the
+STRUCT type are accessed using the DOT (.) notation.
+
+create table Struct_example(id int,name string,sal bigint,addr struct<city:string,state:string,pin:bigint>)
+row format delimited
+fields terminated by ','
+collection items terminated by '$';
+
+vi structtext.txt
+
+1,John,140000,NY$AP$800042
+2,Mary,630000,US$TamilNadu$ 600042
+
+load data local inpath '/home/Raj/data/hive_data/structtext.txt' into table Struct_example;
+
+select * from Struct_example;
+
+
+select addr.city, addr.state, addr.pin from Struct_example;
+
+
+
+
+Map:
+-----
+
+The map data type contains key-value pairs. 
+In Map, elements are accessed using the keys.
+For example, if a column name is of type Map: 'firstname' -> 'Arun' and 'lastname' -> 'kumar', then the last name can be accessed using the name ['lastname'].
+
+
+create table map_example (id int,name string,sal bigint,Mark map<string,int>,city string)
+row format delimited
+fields terminated by ','
+collection items terminated by '$'
+map keys terminated by '#';
+
+
+vi maptext.txt 
+
+1,Allen,40000,mat#100$Eng#99,UK
+2,rahul,30000,Sci#100$Eng#99,US
+
+
+load data local inpath '/home/Raj/data/hive_data/maptext.txt' into table map_example;
+
+
+select * from map_example;
+
+Select Mark["mat"] from map_example;
+
+Select Mark["Eng"] from map_example;
+

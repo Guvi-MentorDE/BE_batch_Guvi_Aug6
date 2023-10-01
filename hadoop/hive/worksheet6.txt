@@ -1,0 +1,34 @@
+json:
+-----
+
+vim test.data
+{"name":"Mary","age":12,"course":[{"name":"math","location":"b208"},{"name":"english","location":"b702"}],"grade":[99,98,95]}
+{"name":"Bob","age":20,"course":[{"name":"music","location":"b108"},{"name":"history","location":"b711"}],"grade":[91,92,93]}
+
+------------- json load ----------------
+
+hive terminal->  add jar /home/Raj/data/jar/json-serde-1.3.7.3.jar
+
+test2.json
+
+drop table freshers_json_table;
+CREATE TABLE freshers_json_table (id string, 
+name string, 
+age int, 
+email string ) 
+ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe' STORED AS TEXTFILE;
+
+
+load data local inpath '/home/Raj/data/hive_data/test2.json' into table freshers_json_table;
+
+select * from freshers_json_table;
+
+--------------json load example 2 ------------
+
+drop table json_table;
+create table json_table ( name string, id int, skills array<string> ) row format serde 'org.apache.hadoop.hive.serde2.JsonSerDe' stored as textfile;
+
+load data local inpath 'file:////home/Raj/data/hive_data/course.json' into table json_table;
+
+
+select skills[0] from json_table;

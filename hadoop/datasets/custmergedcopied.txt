@@ -1,0 +1,22 @@
+custno,firstname,lastname,age,profession
+4009990,Stacey,Rouse,21,Actor
+4009991,Paul,Mullins,47,Reporter
+4009992,Erin,Blackwell,33,Electrician
+4009993,Becky,Wolfe,67,Musician
+4009994,Clyde,Welch,40,Photographer
+4009995,Rebecca,Dennis,37,Teacher
+4009996,Tonya,McIntosh,56,Engineering technician
+4009997,Ron,Grimes,36,Computer hardware engineer
+4009998,Tracey,Bullock,60,Computer hardware engineer
+4009999,Ray,Hewitt,64,Carpenter4000001,Kristina,Chung,55,Pilot
+4000002,Paige,Chen,74,Teacher
+4000003,Sherri,Melton,34,Firefighter
+4000004,Gretchen,Hill,66,Computer hardware engineer
+4000005,Karen,Puckett,74,Lawyer
+4000006,Patrick,Song,42,Veterinarian
+4000007,Elsie,Hamilton,43,Pilot
+4000008,Hazel,Bender,63,Carpenter
+4000009,Malcolm,Wagner,39,Artist
+4000010,Dolores,McLaughlin,60,Writer
+ 19  26 760 custmerged.txt
+End of file
