@@ -25,6 +25,20 @@ clustered by(location) into 4 buckets
 row format delimited fields terminated by',' lines terminated by'\n'
 stored as textfile;
 
+
+dept = hr 
+    - bucket 1 
+    - bucket 2 
+    - 3
+    - 4
+
+
+dept = fin 
+    - bucket 1 
+    - bucket 2 
+    - 3
+    - 4
+
 set hive.exec.dynamic.partition.mode=nonstrict;
 --default = 100 dynamic partitions / per datanode
 
@@ -148,6 +162,7 @@ SET hive.auto.convert.join=true;
 Bucket Map Join
 ---------------
 
+drop table automobile_sales_raw;
 create table automobile_sales_raw ( ORDERNUMBER int, QUANTITYORDERED int, PRICEEACH float, ORDERLINENUMBER int, SALES float, STATUS string, QTR_ID int, MONTH_ID int, YEAR_ID int, PRODUCTLINE string, MSRP int, PRODUCTCODE string, PHONE string, CITY string, STATE string, POSTALCODE string, COUNTRY string, TERRITORY string, CONTACTLASTNAME string, CONTACTFIRSTNAME string, DEALSIZE string ) 
 row format delimited fields terminated by ',' 
 ;
@@ -199,16 +214,28 @@ on a.PRODUCTCODE = b.PRODUCTCODE;
 loading with serde:
 --------------------
 
+drop table automobile_sales_raw_serde;
 create table automobile_sales_raw_serde ( ORDERNUMBER int, QUANTITYORDERED int, PRICEEACH float, ORDERLINENUMBER int, SALES float, STATUS string, QTR_ID int, MONTH_ID int, YEAR_ID int, PRODUCTLINE string, MSRP int, PRODUCTCODE string, PHONE string, CITY string, STATE string, POSTALCODE string, COUNTRY string, TERRITORY string, CONTACTLASTNAME string, CONTACTFIRSTNAME string, DEALSIZE string ) 
 row format serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
-stored as textfile
+stored as orc 
 ;
 
 load data local inpath '/home/Raj/data/hive_data/sales_ecom.txt' into table automobile_sales_raw_serde;
 
+
+complier 
+
+save he program ->  byte code after complining [program_name.jar]
+ser , deser
 
 
 how to kill a job:
 -------------------
 
 yarn application -kill application_1696045670780_0001
+
+
+set hive.cbo.enable=true;
+set hive.compute.query.using.stats=true;
+set hive.stats.fetch.column.stats=true;
+set hive.stats.fetch.partition.stats=true;
