@@ -35,3 +35,19 @@ Instructions for Creating Hadoop cluster:
 Follow the video to setup google cloud cli:
 -----------------------------------------------
 https://www.youtube.com/watch?v=7mE-9E4D4Os
+
+
+
+Handelling Source code from Git to Hadoop Cluser:
+--------------------------------------------------
+
+Since many people are facing issues with respect to spacing in project execution. We can avoid copy pasting going forward. 
+
+
+1) login into dataproc cluster.
+2) do cd ~
+3) sudo apt install git-all   [run the command] -> once done -> verify using -> git --version command.
+4) create some directory of your choice and run "git clone https://github.com/Guvi-MentorDE/BE_batch_Guvi_Aug6.git"
+
+lets not copy past or move to google cloud bucket going forward unless its necessary. 
+
