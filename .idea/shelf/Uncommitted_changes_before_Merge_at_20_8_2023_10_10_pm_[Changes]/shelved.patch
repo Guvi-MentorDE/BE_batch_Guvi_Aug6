@@ -1,0 +1,36 @@
+Index: Assignements/Zen_id_Vissenthil/Palindrome.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assignements/Zen_id_Vissenthil/Palindrome.py b/Assignements/Zen_id_Vissenthil/Palindrome.py
+new file mode 100644
+--- /dev/null	(date 1692540615593)
++++ b/Assignements/Zen_id_Vissenthil/Palindrome.py	(date 1692540615593)
+@@ -0,0 +1,26 @@
++
++class Palindrome:
++    def __init__(self,str1):
++        self.str1 = str1
++
++
++    def Find_Palindrome(self):
++        ''' This function will check the given string
++            are palindrome or not '''
++        ln = len(self.str1) - 1
++
++        reversed_str = ''
++
++        while ln >= 0:
++            reversed_str  = reversed_str + self.str1[ln]
++            ln = ln - 1
++
++        if  self.str1 ==  reversed_str :
++            print('Input string is palidrome')
++        else:
++            print('Input string is not palidrome')
++
++if __name__ == '__main__':
++    str = input('Enter a word to check it is palindrome or not :')
++    obj = Palindrome(str)
++    obj.Find_Palindrome()
