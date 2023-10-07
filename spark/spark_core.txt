@@ -1,0 +1,28 @@
+
+# Create SparkSession from builder
+#Spark session is a unified entry point of a spark application from Spark 2.0
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.master("local[1]").appName('Application').getOrCreate()
+print(spark.sparkContext)
+print("Spark App Name : "+ spark.sparkContext.appName)
+
+
+#RDD:
+
+rdd = spark.sparkContext.range(1, 50)
+
+print(rdd.collect())
+
+print(rdd.partitions.size)
+
+print(rdd.getNumPartitions())
+
+
+#There are two ways to create RDDs:
+#------------------------------------
+import random
+randomlist = random.sample(range(0, 40), 10)
+print(randomlist)
+
+rdd1 = spark.sparkContext.parallelize(randomlist, 4)
+rdd1.collect()
