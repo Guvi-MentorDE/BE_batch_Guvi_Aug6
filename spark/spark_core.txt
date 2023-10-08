@@ -5,7 +5,7 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder.master("local[1]").appName('Application').getOrCreate()
 print(spark.sparkContext)
 print("Spark App Name : "+ spark.sparkContext.appName)
-
+sc=spark.sparkContext
 
 #RDD:
 
@@ -26,3 +26,177 @@ print(randomlist)
 
 rdd1 = spark.sparkContext.parallelize(randomlist, 4)
 rdd1.collect()
+
+#collect - > p1, p2, p3, p4 -> combine evryting into 1 partition -> diplay as an array.
+
+
+
+print(rdd1.getNumPartitions()) # results the no of partitions 
+print(rdd1.glom().collect())   #collect all the partitions resuls and diplay
+print("Two partitions: ", rdd1.glom().take(2))  # results in diplaying partition level data or data within each partition. 
+
+#print only last partition:
+for item in rdd1.glom().collect()[3]:
+  print(item)
+
+for item in rdd1.glom().collect()[2]:
+  print(item)
+
+rdd1.count()
+
+rdd1.first()
+
+rdd1.top(2)
+
+rdd1.distinct().collect()
+
+
+# filter(): 
+rdd_filter = rdd1.filter(lambda x : x%3==0)
+rdd_filter.collect()
+
+
+# Descriptive statistics:
+print([rdd1.max(), rdd1.min(), rdd1.mean(), rdd1.sum(), round(rdd1.stdev(),2), rdd1.top(2)])
+
+#map()
+#RDD map() transformation is used to apply any complex operations like adding a column, updating a column, transforming the data e.t.c, 
+#the output of map transformations would always have the same number of records as input.
+
+sc=spark.sparkContext
+sc.parallelize([3,4,5]).map(lambda x: [x,  x*x]).collect() 
+rdd_map = spark.sparkContext.parallelize([3,4,5]).map(lambda x: x*3)
+rdd_map.collect()
+
+
+#flatMap
+#In PySpark, the flatMap() is defined as the transformation operation which flattens the Resilient Distributed Data
+sc=spark.sparkContext
+sc.parallelize([3,4,5]).flatMap(lambda x: [x,  x*x]).collect() 
+
+# mapPartitions():
+#Spark mapPartitions() provides a facility to do heavy initializations once for each partition instead of doing it on every DataFrame row. 
+#This helps the performance of the job when you dealing with heavy-weighted initialization on larger datasets.
+
+def myfunc(partition):
+  sum = 0
+  for item in partition:
+    sum = sum + item
+  yield sum  # "return" causes a function to exit; "yield" is used to define generator and returns an intermediate results.
+
+rdd1 = sc.parallelize(range(0,20),5)
+rdd_mapPartition = rdd1.mapPartitions(myfunc)
+rdd_mapPartition.collect()
+rdd1.glom().collect()
+
+
+# union():
+#If rdd1 has 10 partitions and rdd2 has 20 partitions then rdd1. union(rdd2) will have 30 partitions: the partitions of the two RDDs put after each other. 
+
+print(rdd1.collect())
+rdd2 = sc.parallelize([1, 14, 20, 20, 28, 10, 13, 3],2)
+print(rdd2.collect())
+
+
+rdd_union = rdd1.union(rdd2)
+print(rdd_union.getNumPartitions())
+print(rdd_union.collect())
+
+
+# intersection():
+#intersection() in RDD will return the new RDD that includes the elements present in the first RDD as well as the second RDD. 
+#Simply, it returns only common elements from both the RDD
+
+rdd_intersect = rdd1.intersection(rdd2)
+print(rdd_intersect.getNumPartitions())
+print(rdd_intersect.collect())
+
+rdd_intersect.glom().collect()
+
+# coalesce(numPartitions):
+# coalesce is used to reduce the number of paritions , not the other way around. 
+rdd_intersection.coalesce(1).glom().collect()
+
+# takeSample(withReplacement, num, [seed])
+# This method should only be used if the resulting array is expected to be small, as all the data is loaded into the driver’s memory.
+
+rdd1.takeSample(False, 5)
+
+
+# reduce():
+# A commutative and associative binary operator.
+res=rdd1.reduce(lambda x,y: x+y)
+res.collect()
+
+
+
+# reduceByKey():
+rdd_Rbk = sc.parallelize([(1,4),(7,10),(5,7),(1,12),(7,12),(7,1),(9,1),(7,4)], 2)
+print(rdd_Rbk.collect())
+rdd_Rbk.reduceByKey(lambda x,y: x+y).collect()
+
+
+# tabular visualization
+import pandas as pd
+Counter = pd.DataFrame({'Key': rdd_Rbk.keys().collect(),
+                 'Values': rdd_Rbk.values().collect()})
+Counter
+
+
+# sortByKey():
+rdd_Rbk.reduceByKey(lambda x,y: x+y).sortByKey().collect()
+
+
+# countByKey()
+rdd_Rbk.countByKey()
+rdd_Rbk.countByKey().items()
+sorted(rdd_Rbk.countByKey())
+sorted(rdd_Rbk.countByKey().items())
+
+
+# groupByKey():
+rdd_group = rdd_Rbk.groupByKey()  
+rdd_group.getNumPartitions()
+
+rdd_group.collect() # it executes at driver node, not recommended
+
+for item in rdd_group.collect():
+  print(item[0], [value for value in item[1]])
+  
+  
+# lookup(key):
+rdd_Rbk.lookup(7)
+
+
+from pyspark import StorageLevel
+rdd1.persist(StorageLevel.MEMORY_AND_DISK)
+
+
+#decreasing the no of partitions and incresing the partitions can be done using repartition
+rdd_Rbk2 = rdd_Rbk.repartition(4)
+
+
+
+##############pyspark RDD based file operations ####################
+
+hadoop fs -put /home/Raj/data/file.txt /tmp/
+
+hadoop fs -ls /tmp/file.txt
+
+file_rdd=spark.sparkContext.textFile("hdfs:/tmp/file.txt") 
+
+file_rdd.count()
+
+lines=file_rdd.collect()
+
+#display the contents of the file
+for l in lines:
+    print(l)
+
+#filter operation:
+
+#file validation
+filtered_rdd = file_rdd.map(lambda x: x.split(',')).filter(lambda x: len(x) == 4)
+filtered_rdd.collect()
+
+filtered_rdd.coalesce(1).saveAsTextFile("hdfs:/tmp/file_result.txt")
