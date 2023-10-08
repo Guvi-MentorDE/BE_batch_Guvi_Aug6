@@ -16,7 +16,8 @@ CREATE TABLE freshers_json_table (id string,
 name string, 
 age int, 
 email string ) 
-ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe' STORED AS TEXTFILE;
+ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe' 
+STORED AS TEXTFILE;
 
 
 load data local inpath '/home/Raj/data/hive_data/test2.json' into table freshers_json_table;
