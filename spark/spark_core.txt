@@ -33,7 +33,7 @@ rdd1.collect()
 
 print(rdd1.getNumPartitions()) # results the no of partitions 
 print(rdd1.glom().collect())   #collect all the partitions resuls and diplay
-print("Two partitions: ", rdd1.glom().take(2))  # results in diplaying partition level data or data within each partition. 
+print("Two partitions: ", rdd1.glom().take(2))  
 
 #print only last partition:
 for item in rdd1.glom().collect()[3]:
@@ -54,7 +54,7 @@ rdd1.distinct().collect()
 # filter(): 
 rdd_filter = rdd1.filter(lambda x : x%3==0)
 rdd_filter.collect()
-
+print(rdd_filter.glom().collect())
 
 # Descriptive statistics:
 print([rdd1.max(), rdd1.min(), rdd1.mean(), rdd1.sum(), round(rdd1.stdev(),2), rdd1.top(2)])
@@ -65,7 +65,8 @@ print([rdd1.max(), rdd1.min(), rdd1.mean(), rdd1.sum(), round(rdd1.stdev(),2), r
 
 sc=spark.sparkContext
 sc.parallelize([3,4,5]).map(lambda x: [x,  x*x]).collect() 
-rdd_map = spark.sparkContext.parallelize([3,4,5]).map(lambda x: x*3)
+
+rdd_map = sc.parallelize([3,4,5]).map(lambda x: x*3)
 rdd_map.collect()
 
 
@@ -93,7 +94,7 @@ rdd1.glom().collect()
 # union():
 #If rdd1 has 10 partitions and rdd2 has 20 partitions then rdd1. union(rdd2) will have 30 partitions: the partitions of the two RDDs put after each other. 
 
-print(rdd1.collect())
+print(rdd1.glom().collect())
 rdd2 = sc.parallelize([1, 14, 20, 20, 28, 10, 13, 3],2)
 print(rdd2.collect())
 
@@ -115,7 +116,7 @@ rdd_intersect.glom().collect()
 
 # coalesce(numPartitions):
 # coalesce is used to reduce the number of paritions , not the other way around. 
-rdd_intersection.coalesce(1).glom().collect()
+rdd_intersect.coalesce(1).glom().collect()
 
 # takeSample(withReplacement, num, [seed])
 # This method should only be used if the resulting array is expected to be small, as all the data is loaded into the driver’s memory.
@@ -124,18 +125,21 @@ rdd1.takeSample(False, 5)
 
 
 # reduce():
-# A commutative and associative binary operator.
-res=rdd1.reduce(lambda x,y: x+y)
+# A commutative and associative binary operator.  A+b = B+A
+res=rdd1.reduce(lambda x,y: x+y)    
 res.collect()
 
 
+1: 4 + 12 
+
+7: 10+ 12 + 1 + 4
 
 # reduceByKey():
 rdd_Rbk = sc.parallelize([(1,4),(7,10),(5,7),(1,12),(7,12),(7,1),(9,1),(7,4)], 2)
 print(rdd_Rbk.collect())
 rdd_Rbk.reduceByKey(lambda x,y: x+y).collect()
 
-
+####################################################### to be covered in next class #####################################
 # tabular visualization
 import pandas as pd
 Counter = pd.DataFrame({'Key': rdd_Rbk.keys().collect(),
@@ -162,7 +166,9 @@ rdd_group.collect() # it executes at driver node, not recommended
 
 for item in rdd_group.collect():
   print(item[0], [value for value in item[1]])
-  
+
+####################################################### to be covered in next class #####################################
+
   
 # lookup(key):
 rdd_Rbk.lookup(7)
@@ -183,7 +189,7 @@ hadoop fs -put /home/Raj/data/file.txt /tmp/
 
 hadoop fs -ls /tmp/file.txt
 
-file_rdd=spark.sparkContext.textFile("hdfs:/tmp/file.txt") 
+file_rdd=sc.textFile("hdfs:/tmp/file.txt") 
 
 file_rdd.count()
 
