@@ -31,9 +31,9 @@ rdd1.collect()
 
 
 
-print(rdd1.getNumPartitions())
-print(rdd1.glom().collect())
-print("Two partitions: ", rdd1.glom().take(2))
+print(rdd1.getNumPartitions()) # results the no of partitions 
+print(rdd1.glom().collect())   #collect all the partitions resuls and diplay
+print("Two partitions: ", rdd1.glom().take(2))  # results in diplaying partition level data or data within each partition. 
 
 #print only last partition:
 for item in rdd1.glom().collect()[3]:
