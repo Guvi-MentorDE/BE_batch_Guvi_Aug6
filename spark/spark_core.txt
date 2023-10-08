@@ -27,6 +27,8 @@ print(randomlist)
 rdd1 = spark.sparkContext.parallelize(randomlist, 4)
 rdd1.collect()
 
+#collect - > p1, p2, p3, p4 -> combine evryting into 1 partition -> diplay as an array.
+
 
 
 print(rdd1.getNumPartitions())
