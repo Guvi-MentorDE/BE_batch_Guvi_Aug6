@@ -206,3 +206,35 @@ filtered_rdd = file_rdd.map(lambda x: x.split(',')).filter(lambda x: len(x) == 4
 filtered_rdd.collect()
 
 filtered_rdd.coalesce(1).saveAsTextFile("hdfs:/tmp/file_result.txt")
+
+
+#Broadcast:
+------------
+
+broadcast_dept = spark.sparkContext.broadcast({"HR":"HumanResource", "Fin":"Finance", "Ops":"Operations"})
+
+data = [("Ravi","a","HR","Chennai"),("shyam","r","Fin","Mumbai"),("amar","m","Ops","Mumbai"),("virat","kholi","HR","Mumbai")]
+
+rdd_data = sc.parallelize(data)
+broadcast_dept = sc.broadcast({"HR":"HumanResource", "Fin":"Finance", "Ops":"Operations"})
+
+def dept_abbreviation(code):
+    return broadcast_dept.value[code]
+
+emp_abbr_data = rdd_data.map(lambda x: (x[0],x[1],x[2],dept_abbreviation(x[2]),x[3])).collect()
+print(emp_abbr_data)
+
+
+#accumulator:
+--------------
+
+accum=spark.sparkContext.accumulator(0)
+rdd=spark.sparkContext.parallelize([1,2,3,4,5])
+rdd.foreach(lambda x:accum.add(x))
+print(accum.value)
+
+
+accumCount=spark.sparkContext.accumulator(0)
+rdd2=spark.sparkContext.parallelize([1,2,3,4,5])
+rdd2.foreach(lambda x:accumCount.add(1))
+print(accumCount.value)
