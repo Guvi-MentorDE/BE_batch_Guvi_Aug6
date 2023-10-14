@@ -3,31 +3,3 @@
 #A DataFrame is a Dataset organized into named columns. 
 #It is conceptually equivalent to a table in a relational database or a data frame in R/Python, but with richer optimizations under the hood. 
 #DataFrames can be constructed from a wide array of sources such as: structured data files, tables in Hive, external databases, or existing RDDs.
-
-spark = SparkSession.builder.appName("cust_details").getOrCreate()
-sc = spark.sparkContext
-sc.setLogLevel("Error")
-os.system('hadoop fs -put /home/Raj/data/dedata/custs.txt /tmp/')
-rdd = sc.textFile("/tmp/custs.txt")
-
-schema1 = StructType([ \
-        StructField("cust_id", IntegerType(), True), \
-        StructField("cust_fname", StringType(), True), \
-        StructField("cust_lname", StringType(), True), \
-        StructField("cust_age", StringType(), True), \
-        StructField("cust_profession", StringType(), True), \
-        ])
-
-filedf2 = spark.createDataFrame(schemardd2,schema1)
-
-analyse the failure:
---------------------
-schemardd2 = rdd.map(lambda l: Row(empid=int(l[0].strip()), custfname=l[1], custlname=l[2], custage=l[3], custprofession=l[4]))
-
-rdd = sc.textFile("/tmp/custs.txt").map(lambda x: x.split(',')).filter(lambda x: len(x) == 5)
-
-filedf2.select("*").filter("custprofession='Pilot' and custage > 35").show(10)
-
-res=filedf2.select(col("cust_id")).distinct()
-
-res=filedf2.distinct()

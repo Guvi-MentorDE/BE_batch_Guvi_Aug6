@@ -24,8 +24,12 @@ import random
 randomlist = random.sample(range(0, 40), 10)
 print(randomlist)
 
-rdd1 = spark.sparkContext.parallelize(randomlist, 4)
-rdd1.collect()
+#400 cores 
+#randomlist = list with size 1 million recods, #parttition= 300
+
+rdd1 = spark.sparkContext.parallelize(randomlist)
+rdd1.collect()   -> 
+#vist all the 300 partitions , combine them into single array this action will be done only at driver.
 
 #collect - > p1, p2, p3, p4 -> combine evryting into 1 partition -> diplay as an array.
 
@@ -64,7 +68,10 @@ print([rdd1.max(), rdd1.min(), rdd1.mean(), rdd1.sum(), round(rdd1.stdev(),2), r
 #the output of map transformations would always have the same number of records as input.
 
 sc=spark.sparkContext
-sc.parallelize([3,4,5]).map(lambda x: [x,  x*x]).collect() 
+lst=[3,4,5]
+rdd_map=sc.parallelize(lst,2).map(lambda x: [x,  x*x])
+rdd_map.collect()
+print(rdd_map.glom().collect())
 
 rdd_map = sc.parallelize([3,4,5]).map(lambda x: x*3)
 rdd_map.collect()
@@ -148,7 +155,9 @@ Counter
 
 
 # sortByKey():
-rdd_Rbk.reduceByKey(lambda x,y: x+y).sortByKey().collect()
+rdd_Rbk = sc.parallelize([(1,4),(7,10),(5,7),(1,12),(7,12),(7,1),(9,1),(7,4)], 2)
+rrdx= rdd_Rbk.reduceByKey(lambda x,y: x+y)
+rrdx =rrdx.sortByKey().collect()
 
 
 # countByKey()
@@ -166,6 +175,8 @@ rdd_group.collect() # it executes at driver node, not recommended
 
 for item in rdd_group.collect():
   print(item[0], [value for value in item[1]])
+
+# AggregatebyKey
 
 ####################################################### to be covered in next class #####################################
 
@@ -196,8 +207,13 @@ file_rdd.count()
 lines=file_rdd.collect()
 
 #display the contents of the file
-for l in lines:
+for l in range(0 , len(lines)):
     print(l)
+
+#indexing 
+
+#file_rdd.take(5)
+
 
 #filter operation:
 

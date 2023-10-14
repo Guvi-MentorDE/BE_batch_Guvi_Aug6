@@ -10,14 +10,14 @@ def cust_details():
     spark = SparkSession.builder.appName("cust_details").getOrCreate()
     sc = spark.sparkContext
 
-    sc.setLogLevel("Error")
-    os.system('hadoop fs -put /home/Raj/data/dedata/custs.txt /tmp/')
-    rdd = sc.textFile("/tmp/custs.txt")
+    sc.setLogLevel("Error")  # unc   /ALL/Error/WARN/INFO
+    os.system('hadoop fs -put /home/Raj/data/dedata/custs.txt /tmp/')  #change this to your location 
+    rdd = sc.textFile("/tmp/custs.txt") # default =4 #change this to your location 
 
     lines = rdd.collect()
 
     print("""print all the elements or unto certain limit from the RDD""")
-
+    lines = rdd.collect()
     lines_count = rdd.count()
     print("no of lines from the source :", lines_count)
     count = 0
@@ -43,8 +43,8 @@ def cust_details():
     print("filtered lines count:", filtered_error_count)
 
     print("""read the second file from the soruces """)
-    os.system('hadoop fs -put /home/Raj/data/dedata/custs2.txt /tmp/')
-    rdd2 = sc.textFile("/tmp/custs2.txt")
+    os.system('hadoop fs -put /home/Raj/data/dedata/custs2.txt /tmp/') #change this to your location 
+    rdd2 = sc.textFile("/tmp/custs2.txt") #change this to your location 
 
     filtered_rdd2 = rdd2.map(lambda x: x.split(',')).filter(lambda x: len(x) == 5)
     filtered_rdd2_count = filtered_rdd2.count()
