@@ -1,0 +1,28 @@
+requirement : 
+1) combine all customer details, 
+2) do data clensing  , 
+3) data aggregation , 
+4) seperate errored records & valid records 
+5) save the errored and valid in seperate hdfs path
+
+data lineage 
+
+1. read my custmer in rdd 
+2. check the no of columns available 
+    if equal to 5:
+        valid records 
+    else 
+        errored records.
+3. read all the fles in customer repeat step no 2 for any given files. [assigment, create a loop for all the file read into an rdd]
+4. aggregate : to find unique customer profession , group by profession 
+5. combine all the customer files 
+6. save to hdfs as valid and error folders. 
+
+sample data
+4000001,Kristina,Chung,55,Pilot
+
+4000001,Kristina
+[0],[1]
+
+
+schema : custid , firstname, lastname, age, profession 

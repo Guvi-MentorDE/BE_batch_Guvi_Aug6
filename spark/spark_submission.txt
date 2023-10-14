@@ -1,0 +1,2 @@
+spark-submit --master yarn  <program_name>.py 
+spark-submit --master yarn  customer_data_clensing.py

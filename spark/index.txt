@@ -1,0 +1,20 @@
+spark Core:
+-----------
+Architecure
+patitioning
+pypsark program   [job (task, stages) = tranfromation + actions ]
+    job1= tranformations + actions 
+    job2= tranformations                            + tranformations            +   tranformations +    action 
+          4 partitions                             same 4 partitions                same 4 partitions    
+          (4 taks will be launched in executer)   (4 taks will be launched in executer)
+          Stage 1                   --->            stage 2             ---> stage3 ->         + action 
+    job3= tranformations + actions 
+        = tranformations + tranformations    / this is not even a job. 
+    job5= tranformations + actions 
+
+    job5= job(tranformations + actions )+ action + action .... 
+
+    job.....n= tranformations + actions 
+
+memory mangement
+spark UI. 

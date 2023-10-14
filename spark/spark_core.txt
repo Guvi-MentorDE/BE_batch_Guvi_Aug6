@@ -24,8 +24,12 @@ import random
 randomlist = random.sample(range(0, 40), 10)
 print(randomlist)
 
-rdd1 = spark.sparkContext.parallelize(randomlist, 4)
-rdd1.collect()
+#400 cores 
+#randomlist = list with size 1 million recods, #parttition= 300
+
+rdd1 = spark.sparkContext.parallelize(randomlist)
+rdd1.collect()   -> 
+#vist all the 300 partitions , combine them into single array this action will be done only at driver.
 
 #collect - > p1, p2, p3, p4 -> combine evryting into 1 partition -> diplay as an array.
 
@@ -33,7 +37,7 @@ rdd1.collect()
 
 print(rdd1.getNumPartitions()) # results the no of partitions 
 print(rdd1.glom().collect())   #collect all the partitions resuls and diplay
-print("Two partitions: ", rdd1.glom().take(2))  # results in diplaying partition level data or data within each partition. 
+print("Two partitions: ", rdd1.glom().take(2))  
 
 #print only last partition:
 for item in rdd1.glom().collect()[3]:
@@ -54,7 +58,7 @@ rdd1.distinct().collect()
 # filter(): 
 rdd_filter = rdd1.filter(lambda x : x%3==0)
 rdd_filter.collect()
-
+print(rdd_filter.glom().collect())
 
 # Descriptive statistics:
 print([rdd1.max(), rdd1.min(), rdd1.mean(), rdd1.sum(), round(rdd1.stdev(),2), rdd1.top(2)])
@@ -64,8 +68,12 @@ print([rdd1.max(), rdd1.min(), rdd1.mean(), rdd1.sum(), round(rdd1.stdev(),2), r
 #the output of map transformations would always have the same number of records as input.
 
 sc=spark.sparkContext
-sc.parallelize([3,4,5]).map(lambda x: [x,  x*x]).collect() 
-rdd_map = spark.sparkContext.parallelize([3,4,5]).map(lambda x: x*3)
+lst=[3,4,5]
+rdd_map=sc.parallelize(lst,2).map(lambda x: [x,  x*x])
+rdd_map.collect()
+print(rdd_map.glom().collect())
+
+rdd_map = sc.parallelize([3,4,5]).map(lambda x: x*3)
 rdd_map.collect()
 
 
@@ -93,7 +101,7 @@ rdd1.glom().collect()
 # union():
 #If rdd1 has 10 partitions and rdd2 has 20 partitions then rdd1. union(rdd2) will have 30 partitions: the partitions of the two RDDs put after each other. 
 
-print(rdd1.collect())
+print(rdd1.glom().collect())
 rdd2 = sc.parallelize([1, 14, 20, 20, 28, 10, 13, 3],2)
 print(rdd2.collect())
 
@@ -115,7 +123,7 @@ rdd_intersect.glom().collect()
 
 # coalesce(numPartitions):
 # coalesce is used to reduce the number of paritions , not the other way around. 
-rdd_intersection.coalesce(1).glom().collect()
+rdd_intersect.coalesce(1).glom().collect()
 
 # takeSample(withReplacement, num, [seed])
 # This method should only be used if the resulting array is expected to be small, as all the data is loaded into the driver’s memory.
@@ -124,18 +132,21 @@ rdd1.takeSample(False, 5)
 
 
 # reduce():
-# A commutative and associative binary operator.
-res=rdd1.reduce(lambda x,y: x+y)
+# A commutative and associative binary operator.  A+b = B+A
+res=rdd1.reduce(lambda x,y: x+y)    
 res.collect()
 
 
+1: 4 + 12 
+
+7: 10+ 12 + 1 + 4
 
 # reduceByKey():
 rdd_Rbk = sc.parallelize([(1,4),(7,10),(5,7),(1,12),(7,12),(7,1),(9,1),(7,4)], 2)
 print(rdd_Rbk.collect())
 rdd_Rbk.reduceByKey(lambda x,y: x+y).collect()
 
-
+####################################################### to be covered in next class #####################################
 # tabular visualization
 import pandas as pd
 Counter = pd.DataFrame({'Key': rdd_Rbk.keys().collect(),
@@ -144,7 +155,9 @@ Counter
 
 
 # sortByKey():
-rdd_Rbk.reduceByKey(lambda x,y: x+y).sortByKey().collect()
+rdd_Rbk = sc.parallelize([(1,4),(7,10),(5,7),(1,12),(7,12),(7,1),(9,1),(7,4)], 2)
+rrdx= rdd_Rbk.reduceByKey(lambda x,y: x+y)
+rrdx =rrdx.sortByKey().collect()
 
 
 # countByKey()
@@ -162,7 +175,11 @@ rdd_group.collect() # it executes at driver node, not recommended
 
 for item in rdd_group.collect():
   print(item[0], [value for value in item[1]])
-  
+
+# AggregatebyKey
+
+####################################################### to be covered in next class #####################################
+
   
 # lookup(key):
 rdd_Rbk.lookup(7)
@@ -183,15 +200,20 @@ hadoop fs -put /home/Raj/data/file.txt /tmp/
 
 hadoop fs -ls /tmp/file.txt
 
-file_rdd=spark.sparkContext.textFile("hdfs:/tmp/file.txt") 
+file_rdd=sc.textFile("hdfs:/tmp/file.txt") 
 
 file_rdd.count()
 
 lines=file_rdd.collect()
 
 #display the contents of the file
-for l in lines:
+for l in range(0 , len(lines)):
     print(l)
+
+#indexing 
+
+#file_rdd.take(5)
+
 
 #filter operation:
 
@@ -200,3 +222,35 @@ filtered_rdd = file_rdd.map(lambda x: x.split(',')).filter(lambda x: len(x) == 4
 filtered_rdd.collect()
 
 filtered_rdd.coalesce(1).saveAsTextFile("hdfs:/tmp/file_result.txt")
+
+
+#Broadcast:
+------------
+
+broadcast_dept = spark.sparkContext.broadcast({"HR":"HumanResource", "Fin":"Finance", "Ops":"Operations"})
+
+data = [("Ravi","a","HR","Chennai"),("shyam","r","Fin","Mumbai"),("amar","m","Ops","Mumbai"),("virat","kholi","HR","Mumbai")]
+
+rdd_data = sc.parallelize(data)
+broadcast_dept = sc.broadcast({"HR":"HumanResource", "Fin":"Finance", "Ops":"Operations"})
+
+def dept_abbreviation(code):
+    return broadcast_dept.value[code]
+
+emp_abbr_data = rdd_data.map(lambda x: (x[0],x[1],x[2],dept_abbreviation(x[2]),x[3])).collect()
+print(emp_abbr_data)
+
+
+#accumulator:
+--------------
+
+accum=spark.sparkContext.accumulator(0)
+rdd=spark.sparkContext.parallelize([1,2,3,4,5])
+rdd.foreach(lambda x:accum.add(x))
+print(accum.value)
+
+
+accumCount=spark.sparkContext.accumulator(0)
+rdd2=spark.sparkContext.parallelize([1,2,3,4,5])
+rdd2.foreach(lambda x:accumCount.add(1))
+print(accumCount.value)
