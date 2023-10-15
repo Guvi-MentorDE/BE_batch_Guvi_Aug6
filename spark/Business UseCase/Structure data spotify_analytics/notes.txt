@@ -1,0 +1,12 @@
+spotify data: 
+
+1. read any csv information , use the CSV header as its schema header. 
+2. do some basic data cleaning activty
+3. date pre processing : 
+    3.a)add a source column from when the data was taken ex: spotify 2023 , spotify 2022
+    3.b)perform renaming of dataframe columns example: valence_% to valence
+4. perfrom data processing / analytics.
+    a) find the top artist and his/her songs for each year. 
+    b) find the no of songs composed by any artist. 
+5. save the result 3.a , 3.b as parquet file. 
+6. construct an hive external table on table of parquet file created in step no 4. [your assignment.]
