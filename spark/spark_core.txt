@@ -226,8 +226,9 @@ filtered_rdd.coalesce(1).saveAsTextFile("hdfs:/tmp/file_result.txt")
 
 #Broadcast:
 ------------
-
-broadcast_dept = spark.sparkContext.broadcast({"HR":"HumanResource", "Fin":"Finance", "Ops":"Operations"})
+#Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks
+sc=spark.sparkContext
+broadcast_dept = sc.broadcast({"HR":"HumanResource", "Fin":"Finance", "Ops":"Operations"})
 
 data = [("Ravi","a","HR","Chennai"),("shyam","r","Fin","Mumbai"),("amar","m","Ops","Mumbai"),("virat","kholi","HR","Mumbai")]
 
@@ -243,6 +244,7 @@ print(emp_abbr_data)
 
 #accumulator:
 --------------
+#A shared variable that can be accumulated, i.e., has a commutative and associative “add” operation
 
 accum=spark.sparkContext.accumulator(0)
 rdd=spark.sparkContext.parallelize([1,2,3,4,5])

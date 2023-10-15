@@ -1,0 +1,88 @@
+
+#DataFrame is a distributed collection of data organized into named columns
+#A Dataset is a distributed collection of data
+#A DataFrame is a Dataset organized into named columns. 
+#It is conceptually equivalent to a table in a relational database or a data frame in R/Python, but with richer optimizations under the hood. 
+#DataFrames can be constructed from a wide array of sources such as: structured data files, tables in Hive, external databases, or existing RDDs.
+#Performance increseased *100 times. [due to architectural improvements. ]
+
+spark 1.6     
+spark 2.3/2.4  - spark catalyst 
+spark 3.0 / 3.3  - 
+
+
+how to create a empty dataframe:
+---------------------------------
+emptyRDD = spark.sparkContext.emptyRDD()
+print(emptyRDD)
+
+
+Create Dataframe from an RDD:
+---------------------------------
+dept = [("Finance",10),("Marketing",20),("Sales",30),("IT",40)]
+rdd = spark.sparkContext.parallelize(dept)
+df = rdd.toDF()
+df.printSchema()
+
+[note:very similar to mysql -> desc table;]
+
+
+create schema based Dataframe:
+-------------------------------
+deptSchema = StructType([       
+    StructField('dept_name', StringType(), True),
+    StructField('dept_id', StringType(), False)
+])
+
+
+schema = StructType[ def of stuct (col1), stuct(col2) .... col1 ]
+
+deptDF1 = spark.createDataFrame(rdd, schema = deptSchema)
+deptDF1.printSchema()
+deptDF1.show(10,truncate=False)
+
+how to select columns from a dataframe:
+----------------------------------------
+deptDF1.select("*").show()
+
+
+how to select specific columns from a dataframe:
+------------------------------------------------
+deptDF1.select(col("dept_name")).show()
+
+
+how to use where condition in dataframe:
+------------------------------------------------
+deptDF1.select(col("*")).where(col("dept_id") == 10).show()
+
+
+wayts to create a schema for df:
+---------------------------------
+1) using StructType , define col name , type , nullable=T/F 
+2) just a named list. 
+
+
+
+how to sort/order the data:
+----------------------
+
+data = [("James","Sales","NY",90000,34,10000), \
+    ("Michael","Sales","NY",86000,56,20000), \
+    ("Robert","Sales","CA",81000,30,23000), \
+    ("Maria","Finance","CA",90000,24,23000), \
+    ("Raman","Finance","CA",99000,40,24000), \
+    ("Scott","Finance","NY",83000,36,19000), \
+    ("Jen","Finance","NY",79000,53,15000), \
+    ("Jeff","Marketing","CA",80000,25,18000), \
+    ("Kumar","Marketing","NY",91000,50,21000) \
+  ]
+named_schema= ["employee_name","department","state","salary","age","bonus"]
+df = spark.createDataFrame(data = data, schema = named_schema)
+df.printSchema()
+df.show(truncate=False)
+
+df.sort(col("department"),col("state")).show(truncate=False)
+
+df.orderBy(col("department").asc(),col("state").desc()).show(truncate=False)
+
+

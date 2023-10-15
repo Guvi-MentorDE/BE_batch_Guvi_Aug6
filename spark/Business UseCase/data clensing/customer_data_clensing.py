@@ -12,7 +12,7 @@ def cust_details():
 
     sc.setLogLevel("Error")  # unc   /ALL/Error/WARN/INFO
     os.system('hadoop fs -put /home/Raj/data/dedata/custs.txt /tmp/')  #change this to your location 
-    rdd = sc.textFile("/tmp/custs.txt") # default =4 #change this to your location 
+    rdd = sc.textFile("/tmp/custs.txt") # default =4 parttions  #change this to your location 
 
     lines = rdd.collect()
 
