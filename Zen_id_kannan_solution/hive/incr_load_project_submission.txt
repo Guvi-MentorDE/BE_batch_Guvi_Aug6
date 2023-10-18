@@ -1,0 +1,73 @@
+
+Time taken: 9.995 seconds
+hive> select * from emp_master;
+OK
+fransis 1000    2023-09-01
+jack    700     2023-09-01
+pars    900     2023-09-01
+Albert  1900    2023-09-02
+Bhut    800     2023-09-02
+Frank   1150    2023-09-02
+John    1500    2023-09-02
+Lesa    900     2023-09-02
+Lio     500     2023-09-02
+Loopa   1100    2023-09-02
+Lui     1300    2023-09-02
+Mark    1000    2023-09-02
+Pars    800     2023-09-02
+leo     700     2023-09-02
+lock    650     2023-09-02
+Time taken: 0.271 seconds, Fetched: 15 row(s)
+hive>
+
+
+
+
+
+
+
+Time taken: 0.271 seconds, Fetched: 15 row(s)
+hive> describe formatted emp_master;
+OK
+# col_name              data_type               comment
+emp_name                string
+sal                     int
+
+# Partition Information
+# col_name              data_type               comment
+txn_data                date
+
+# Detailed Table Information
+Database:               incr_load
+OwnerType:              USER
+Owner:                  kanna
+CreateTime:             Wed Sep 27 17:51:10 UTC 2023
+LastAccessTime:         UNKNOWN
+Retention:              0
+Location:               hdfs://clus-kan-m/user/hive/warehouse/incr_load.db/emp_master
+Table Type:             EXTERNAL_TABLE
+Table Parameters:
+        COLUMN_STATS_ACCURATE   {\"BASIC_STATS\":\"true\"}
+        EXTERNAL                TRUE
+        bucketing_version       2
+        numFiles                2
+        numPartitions           2
+        numRows                 15
+        rawDataSize             131
+        totalSize               146
+        transient_lastDdlTime   1695837070
+
+# Storage Information
+SerDe Library:          org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe
+InputFormat:            org.apache.hadoop.mapred.TextInputFormat
+OutputFormat:           org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat
+Compressed:             No
+Num Buckets:            -1
+Bucket Columns:         []
+Sort Columns:           []
+Storage Desc Params:
+        field.delim             ,
+        line.delim              \n
+        serialization.format    ,
+Time taken: 0.197 seconds, Fetched: 40 row(s)
+hive>

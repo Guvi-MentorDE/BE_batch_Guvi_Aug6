@@ -1,0 +1,791 @@
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| article_id    | int     |
+| author_id     | int     |
+| viewer_id     | int     |
+| view_date     | date    |
++---------------+---------+
+There is no primary key for this table, it may have duplicate rows.
+Each row of this table indicates that some viewer viewed an article (written by some author) on some date. 
+Note that equal author_id and viewer_id indicate the same person.
+ 
+
+1). Write an SQL query to find all the authors that viewed at least one of their own articles, sorted in ascending order by their id.
+
+The query result format is in the following example:
+
+Views table:
++------------+-----------+-----------+------------+
+| article_id | author_id | viewer_id | view_date  |
++------------+-----------+-----------+------------+
+| 1          | 3         | 5         | 2019-08-01 |
+| 1          | 3         | 6         | 2019-08-02 |
+| 2          | 7         | 7         | 2019-08-01 |
+| 2          | 7         | 6         | 2019-08-02 |
+| 4          | 7         | 1         | 2019-07-22 |
+| 3          | 4         | 4         | 2019-07-21 |
+| 3          | 4         | 4         | 2019-07-21 |
++------------+-----------+-----------+------------+
+
+Result table:
++------+
+| id   |
++------+
+| 4    |
+| 7    |
++------+
+
+solution:
+   insert into article values(1,3,5,'2019-08-01'),
+                             (1,3,6,'2019-08-02'),
+                             (2,7,7,'2019-08-01'),
+                             (2,7,6,'2019-08-01'),
+                             (4,7,1,'2019-08-22'),
+                             (3,4,4,'2019-08-01'),
+                             (3,4,4,'2019-08-21');
+
+
+select a.id
+from ( select distinct author_id id
+       from article
+       where author_id = viewer_id ) a
+order by a.id asc;
+
+-----------------------------------------------------------------------------------------------------------------
+Qestion 2.
+Table: Employee
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| employee_id   | int     |
+| team_id       | int     |
++---------------+---------+
+employee_id is the primary key for this table.
+Each row of this table contains the ID of each employee and their respective team.
+Write an SQL query to find the team size of each of the employees.
+
+Return result table in any order.
+
+The query result format is in the following example:
+
+Employee Table:
++-------------+------------+
+| employee_id | team_id    |
++-------------+------------+
+|     1       |     8      |
+|     2       |     8      |
+|     3       |     8      |
+|     4       |     7      |
+|     5       |     9      |
+|     6       |     9      |
++-------------+------------+
+Result table:
++-------------+------------+
+| employee_id | team_size  |
++-------------+------------+
+|     1       |     3      |
+|     2       |     3      |
+|     3       |     3      |
+|     4       |     1      |
+|     5       |     2      |
+|     6       |     2      |
++-------------+------------+
+Employees with Id 1,2,3 are part of a team with team_id = 8.
+Employees with Id 4 is part of a team with team_id = 7.
+Employees with Id 5,6 are part of a team with team_id = 9.
+
+Solution:
+  Insert into emp values(1,8),
+                        (2,8),
+(3,8),
+(4,7),
+(5,9),
+(6,9)
+
+SELECT 
+    e.employee_id,
+    COUNT(*) AS team_size
+FROM Emp e
+JOIN Emp t
+    ON e.team_id = t.team_id
+GROUP BY e.employee_id;
+
+-----------------------------------------------------------------------------------------------------------------
+
+Qestion 3.
+Write an SQL query to report the distinct titles of the kid-friendly movies streamed in June 2020.
+
+Return the result table in any order.
+
+The query result format is in the following example.
+
+ 
+
+TVProgram table:
++--------------------+--------------+-------------+
+| program_date       | content_id   | channel     |
++--------------------+--------------+-------------+
+| 2020-06-10 08:00   | 1            | LC-Channel  |
+| 2020-05-11 12:00   | 2            | LC-Channel  |
+| 2020-05-12 12:00   | 3            | LC-Channel  |
+| 2020-05-13 14:00   | 4            | Disney Ch   |
+| 2020-06-18 14:00   | 4            | Disney Ch   |
+| 2020-07-15 16:00   | 5            | Disney Ch   |
++--------------------+--------------+-------------+
+
+Content table:
++------------+----------------+---------------+---------------+
+| content_id | title          | Kids_content  | content_type  |
++------------+----------------+---------------+---------------+
+| 1          | ScienceFiction Movie | N             | Movies        |
+| 2          | Alg. for Kids  | Y             | Series        |
+| 3          | Database Sols  | N             | Series        |
+| 4          | Aladdin        | Y             | Movies        |
+| 5          | Cinderella     | Y             | Movies        |
++------------+----------------+---------------+---------------+
+
+
+
+Result table:
++--------------+
+| title        |
++--------------+
+| Aladdin      |
++--------------+
+"ScienceFiction Movie" is not a content for kids.
+"Alg. for Kids" is not a movie.
+"Database Sols" is not a movie
+"Alladin" is a movie, content for kids and was streamed in June 2020.
+"Cinderella" was not streamed in June 2020.
+
+create table if not exists TVProgram (program_date datetime,
+  content_id  int not null,
+  channel     varchar(100));
+
+
+INSERT INTO TVProgram values ('2020-05-12 12:00',2,'LC-Channel'),
+                              ('2020-05-14 12:00',3,'LC-Channel'),
+                              ('2020-05-13 14:00',4,'Disney Ch'),
+                              ('2020-06-18 14:00',4,'Disney Ch'),
+                              ('2020-05-15 14:00',5,'Disney Ch'),
+                           
+                           
+                              
+create table content (content_id int,
+                     title varchar(100),
+                     Kids_content varchar(2),
+                     content_type varchar(30));
+
+
+INSERT INTO content values
+(1 ,'ScienceFiction Movie','N','Movies'),
+(2 ,'Alg. for Kids','Y','Series'),
+( 3,'Database Sols','N','Series'),
+( 4,'Aladdin','Y','Movies'),
+( 5, 'Cinderella','Y','Movies');
+
+
+SELECT a.title
+from TVProgram t join content a
+on a.content_id = t.content_id
+and a.Kids_content = 'Y'
+and a.content_type = 'Movies'
+and YEAR(t.program_date) ='2020'
+and Month(t.program_date) ='06';
+
+----------------------------------------------------------------------------------------------------------------
+Qestion 4.
+
+Table: Activity
+
++--------------+---------+
+| Column Name  | Type    |
++--------------+---------+
+| player_id    | int     |
+| device_id    | int     |
+| event_date   | date    |
+| games_played | int     |
++--------------+---------+
+(player_id, event_date) is the primary key of this table.
+This table shows the activity of players of some game.
+Each row is a record of a player who logged in and played a number of games (possibly 0) before logging out on some day using some device.
+ 
+create Table Activity
+(player_id    int,
+ device_id   int,
+ event_date   date,
+ games_played  int
+)
+
+INSERT INTO Activity values
+ (1,2,'2016-03-01',5),
+ (1,2,'2016-05-02',6),
+ (2,3,'2017-06-25',1),
+ (3,1,'2016-03-02',0),
+ (3, 4 ,'2018-07-03',5);   
+
+Write a SQL query that reports the device that is first logged in for each player.
+
+The query result format is in the following example:
+
+Activity table:
++-----------+-----------+------------+--------------+
+| player_id | device_id | event_date | games_played |
++-----------+-----------+------------+--------------+
+| 1         | 2         | 2016-03-01 | 5            |
+| 1         | 2         | 2016-05-02 | 6            |
+| 2         | 3         | 2017-06-25 | 1            |
+| 3         | 1         | 2016-03-02 | 0            |
+| 3         | 4         | 2018-07-03 | 5            |
++-----------+-----------+------------+--------------+
+
+Result table:
++-----------+-----------+
+| player_id | device_id |
++-----------+-----------+
+| 1         | 2         |
+| 2         | 3         |
+| 3         | 1         |
++-----------+-----------+
+
+
+WITH FirstLogin AS (
+    SELECT
+        player_id,
+        MIN(event_date) AS first_login_date
+    FROM Activity
+    GROUP BY player_id
+)
+
+SELECT
+    A.player_id,
+    A.device_id
+FROM Activity A
+JOIN FirstLogin F ON A.player_id = F.player_id AND A.event_date = F.first_login_date;
+
+The common table expression (CTE) named "FirstLogin" is used to find the minimum (earliest) login date for each player.
+
+Then, the main query joins the "Activity" table with the "FirstLogin" CTE on both "player_id" and "event_date" to find the device that corresponds to the player's first login date.
+
+This query will return the device that is first logged in for each player.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Table: Products
+
++------------------+---------+
+| Column Name      | Type    |
++------------------+---------+
+| product_id       | int     |
+| product_name     | varchar |
+| product_category | varchar |
++------------------+---------+
+product_id is the primary key for this table.
+This table contains data about the company's products.
+Table: Orders
+
+Create table if not exists products
+(product_id int not null Primary key,
+ product_name  varchar(100),
+ product_category varchar(100));
+
+create table if not exists orders
+  (product_id int,
+   order_date date,
+   unit       int,
+   constraint fk foreign key(product_id) references products (product_id));
+
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| product_id    | int     |
+| order_date    | date    |
+| unit          | int     |
++---------------+---------+
+There is no primary key for this table. It may have duplicate rows.
+product_id is a foreign key to Products table.
+unit is the number of products ordered in order_date.
+ 
+
+Write an SQL query to get the names of products with greater than or equal to 100 units ordered in February 2020 and their amount.
+
+Return result table in any order.
+
+The query result format is in the following example:
+
+ 
+
+Products table:
++-------------+-----------------------+------------------+
+| product_id  | product_name          | product_category |
++-------------+-----------------------+------------------+
+| 1           | Science Solutions    | Book             |
+| 2           | Jewels of Stringology | Book             |
+| 3           | HP                    | Laptop           |
+| 4           | Lenovo                | Laptop           |
+| 5           | Science Kit          | T-shirt          |
++-------------+-----------------------+------------------+
+
+Orders table:
++--------------+--------------+----------+
+| product_id   | order_date   | unit     |
++--------------+--------------+----------+
+| 1            | 2020-02-05   | 60       |
+| 1            | 2020-02-10   | 70       |
+| 2            | 2020-01-18   | 30       |
+| 2            | 2020-02-11   | 80       |
+| 3            | 2020-02-17   | 2        |
+| 3            | 2020-02-24   | 3        |
+| 4            | 2020-03-01   | 20       |
+| 4            | 2020-03-04   | 30       |
+| 4            | 2020-03-04   | 60       |
+| 5            | 2020-02-25   | 50       |
+| 5            | 2020-02-27   | 50       |
+| 5            | 2020-03-01   | 50       |
++--------------+--------------+----------+
+
+Result table:
++--------------------+---------+
+| product_name       | unit    |
++--------------------+---------+
+| Science Solutions | 130     |
+| Science Kit       | 100     |
++--------------------+---------+
+
+Products with product_id = 1 is ordered in February a total of (60 + 70) = 130.
+Products with product_id = 2 is ordered in February a total of 80.
+Products with product_id = 3 is ordered in February a total of (2 + 3) = 5.
+Products with product_id = 4 was not ordered in February 2020.
+Products with product_id = 5 is ordered in February a total of (50 + 50) = 100.
+
+insert into products values
+(1,'Science Solutions','Book'),
+(2,'Jewels of Stringology','Book'),
+(3,'HP','Laptop'),
+(4,'Lenovo','Laptop'),
+(5 ,'Science Kit','T-shirt');     
+
+
+insert into orders values
+(1,'2020-02-05', 60),
+(1,'2020-02-10',70),
+(2,'2020-01-18', 30),
+(2,'2020-02-11',80),      
+(3,'2020-02-17', 2),
+(3,'2020-02-24', 3),
+(4,'2020-03-01', 20),
+(4,'2020-03-04', 30),
+(4,'2020-03-04',60),
+(5,'2020-02-25',50),
+(5,'2020-02-27',50),     
+(5,'2020-03-01', 50);  
+
+
+select product_name,sum(unit) units
+from products p join orders o
+where p.product_id = o.product_id
+and Month(o.order_date) ='02'
+group by product_name
+having sum(unit)>=100;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+6) Table Accounts:
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| id            | int     |
+| name          | varchar |
++---------------+---------+
+the id is the primary key for this table.
+This table contains the account id and the user name of each account.
+
+create table if not exists Accounts(id int not null Primary key,
+                      name varchar(100));
+
+ 
+
+Table Logins:
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| id            | int     |
+| login_date    | date    |
++---------------+---------+
+
+Create table if not exists Logins(
+                             id int not null,
+                             login_date date,
+                             foreign key(id) references Accounts(id));
+
+There is no primary key for this table, it may contain duplicates.
+This table contains the account id of the user who logged in and the login date. A user may log in multiple times in the day.
+ 
+
+Write an SQL query to find the id and the name of active users.
+
+Active users are those who logged in to their accounts for 5 or more consecutive days.
+
+Return the result table ordered by the id.
+
+The query result format is in the following example:
+
+Accounts table:
++----+----------+
+| id | name     |
++----+----------+
+| 1  | Winston  |
+| 7  | Jonathan |
++----+----------+
+
+insert into Accounts values(1,'Winston'), (7,'Jonathan');
+
+Logins table:
++----+------------+
+| id | login_date |
++----+------------+
+| 7  | 2020-05-30 |
+| 1  | 2020-05-30 |
+| 7  | 2020-05-31 |
+| 7  | 2020-06-01 |
+| 7  | 2020-06-02 |
+| 7  | 2020-06-02 |
+| 7  | 2020-06-03 |
+| 1  | 2020-06-07 |
+| 7  | 2020-06-10 |
++----+------------+
+
+insert into Logins values(7,'2020-05-30'),
+(7,'2020-05-30'),
+(1,'2020-05-30'),
+(7,'2020-05-31'),
+(7,'2020-06-01'),
+(7,'2020-06-02'),
+(7,'2020-06-02'),
+(7,'2020-06-03'),
+(1,'2020-06-07'),
+(7,'2020-06-10');
+
+
+
+
+Result table:
++----+----------+
+| id | name     |
++----+----------+
+| 7  | Jonathan |
++----+----------+
+User Winston with id = 1 logged in 2 times only in 2 different days, so, Winston is not an active user.
+User Jonathan with id = 7 logged in 7 times in 6 different days, five of them were consecutive days, so, Jonathan is an active user.
+
+Solution:-
+WITH UserLoginDates AS (
+    SELECT
+        A.id AS user_id,
+        A.name AS user_name,
+        L.login_date,
+        LAG(L.login_date) OVER (PARTITION BY A.id ORDER BY L.login_date) AS prev_login_date
+    FROM Accounts A
+    JOIN Logins L ON A.id = L.id
+)
+
+SELECT DISTINCT u.user_id AS id, u.user_name AS name
+FROM UserLoginDates u
+WHERE 5 <= (
+    SELECT COUNT(*)
+    FROM (
+        SELECT DISTINCT login_date
+        FROM UserLoginDates
+        WHERE user_id = id
+      
+    ) consecutive_dates
+)
+ORDER BY U.id;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+7)
+
+Table Salaries:
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| company_id    | int     |
+| employee_id   | int     |
+| employee_name | varchar |
+| salary        | int     |
++---------------+---------+
+(company_id, employee_id) is the primary key for this table.
+This table contains the company id, the id, the name and the salary for an employee.
+
+Create table if not exists salaries(Company_id int not null,
+                                    employee_id int not null,
+                                    employee_name varchar(100),
+                                    salary        int,
+                                    Primary key(Company_id,employee_id));
+ 
+
+Write an SQL query to find the salaries of the employees after applying taxes.
+
+The tax rate is calculated for each company based on the following criteria:
+
+0% If the max salary of any employee in the company is less than 1000$.
+24% If the max salary of any employee in the company is in the range [1000, 10000] inclusive.
+49% If the max salary of any employee in the company is greater than 10000$.
+Return the result table in any order. Round the salary to the nearest integer.
+
+The query result format is in the following example:
+
+Salaries table:
++------------+-------------+---------------+--------+
+| company_id | employee_id | employee_name | salary |
++------------+-------------+---------------+--------+
+| 1          | 1           | Tony          | 2000   |
+| 1          | 2           | Pronub        | 21300  |
+| 1          | 3           | Tyrrox        | 10800  |
+| 2          | 1           | Pam           | 300    |
+| 2          | 7           | Bassem        | 450    |
+| 2          | 9           | Hermione      | 700    |
+| 3          | 7           | Bocaben       | 100    |
+| 3          | 2           | Ognjen        | 2200   |
+| 3          | 13          | Nyancat       | 3300   |
+| 3          | 15          | Morninngcat   | 1866   |
++------------+-------------+---------------+--------+
+
+Result table:
++------------+-------------+---------------+--------+
+| company_id | employee_id | employee_name | salary |
++------------+-------------+---------------+--------+
+| 1          | 1           | Tony          | 1020   |
+| 1          | 2           | Pronub        | 10863  |
+| 1          | 3           | Tyrrox        | 5508   |
+| 2          | 1           | Pam           | 300    |
+| 2          | 7           | Bassem        | 450    |
+| 2          | 9           | Hermione      | 700    |
+| 3          | 7           | Bocaben       | 76     |
+| 3          | 2           | Ognjen        | 1672   |
+| 3          | 13          | Nyancat       | 2508   |
+| 3          | 15          | Morninngcat   | 5911   |
++------------+-------------+---------------+--------+
+For company 1, Max salary is 21300. Employees in company 1 have taxes = 49%
+For company 2, Max salary is 700. Employees in company 2 have taxes = 0%
+For company 3, Max salary is 7777. Employees in company 3 have taxes = 24%
+The salary after taxes = salary - (taxes percentage / 100) * salary
+For example, Salary for Morninngcat (3, 15) after taxes = 7777 - 7777 * (24 / 100) = 7777 - 1866.48 = 5910.52, which is rounded to 5911.
+
+insert into salaries values(
+ 1,1,'Tony',2000),
+(1,2,'Pronub' ,21300),
+(1,3,'Tyrrox',10800),  
+(2,1,'Pam',00),
+(2,7,'Bassem',450),
+(2,9,'Hermione',700),
+(3,7,'Bocaben',100),
+(3,2,'Ognjen',2200),
+(3,13,'Nyancat',3300),   
+(3,15,'Morninngcat',1866);
+
+Solution:-
+with Companymaxsal as
+ ( 
+   select max(salary) sal, Company_id
+   from salaries
+   group by Company_id)
+
+select s.Company_id,s.employee_id,s.employee_name,
+       case when sal < 1000 then
+           s.salary
+          when sal>=1000 and sal <10000 then
+          round(s.salary - s.salary * 0.24)
+          when sal > 10000 then
+          round(s.salary - s.salary * 0.49)
+       end
+ from salaries s join Companymaxsal c
+ on s.Company_id = c.Company_id;
+
+
+SELECT 
+    s.company_id,
+    s.employee_id,
+    s.employee_name,
+    ROUND(
+        CASE 
+            WHEN m.max_salary < 1000 THEN salary
+            WHEN m.max_salary BETWEEN 1000 AND 10000 THEN salary - (0.24 * salary)
+            ELSE salary - (0.49 * salary)
+        END, 0) AS salary
+FROM Salaries s
+JOIN (
+    SELECT company_id, MAX(salary) AS max_salary
+    FROM Salaries
+    GROUP BY company_id
+) m
+ON s.company_id = m.company_id;
+This query first calculates the maximum salary for each company using a subquery (m). Then, it joins the original Salaries table with the subquery results on the company_id to apply the tax rate based on the maximum salary. The CASE statement is used to determine the tax rate for each employee's salary, and the ROUND function is applied to round the final salary to the nearest integer.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+8)
+Write a SQL query to find all numbers that appear at least three times consecutively.
+
++----+-----+
+| Id | Num |
++----+-----+
+| 1  |  1  |
+| 2  |  1  |
+| 3  |  1  |
+| 4  |  2  |
+| 5  |  1  |
+| 6  |  2  |
+| 7  |  2  |
++----+-----+
+For example, given the above Logs table, 1 is the only number that appears consecutively for at least three times.
+create table if not exists logs(id int ,num int);
+insert into logs values(1,1),
+                       (2,1),
+                       (3,1),
+                       (4,2),
+                       (5,1),
+                       (6,2),
+                       (7,2);
+
++-----------------+
+| ConsecutiveNums |
++-----------------+
+| 1               |
++-----------------+
+
+SELECT DISTINCT l1.Num AS ConsecutiveNums
+FROM Logs l1
+JOIN Logs l2 ON l1.Id = l2.Id + 1
+JOIN Logs l3 ON l1.Id = l3.Id + 2
+WHERE l1.Num = l2.Num AND l2.Num = l3.Num;
+-------------------------------------------------------------------------------------------------------------
+9).
+
+A university uses 2 data tables, student and department, to store data about its students
+and the departments associated with each major.
+
+Write a query to print the respective department name and number of students majoring in each
+department for all departments in the department table (even ones with no current students).
+
+Sort your results by descending number of students; if two or more departments have the same number of students, 
+then sort those departments alphabetically by department name.
+
+The student is described as follow:
+
+| Column Name  | Type      |
+|--------------|-----------|
+| student_id   | Integer   |
+| student_name | String    |
+| gender       | Character |
+| dept_id      | Integer   |
+where student_id is the student's ID number, student_name is the student's name, gender is their gender, and dept_id is the department ID associated with their declared major.
+
+And the department table is described as below:
+
+| Column Name | Type    |
+|-------------|---------|
+| dept_id     | Integer |
+| dept_name   | String  |
+where dept_id is the department's ID number and dept_name is the department name.
+
+Create table if not exists student(  student_id int, 
+student_name varchar(100),ender varchar(10),dept_id  int, foreign key(dept_id) references department(dept_id));
+
+Create table department (dept_id int,
+dept_name varchar(100),
+ primary key (dept_id));
+
+Here is an example input:
+student table:
+
+| student_id | student_name | gender | dept_id |
+|------------|--------------|--------|---------|
+| 1          | Jack         | M      | 1       |
+| 2          | Jane         | F      | 1       |
+| 3          | Mark         | M      | 2       |
+
+insert into student values(1, 'jack','M',1),
+(2, 'jaNE','F',1),
+(3, 'Mark','M',1);
+
+department table:
+
+| dept_id | dept_name   |
+|---------|-------------|
+| 1       | Engineering |
+| 2       | Science     |
+| 3       | Law         |
+
+insert into department values(1,'Engineering'),
+(2, 'science'),
+(3, 'law');
+
+
+The Output should be:
+
+| dept_name   | student_number |
+|-------------|----------------|
+| Engineering | 2              |
+| Science     | 1              |
+| Law         | 0              |
+
+Solution:-
+
+select d.dept_name, count(s.dept_id) as student_number
+from department d LEFT JOIN student s
+ ON d.dept_id = s.dept_id
+group by d.dept_name
+order by count(s.dept_id) DESC;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+10) 
+
+Table: UserActivity
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| username      | varchar |
+| activity      | varchar |
+| startDate     | Date    |
+| endDate       | Date    |
++---------------+---------+
+This table does not contain primary key.
+This table contain information about the activity performed of each user in a period of time.
+A person with username performed a activity from startDate to endDate.
+
+Write an SQL query to show the second most recent activity of each user.
+
+If the user only has one activity, return that one. 
+
+A user can't perform more than one activity at the same time. Return the result table in any order.
+
+The query result format is in the following example:
+
+UserActivity table:
++------------+--------------+-------------+-------------+
+| username   | activity     | startDate   | endDate     |
++------------+--------------+-------------+-------------+
+| Alice      | Travel       | 2020-02-12  | 2020-02-20  |
+| Alice      | Dancing      | 2020-02-21  | 2020-02-23  |
+| Alice      | Travel       | 2020-02-24  | 2020-02-28  |
+| Bob        | Travel       | 2020-02-11  | 2020-02-18  |
++------------+--------------+-------------+-------------+
+
+Result table:
++------------+--------------+-------------+-------------+
+| username   | activity     | startDate   | endDate     |
++------------+--------------+-------------+-------------+
+| Alice      | Dancing      | 2020-02-21  | 2020-02-23  |
+| Bob        | Travel       | 2020-02-11  | 2020-02-18  |
++------------+--------------+-------------+-------------+
+
+The most recent activity of Alice is Travel from 2020-02-24 to 2020-02-28, before that she was dancing from 2020-02-21 to 2020-02-23.
+Bob only has one record, we just take that one.
