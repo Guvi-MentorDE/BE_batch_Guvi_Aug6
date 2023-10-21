@@ -2,13 +2,12 @@ from pyspark import SparkConf
 from pyspark.sql import SparkSession, Row
 from pyspark.sql import Row
 from pyspark.sql.types import *
-from pyspark.sql.functions import col, lit, udf, min, max, concat, column, row_number
+from pyspark.sql.functions import col, lit, udf, min, max, concat, column, row_number, avg, count
 from pyspark.sql.window import WindowSpec, Window
 import os
 import os
 import sys
 
-python -m pip uninstall pyspark
 
 os.environ['PYSPARK_PYTHON'] = sys.executable
 os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable

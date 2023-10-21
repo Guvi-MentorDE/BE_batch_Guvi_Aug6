@@ -73,7 +73,7 @@ def spark_test():
     top_streams_df.show(20,False)
 
     print("dataframe writer")
-    top_streams_df.write.mode('overwrite').par("hdfs:///result/top_streams_df")
+    top_streams_df.write.mode('overwrite').parquet("hdfs:///result/top_streams_df")
     #top_streams_df.write.option("header", True).mode('overwrite') \
     #    .csv("D:\\Guvi\\CSV\\Result\\top_streams_df")
 
