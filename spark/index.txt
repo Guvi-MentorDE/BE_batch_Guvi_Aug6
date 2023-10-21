@@ -18,3 +18,19 @@ pypsark program   [job (task, stages) = tranfromation + actions ]
 
 memory mangement
 spark UI. 
+
+
+Spark DF:
+-----------
+1) DF basics 
+2) DF reader / Writer 
+    - spark.read
+    - spark.write
+3) type of data handelling:
+    - Structured 
+    - semi structured 
+    - unstructured
+
+
+Spark Streaming:
+---------------

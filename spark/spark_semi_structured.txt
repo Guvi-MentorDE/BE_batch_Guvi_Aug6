@@ -1,0 +1,27 @@
+
+df = spark.read.json("gs://dejson/zipcodes.json")
+df.printSchema()
+df.show(10,False)
+
+df2=df.select(col("City"),col("Country"),col("EstimatedPopulation")).where(col("EstimatedPopulation").isNotNull())
+
+df2.write.mode('overwrite').saveAsTable("location.population_by_area")
+
+df3=df.select(col("City"),col("Country")).where(col("EstimatedPopulation").isNotNull())
+
+
+df2.write.mode('append').parquet("/tmp/parquet/country_population.parquet")
+
+df3.write.mode('append').parquet("/tmp/parquet/country_population.parquet")
+
+
+
+parquet_reader=spark.read.option("mergeSchema", True).parquet("/tmp/parquet/country_population.parquet/")
+
+parquet_reader.show()
+
+
+parquet_reader2=spark.read.parquet("/tmp/parquet/country_population.parquet/")
+
+parquet_reader2.count().show()
+
