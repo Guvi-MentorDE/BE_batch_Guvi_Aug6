@@ -51,3 +51,7 @@ Since many people are facing issues with respect to spacing in project execution
 
 lets not copy past or move to google cloud bucket going forward unless its necessary. 
 
+
+**Setup local cloudera onpremise 1 node cluser:**
+Please follow the below video for clarity
+https://www.youtube.com/watch?v=nTzgeTKQg2E&t=419s
