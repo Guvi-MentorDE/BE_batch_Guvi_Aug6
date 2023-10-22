@@ -17,6 +17,10 @@ def spark_test():
 
     df.select("city", "country", "state", "zipcode").show(10, False)
     df2=df.select(col("City"),col("Country"),col("EstimatedPopulation")).where(col("EstimatedPopulation").isNotNull())
+    
+    df2.createOrReplaceTempTable(df2_temp_table)
+    
+    spark.sql(""" select * from df2_temp_table;""")
 
     #overwrite/append
     df2.write.mode('overwrite').saveAsTable("loc.population_by_area")

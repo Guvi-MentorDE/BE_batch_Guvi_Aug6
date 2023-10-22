@@ -19,6 +19,12 @@ pypsark program   [job (task, stages) = tranfromation + actions ]
 memory mangement
 spark UI. 
 
+Spark Core:
+-------------
+1) Tranformations 
+2) Actions 
+3) File handelling using RDD 
+4) Data Clensing 
 
 Spark DF:
 -----------
@@ -26,11 +32,23 @@ Spark DF:
 2) DF reader / Writer 
     - spark.read
     - spark.write
+    - DSL queries 
+    - Spark SQL 
+    - Tranformations 
 3) type of data handelling:
     - Structured 
     - semi structured 
     - unstructured
-
+    - Hive data handelling. 
 
 Spark Streaming:
 ---------------
+
+1) Spark streaming.
+    -socket 
+    -file 
+    -kafka 
+2) Spark Structure streaming.
+    -socket 
+    -file 
+    -kafka 

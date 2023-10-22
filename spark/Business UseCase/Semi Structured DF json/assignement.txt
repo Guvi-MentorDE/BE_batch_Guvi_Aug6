@@ -1,0 +1,32 @@
+1. upload your dataset to GCP  -> copy to your cluster -> unzip the file -> you will get a json
+    a) hadoop fs -put <file path> <hdfs path>
+
+2. create a spark program or use pyspark repl 
+
+3. load the json file into DF , infer the schema , drop malformed records [baisc data preprocessing.
+
+within your df 
+
+4. if any column contains null , drop the records. 
+
+5. finally get the count of authers. 
+
+6. new dataframe = get the uniq authers , his titles, catagories , abstract
+
+7. save above dataframe into a hive table "authers.df_name"
+
+
+"versions":[{""versions":[{"version":"v1","created":"Sat, 31 Mar 2007 07:38:48 GMT"}],"update_date":"2009-06-23","authors_parsed":[["Mhlahlo","Nceba",""],["Buckley","David H.",""],["Dhillon","Vikram S.",""],["Potter","Steven B.",""],["Warner","Brian",""],["Woudt","Patric A.",""]]}":"v1","created":"Sat, 31 Mar 2007 07:38:48 GMT"}],"update_date":"2009-06-23","authors_parsed":[["Mhlahlo","Nceba",""],["Buckley","David H.",""],["Dhillon","Vikram S.",""],["Potter","Steven B.",""],["Warner","Brian",""],["Woudt","Patric A.",""]]}
+
+8. convert above arrays to columns , finally map each element to the author 
+
+
+table / df:
+
+auther 1  : version 
+
+auther 2  : version 
+
+auther 3  : version 
+
+9. save the exploded information into a parquer file. in hdfs. 
