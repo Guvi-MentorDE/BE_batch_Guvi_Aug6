@@ -1,0 +1,26 @@
+from pyspark import SparkConf, SparkContext 
+from pyspark.sql import SparkSession
+from pyspark.sql import SQLContext 
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+
+
+console_data = spark \
+      .readStream \
+      .format("socket") \
+      .option("host", "cluster-796e-m") \
+      .option("port", 9999) \
+      .option("includeTimestamp", True) \
+      .load()
+
+
+
+result=console_data.select((console_data.value).alias("words"), (console_data.timestamp).alias("time"))\
+.groupBy(window("time","1 minutes"),"words")\
+.count().sort(desc("window"))
+
+
+result.writeStream.format("console").outputMode("complete").start().awaitTermination()
+
+#df.show(False)

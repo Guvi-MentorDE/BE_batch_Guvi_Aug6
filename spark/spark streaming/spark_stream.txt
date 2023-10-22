@@ -5,7 +5,7 @@ from pyspark.streaming import StreamingContext
 #creat an object for streaming context including the sparkContext 
 # ,1 indicates the trigger interval for the micro batches 
 
-ssc = StreamingContext(sc, 1)
+ssc = StreamingContext(sc, 5)
 
 # ensure to change the hostname to your cluster Name 
 # how to find hostname : just type hostname in terminal on dataproc. 
@@ -32,3 +32,6 @@ command to opent the socket:nc -lk 9999
 
 sample data: [paste it into the socket termainal]
 hello world any text you want
+
+
+spark-submit --master yarn  /home/Raj/bin/customer_stream.py

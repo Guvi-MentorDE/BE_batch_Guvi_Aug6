@@ -1,2 +1,2 @@
 spark-submit --master yarn  <program_name>.py 
-spark-submit --master yarn  df_json.py
+spark-submit --master yarn  /home/Raj/bin/stream_cust_info.py
