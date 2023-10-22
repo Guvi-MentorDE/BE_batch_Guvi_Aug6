@@ -1,0 +1,18 @@
+4000051,Frederick,Baker,52,Writer
+4000052,Shirley,Merritt,21,Reporter
+4000053,Jason,Cross,56,Civil engineer
+4000054,Judith,Cooper,22,Economist
+4000055,Gretchen,Holmes,39,Childcare worker
+4000056,Don,Sharpe,53,Social worker
+4000057,Glenda,Morgan,37,Real estate agent
+4000058,Scott,Hoyle,40,Doctor
+4000059,Pat,Allen,45,Secretary
+4000060,Michelle,Rich,44,Artist
+4000061,Jessica,Rich,37,Actor
+4000062,Evan,Grant,66,Agricultural and food scientist
+4000063,Melinda,Proctor,27,Teacher
+4000064,Calvin,Diaz,65,Athlete
+4000065,Eugene,Graham,52,Police officer
+4000066,Vickie,Watkins,55,Computer support specialist
+4000067,Luis,Hinton,69,Childcare worker
+4000068,Allan,Marsh,67,Athlete
