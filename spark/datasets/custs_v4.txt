@@ -1,0 +1,15 @@
+4000072,Caroline,O'Brien,44,Computer support specialist
+4000073,Arlene,Case,62,Musician
+4000074,Kyle,Watts,39,Engineering technician
+4000075,Calvin,Christensen,54,Architect
+4000076,Gary,Parks,65,Pharmacist
+4000077,Samantha,Hardin,27,Doctor
+4000078,Sara,Lucas,44,Loan officer
+4000079,Stacy,Eason,31,Musician
+4000080,Gladys,Davidson,52,Recreation and fitness worker
+4000081,Mike,Whitehead,26,Politician
+4000082,Lynne,Rose,36,Loan officer
+4000083,Faye,Sparks,61,Civil engineer
+4000084,Diana,Moore,44,Computer support specialist
+4000085,Leon,Pearson,24,Physicist
+4000086,Ethel,Rodgers,30,Librarian
