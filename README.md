@@ -55,3 +55,19 @@ lets not copy past or move to google cloud bucket going forward unless its neces
 **Setup local cloudera onpremise 1 node cluser:**
 Please follow the below video for clarity
 https://www.youtube.com/watch?v=nTzgeTKQg2E&t=419s
+
+
+
+Semi Strcutred and unstructred project datasets are available in below google drive:
+https://drive.google.com/file/d/1GQQ3NfedinizkKHhER979ixhbhVNXXN_/view?usp=sharing
+copy to your GCS bucket and cluster. 
+
+
+MongoDb installation:
+-----------------------
+https://www.mongodb.com/try/download/community -> choose -> version 5.0.22
+install -> custom mode 
+once done -> copy the path from path from C drive and paste in your "PATH" of System variables.
+create a folder structures as : C -> data -> db 
+start your server : mongod ( in new cmd prompt)
+start your client : mongo (in new cmd promt)
