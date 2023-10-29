@@ -3,16 +3,17 @@ spark-submit --master yarn  /home/Raj/bin/stream_cust_info.py
 
 spark-submit \
  --master yarn \
- --deploy-mode client \
+ --deploy-mode cluster \
  --executor-memory 4G \
  --driver-memory 2G \
  --conf spark.app.name=cust_analytics \
  --conf spark.executor.cores=2 \
  --conf spark.executor.instances=5 \
- --conf spark.default.parallelism=20 \
+ --conf spark.default.parallelism=200 \
  --conf spark.driver.maxResultSize=1G \
  --conf spark.network.timeout=800 \
 /home/Raj/bin/cust_analytics.py
+
 
 
 spark-submit \
@@ -42,12 +43,13 @@ spark-submit \
  --conf spark.network.timeout=800 \
 /home/Raj/bin/authors_json.py
 
+-- dynamicAllocation
 
 spark-submit \
  --master yarn \
- --deploy-mode client \
- --executor-memory 5G \
- --driver-memory 10G \
+ --deploy-mode cluster \
+ --executor-memory 2G \
+ --driver-memory 3G \
  --conf spark.app.name=authors_json_dynamic \
  --conf spark.executor.cores=2 \
  --conf spark.executor.instances=5 \
@@ -59,4 +61,4 @@ spark-submit \
  --conf spark.dynamicAllocation.initialExecutors=1 \
  --conf spark.dynamicAllocation.minExecutors=1 \
  --conf spark.dynamicAllocation.maxExecutors=8 \
-/home/Raj/bin/log_analytics.py
+/home/Raj/bin/authors_json.py

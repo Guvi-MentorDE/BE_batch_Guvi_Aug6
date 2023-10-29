@@ -30,4 +30,4 @@ parquet_reader2.count().show()
 
 parquet_reader=spark.read.option("mergeSchema", True).parquet("/tmp/parquet/country_population.parquet/")
 
-parquet_reader.show()
+parquet_reader.filter(col('City') == "FORT WORTH").show()

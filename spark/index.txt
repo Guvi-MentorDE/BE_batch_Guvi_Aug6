@@ -52,3 +52,12 @@ Spark Streaming:
     -socket 
     -file 
     -kafka 
+
+
+Spark Memory and resouce calculation:
+--------------------------------------
+1) determine no fo executers
+2) diff between tiny vs fat vs banlanced executers. 
+3) spark submission command
+    - static 
+    - dynamic 
