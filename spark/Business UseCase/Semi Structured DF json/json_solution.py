@@ -8,7 +8,7 @@ from pyspark import SparkConf
 from pyspark.sql import SparkSession, Row
 
 def spark_json():
-    spark = SparkSession.builder.appName("spark_test").getOrCreate()
+    spark = SparkSession.builder.appName("authors_json_dynamic").getOrCreate()
     sc = spark.sparkContext
 
     sc.setLogLevel("Error")

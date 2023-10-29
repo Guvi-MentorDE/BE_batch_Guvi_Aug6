@@ -28,14 +28,14 @@ def log_analytics():
     print(rdd.getNumPartitions())
 
     rdd.persist(StorageLevel.MEMORY_AND_DISK)
-    rdd.takeSample(False, 20)
+    #rdd.takeSample(False, 20)
 
     print(collect_words('we are TESTING GHTorrent! ?, OK!'))
 
     # get lines containing "transaction" and "repo"
     print("use case: print all the lines containing transaction , repo keywords")
 
-    rdd_Transactions = rdd.filter(lambda line: "transaction" in collect_words(line))
+    rdd_Transactions = rdd.filter(lambda line: "transaction" in collect_words(line)) 
     rdd_Repo = rdd.filter(lambda line: "repo" in collect_words(line))
 
     rdd_intersect = rdd_Transactions.intersection(rdd_Repo)
