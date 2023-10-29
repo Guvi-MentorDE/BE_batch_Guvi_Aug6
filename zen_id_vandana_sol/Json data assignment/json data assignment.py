@@ -1,3 +1,6 @@
+1.
+
+
 df = spark.read.json("gs://sparkstreaming/arxiv-metadata-oai-snapshot.json")
 >>> df.printSchema()
 root
