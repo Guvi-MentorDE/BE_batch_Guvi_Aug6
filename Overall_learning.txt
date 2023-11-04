@@ -1,0 +1,169 @@
+1. Data landscape. 
+
+2. Data Architecture
+    - Data engineering , Data Analyst , Data Scientist. 
+    
+3. Big Data 
+    - cluster 
+    - creating of cluster / Master Slave 
+
+4. SQL - MYSQL 
+    - DDL 
+    - DML 
+    - DQL 
+
+5. Python 
+    - DSA 
+    - functions, lopoping, framworks
+    - Python + sql 
+    - oops 
+
+6. Linux - linux commands 
+
+7. Handoop / hdfs / infra - cloud 
+
+8. created a cluser for your own : 500 + GB capacity , 1 NN , 2 DN
+
+9. HIVE 
+    - Managed / external tables 
+    - data processing 
+    - partitioning , bucketing 
+    - mini project 
+    - performance tuning 
+
+10. Spark 
+    - framework/ api 
+        - spark core 
+            - RDD 
+        - spark sql
+            - spark.sql eg: spark.sql(" select * from table ......")
+                                                                                        catalyst optimizer 
+            - dataframes  eg: df= spark.read.format("csv").path("")
+                              df2 = df.select(*).filter(col("colum_name") === "value")
+                              df2.show()
+                              df2.printschema()  
+        - spark ML
+        - Spark Streaming 
+            - streaming / structure streaming 
+        - spark graphx
+        - spark-submission 
+    - capacity panning for executers. 
+
+spark sql :
+
+get the unresolved logical plan -> mutiples logical plans ->  catalyst optimier  -> optimized logical plan -> whole stage codegen 
+
+catalyst optimier
+memory optimizatin
+[storae / execution memory]
+
+
+
+11. No SQL [No SQL]
+    - Mongo db 
+    - other No SQL 
+    - What is No SQL 
+    - why No SQL 
+    - Where No SQL 
+    - python Mongo db 
+
+
+12. scheduling 
+
+
+
+no sql:
+
+-- horiontally scallable 
+
+key value store:
+---------------------
+{key: value} {key: value}  {key: value}  {key: value} {key: value} {key: value} {key: value}
+
+wide column store: 
+------------------
+col1 col2 col3 col4 col5 .....
+a    b     c    d    e 
+
+
+col1 col2 col3 col4 col5 col6.....
+a    b     c    d    e   f  
+
+
+Mongo db:
+-----------
+
+amazon , db for amzon 
+
+collections : ecommerse , warhouse , products , payments 
+
+
+1)db:  
+
+    2)collections 
+
+    3)   {
+            virat : ODI {2023: .... , 2023: { aus : . . , eng:...}}
+         }
+
+
+         {
+            rohit 
+         }
+
+semi strcutred .. 
+realtime streaming... [check]   hbase / cassendra / redis
+
+
+
+Vs 
+
+warehouse 
+
+Hive                                                                python , spark  -> hive tables [data models]
+---------
+- structure is defined.
+- schema evolution Parquet / Avro
+- vertically scallable 
+- SCD 
+- OLAP 
+
+insert 1 match score 
+
+insert 2 match score 
+
+
+VS. 
+
+RDBMS:MSQL
+----------
+- strcutred / PK - FK 
+- Schema 
+- insert/update/delete
+- its not forever storage. 
+- OLTP 
+
+
+tar.gz 2010 to 2023
+
+
+1. db 
+
+2. tables 
+
+
+
+
+
+mongo db :
+db:
+
+
+
+
+{ values1    }
+{ values1 values 2 values3   }
+{ values1 values 2 values3 values4 valur 5   }
+
+
+{ values a value b   }
