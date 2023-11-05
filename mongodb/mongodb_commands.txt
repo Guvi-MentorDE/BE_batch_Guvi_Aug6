@@ -1,0 +1,595 @@
+installation:
+-------------
+https://www.mongodb.com/try/download/community
+
+
+start your server:
+------------------
+mongod
+
+
+
+start client:
+--------------
+mongo
+
+
+display databases:
+------------------
+show dbs
+
+use <db name>
+
+
+for example if we do 
+
+use <new db> and then show dbs
+
+this will not list the <new db> , db will be created only when there is a data created. 
+
+use temp;
+
+to create a new json document:
+-----------------------------
+use flights                     <--- db 
+                                <--- collection is "flightData" similar to tables in mysql db. 
+
+what is document ?
+    anything that is enclosed within open and close curly braces {}.  JSON.   
+
+db.flightData.insertOne({
+    "departureAirport": "MUC",
+    "arrivalAirport": "SFO",
+    "aircraft": "Airbus A380",
+    "distance": 12000,
+    "intercontinental": true
+  })
+
+db.flightData.insertOne({
+    "departureAirport": "MUC",
+    "arrivalAirport": "SFO",
+    "aircraft": "Airbus A380",
+    "distance": 12000,
+    "intercontinental": true,
+    "arrival": "LHR",
+    "aircraft_new": "Airbus A320"
+  })
+
+
+db.flightData.insertOne({
+    "departureAirport": "LHR",
+    "arrivalAirport": "TXL",
+    "aircraft": "Airbus A320",
+    "distance": 950,
+    "intercontinental": false
+  })
+
+[
+  {
+    "departureAirport": "MUC",
+    "arrivalAirport": "SFO",
+    "aircraft": "Airbus A380",
+    "distance": 12000,
+    "intercontinental": true
+  },
+  {
+    "departureAirport": "LHR",
+    "arrivalAirport": "TXL",
+    "aircraft": "Airbus A320",
+    "distance": 950,
+    "intercontinental": false
+  }
+]
+
+
+db.flightData.find()
+
+
+db.flightData.find().pretty()
+
+
+
+what is BSON:
+---------------
+
+mongodb behind the scences stores the data into BSON (binary)
+faster
+space efficient 
+
+
+db.flightData.insertOne({
+    "departureAirport": "LHR",
+    "arrivalAirport": "TXL",
+    "aircraft": "Airbus A420"
+  })
+
+
+db.flightData.insertOne({
+    "departureAirport": "LHR",
+    "arrivalAirport": "TXL",
+    "aircraft": "Airbus A520",
+    _id: "test1"
+  })
+
+
+
+db.flightData.insertOne({
+    "departureAirport": "LHR",
+    "arrivalAirport": "TXL",
+    "aircraft": "Airbus A520",
+    _id: "test10"
+  })
+
+
+db.flightData.insertOne({
+    "departureAirport": "LHR",
+    "arrivalAirport": "TXL",
+    "aircraft": "Airbus A720",
+    _id: "test2"
+  })
+
+
+
+
+CURD:
+-----
+[Create , Update , Read , Delete]
+
+Create:
+insertOne(data,options)
+insertMany(data,options)
+
+Read:
+find(filter,options)
+findOne(filter,options)
+
+Update:
+updateOne(filter,data,options)
+updateMany(filter,data,options)
+replaceOne(filter,data,options)
+
+Delete:
+deleteOne(filter,options)
+deleteMany(filter,options)
+
+
+
+Update:
+-------
+db.flightData.updateOne({"distance": 12000},{$set: {status:"update"}})
+
+db.flightData.updateMany({"departureAirport": "LHR"},{$set: {status:"update"}})
+
+db.flightData.update({"departureAirport": "LHR"},{$set: {status:"complete"}})
+
+Delete:
+-------
+db.flightData.deleteOne({"aircraft": "Airbus A520"})
+
+db.flightData.deleteOne({"aircraft": "Airbus A520"})
+
+db.flightData.deleteOne({"aircraft": "Airbus A520"})
+
+
+db.flightData.deleteMany({status:"update"})
+
+
+Insert:
+--------
+db.flightData.insertMany([
+  {
+    "departureAirport": "MUC",
+    "arrivalAirport": "SFO",
+    "aircraft": "Airbus A380",
+    "distance": 12000,
+    "intercontinental": true
+  },
+  {
+    "departureAirport": "LHR",
+    "arrivalAirport": "TXL",
+    "aircraft": "Airbus A320",
+    "distance": 950,
+    "intercontinental": false
+  }
+])
+
+
+
+Find:
+-----
+
+db.flightData.find({"intercontinental": false})
+
+
+db.flightData.find({intercontinental: true}).pretty()
+
+
+Replace:
+--------
+
+db.flightData.replaceOne({"intercontinental": "false"})
+
+
+
+======================
+
+db.passengers.insertMany(
+[
+  {
+    "name": "Max Schwarzmueller",
+    "age": 29
+  },
+  {
+    "name": "Manu Lorenz",
+    "age": 30
+  },
+  {
+    "name": "Chris Hayton",
+    "age": 35
+  },
+  {
+    "name": "Sandeep Kumar",
+    "age": 28
+  },
+  {
+    "name": "Maria Jones",
+    "age": 30
+  },
+  {
+    "name": "Alexandra Maier",
+    "age": 27
+  },
+  {
+    "name": "Dr. Phil Evans",
+    "age": 47
+  },
+  {
+    "name": "Sandra Brugge",
+    "age": 33
+  },
+  {
+    "name": "Elisabeth Mayr",
+    "age": 29
+  },
+  {
+    "name": "Frank Cube",
+    "age": 41
+  },
+  {
+    "name": "Karandeep Alun",
+    "age": 48
+  },
+  {
+    "name": "Michaela Drayer",
+    "age": 39
+  },
+  {
+    "name": "Bernd Hoftstadt",
+    "age": 22
+  },
+  {
+    "name": "Scott Tolib",
+    "age": 44
+  },
+  {
+    "name": "Freddy Melver",
+    "age": 41
+  },
+  {
+    "name": "Alexis Bohed",
+    "age": 35
+  },
+  {
+    "name": "Melanie Palace",
+    "age": 27
+  },
+  {
+    "name": "Armin Glutch",
+    "age": 35
+  },
+  {
+    "name": "Klaus Arber",
+    "age": 53
+  },
+  {
+    "name": "Albert Twostone",
+    "age": 68
+  },
+  {
+    "name": "Gordon Black",
+    "age": 38
+  }
+])
+
+
+db.passengers.find()
+
+
+now type "it"
+
+
+db.passengers.find().toArray()
+
+
+db.passengers.find().forEach((x) => {printjson(x)} )
+
+
+use test
+db.dropDatabase()
+
+select * from table where ;
+
+select col1, col2 from table;
+
+
+Projection:
+------------
+
+db.passengers.find({},{name: 1}).pretty()
+
+db.passengers.find({},{name: 1, _id: 0}).pretty()
+
+
+db.passengers.find({},{age: 1}).pretty()
+
+db.passengers.find({},{age: 1, _id: 0}).pretty()
+
+
+Embedded document:
+------------------
+conditions:
+-- upto 100 level of nesting documents.
+-- less than 16 MB 
+
+
+
+
+
+db.flightData.insertMany([
+  {
+    "departureAirport": "MUC",
+    "arrivalAirport": "SFO",
+    "aircraft": "Airbus A380",
+    "distance": 12000,
+    "intercontinental": true
+  },
+  {
+    "departureAirport": "LHR",
+    "arrivalAirport": "TXL",
+    "aircraft": "Airbus A320",
+    "distance": 950,
+    "intercontinental": false
+  }
+])
+
+
+db.flightData.updateMany({"departureAirport": "LHR"},{$set: {status:{description:"on-time" , lastUpdated:"1 hour ago"}}})
+
+
+db.flightData.find().pretty()
+
+
+db.flightData.updateMany({"departureAirport": "LHR"},{$set: {status:{description:"on-time" , lastUpdated:"1 hour ago", details:{updated_by:"admin"} }}})
+
+db.flightData.find().pretty()
+
+accesing using . notation:
+----------------------------
+
+db.flightData.find({"status.description": "on-time"}).pretty()
+
+
+
+Arrays:
+-------
+-- Arrays of embedded document. 
+
+db.passengers.find().pretty()
+
+
+
+db.passengers.updateOne({"name": "Armin Glutch"},{$set: {luggage:["briefcase", "hand bag" , "laptop backpack"]}})
+
+
+
+db.passengers.findOne({"name": "Armin Glutch"})
+
+
+db.passengers.find({"luggage": "briefcase"})
+
+db.passengers.find({"luggage": "briefcase"}).pretty()
+
+
+
+how to remove or reset your database
+-------------------------------------
+
+use <db name> 
+db.dropDatabase()
+
+db.myCollection.drop()
+
+
+
+
+
+Schema:
+--------
+
+-- schemaless 
+-- scope is completely withing the document. 
+
+
+Structuring documents:
+----------------------
+
+
+db.products.insertOne({name:"computer" , price:"50000"})
+
+db.products.insertOne({name:"mobile" , price:"20000"})
+
+db.products.insertOne({name:"ipad" , price:"120000" , details:{os:"macos", chip:"m1", edition:"2023"}})
+
+db.products.insertOne({name:"earphones" , price:"1200" , details:{company:"sony", edition:"2022"}})
+
+
+db.products.find().pretty()
+
+
+db.products.drop()
+
+
+
+cursors:
+----------
+
+In MongoDB, when the find() method is used to find the documents present in the given collection, then this method returned a pointer which will points to the documents of the collection, now this pointer is known as cursor. 
+Or in other words we can say that a cursor is a pointer, and using this pointer we can access the document. 
+By default, cursor iterate automatically
+
+
+gfg
+db.student.find().pretty()
+
+db.passengers.insertMany(
+[
+  {
+    "name": "Max Schwarzmueller",
+    "age": 29
+  },
+  {
+    "name": "Manu Lorenz",
+    "age": 30
+  },
+  {
+    "name": "Chris Hayton",
+    "age": 35
+  },
+  {
+    "name": "Sandeep Kumar",
+    "age": 28
+  },
+  {
+    "name": "Maria Jones",
+    "age": 30
+  },
+  {
+    "name": "Alexandra Maier",
+    "age": 27
+  },
+  {
+    "name": "Dr. Phil Evans",
+    "age": 47
+  },
+  {
+    "name": "Sandra Brugge",
+    "age": 33
+  },
+  {
+    "name": "Elisabeth Mayr",
+    "age": 29
+  },
+  {
+    "name": "Frank Cube",
+    "age": 41
+  },
+  {
+    "name": "Karandeep Alun",
+    "age": 48
+  },
+  {
+    "name": "Michaela Drayer",
+    "age": 39
+  },
+  {
+    "name": "Bernd Hoftstadt",
+    "age": 22
+  },
+  {
+    "name": "Scott Tolib",
+    "age": 44
+  },
+  {
+    "name": "Freddy Melver",
+    "age": 41
+  },
+  {
+    "name": "Alexis Bohed",
+    "age": 35
+  },
+  {
+    "name": "Alexis Bohed",
+    "age": 36
+  },
+  {
+    "name": "Alexis Bohed",
+    "age": 37
+  },
+  {
+    "name": "Melanie Palace",
+    "age": 27
+  },
+  {
+    "name": "Armin Glutch",
+    "age": 35
+  },
+  {
+    "name": "Klaus Arber",
+    "age": 53
+  },
+  {
+    "name": "Albert Twostone",
+    "age": 68
+  },
+  {
+    "name": "Gordon Black",
+    "age": 38
+  }
+])
+
+example1:
+
+var mycursor = db.passengers.find({name:"Alexis Bohed"}).pretty()
+mycursor
+
+
+db.passengers.drop()
+
+
+
+example2:
+var mycursor = db.passengers.find({age:{$gt:35}});
+while(mycursor.hasNext()){ print(tojson(mycursor.next()));}
+
+
+
+example3:
+
+var mycursor = db.passengers.find().pretty()
+var docs = mycursor.toArray()
+var resultdoc = docs[0]
+resultdoc
+
+var resultdoc1 = docs[1]
+resultdoc1
+
+
+mycursor.next()
+
+
+
+find the count of cursor:
+------------------------
+
+db.passengers.find().count()
+
+
+db.passengers.find().limit(4)
+
+
+
+
+python mongo db:
+------------------
+
+python -m pip install pymongo
