@@ -74,4 +74,4 @@ start your client : mongo (in new cmd promt)
 
 
 Google drive from class notes (temp)
-https://drive.google.com/drive/u/2/my-drive
+https://drive.google.com/drive/folders/1JG_s3QtjRby4kAmQqepzwVUAEBz6mRJR?usp=sharing
