@@ -36,8 +36,11 @@ rec = mydb.flights_new.insert_many(record)
 
 print("retriving the records")
 
-#for i in mydb.flights_new.find({"intercontinental": 'false'}):
-#    print(i) 
+for i in mydb.flights_new.find({"intercontinental": 'false'}):
+    print(i) 
+    
+for i in mydb.flights_new.find():
+    print(i) 
 
 print("retrive using cursor")
 collection = mydb.flights_new 
