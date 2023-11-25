@@ -11,4 +11,4 @@ def myFun2(*argv):
     for arg in argv:
         print(arg)
         
-myFun2('Hi', 'we', 'are', 'learning Airflow')
+myFun2('Hi', 'we', 'are', 'learning Airflow', 'we', 'are', 'learning Airflow')
