@@ -71,3 +71,7 @@ once done -> copy the path from path from C drive and paste in your "PATH" of Sy
 create a folder structures as : C -> data -> db 
 start your server : mongod ( in new cmd prompt)
 start your client : mongo (in new cmd promt)
+
+
+Google drive from class notes (temp)
+https://drive.google.com/drive/folders/1JG_s3QtjRby4kAmQqepzwVUAEBz6mRJR?usp=sharing
