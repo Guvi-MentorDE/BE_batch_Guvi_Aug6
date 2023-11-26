@@ -30,9 +30,9 @@ t2 = PythonOperator(
 )
 
 t3 = PythonOperator(
-    task_id='python_hello from task3 ',
+    task_id='t3',
     python_callable=hello_world_py,
     dag=dag,
 )
 
-t1 >> t2 >> t3 # Specifies that t2 should follow t1
+t1 >> t2 >> t3 # Specifies that t2,t3 should follow t1
