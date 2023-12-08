@@ -31,7 +31,7 @@ dag = DAG(
 )
 
 # Define cluster config
-CLUSTER_NAME = 'cluster-3e36'
+CLUSTER_NAME = 'cluster-1c68'
 PROJECT_ID = 'bionic-will-406116'
 REGION = 'us-central1'
 #REGION = 'us-central1-c'
@@ -46,8 +46,9 @@ pyspark_job = {
 gcs_object_with_prefix_exists = GCSObjectsWithPrefixExistenceSensor(
         bucket=BUCKET_1,
         prefix=FILE_PREFIX,
-        mode='poke',
+        mode='reschedule',
         task_id="gcs_object_with_prefix_exists_task",
+        timeout=60
     )
 
 submit_pyspark_job = DataprocSubmitPySparkJobOperator(

@@ -16,7 +16,7 @@ dag = DAG(
     'parallel_job_dag',
     default_args=default_args,
     description='My First Dag',
-    schedule_interval="*/2 * * * *", # This job to get executed every 2 minutes
+    schedule_interval=None, # This job to get executed every 2 minutes
     start_date=datetime(2023, 11, 24),
     catchup=False,
     tags=['dev'],
