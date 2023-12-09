@@ -26,3 +26,10 @@ python -m pip install boto3
 
 
 python pip install requests -t lambda
+
+
+
+
+aws - acccesskey - services 
+
+gcp cli -> gcloud auth login ->services

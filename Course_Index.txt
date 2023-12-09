@@ -1,0 +1,71 @@
+
+
+1. Data Architecture
+    - Data engineering , Data Analyst , Data Scientist. 
+    
+2. Big Data 
+    - cluster 
+    - creating of cluster / Master Slave
+    - Dataproc / EMR  
+
+3. SQL - MYSQL 
+    - DDL 
+    - DML 
+    - DQL 
+    - OLTP / OLAP 
+
+4. Python 
+    - DSA - list , strings, dict, sets 
+    - functions, lopoping, framworks
+    - Python + sql 
+    - oops 
+
+5. Linux - basic linux commands 
+
+6. Handoop / hdfs commands , hdfs environments 
+
+7. HIVE 
+    - Managed / external tables 
+    - data processing 
+    - partitioning , bucketing 
+    - mini project 
+    - performance tuning 
+    - file formats , compression. 
+    - HQL files 
+    - submit HQL jobs 
+
+8. Spark 
+    - framework/ api 
+        - spark core 
+            - RDD 
+        - spark sql
+            - dataframes  eg: df= spark.read.format("csv").path("")
+                              df2 = df.select(*).filter(col("colum_name") === "value")
+                              df2.show()
+                              df2.printschema()  
+        
+        - handelling difference file sources.
+            - structured / semi structured / un structured
+        - Spark Streaming 
+            - socket streaming 
+            - File streaming 
+        - spark Structured streaming 
+            - File streaming 
+        - spark-submission 
+            - resource planning / capacity planning 
+        - spark performance tuning concepts. 
+
+9. NoSQL 
+    - Mongodb 
+    - CURD opertations in Mongodb
+    - python + mongodb 
+
+10. Airflow / composer 
+    - create airflow cluster 
+    - run DAG's 
+    - run spark workflow 
+    - go through the ppt material. 
+
+11. AWS 
+
+
