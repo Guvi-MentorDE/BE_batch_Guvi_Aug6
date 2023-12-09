@@ -75,3 +75,9 @@ start your client : mongo (in new cmd promt)
 
 Google drive from class notes (temp)
 https://drive.google.com/drive/folders/1JG_s3QtjRby4kAmQqepzwVUAEBz6mRJR?usp=sharing
+
+
+AWS:
+1) create free trial account.
+2) follow the below reference to setup aws cli in windows
+https://www.youtube.com/watch?v=u0JyzUGzvJA
