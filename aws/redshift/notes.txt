@@ -1,0 +1,44 @@
+SELECT * FROM information_schema.tables
+WHERE table_schema = 'public';
+
+CREATE TABLE customer (
+  user_id INT PRIMARY KEY,
+  user_first_name VARCHAR(30),
+  user_last_name VARCHAR(30),
+  user_age INTEGER,
+  PROFESSION VARCHAR(200)
+);  
+
+INSERT INTO customer
+(user_id , user_first_name, user_last_name, user_age, PROFESSION)
+values(101,'john','doe',25,'engineer');
+
+UPDATE customer
+	SET user_age = 35
+WHERE user_id = 101
+ 
+
+COPY retail_db.public.orders FROM 's3://dbnew/retial_db/orders/part-00000' IAM_ROLE 'arn:aws:iam::908516814436:role/service-role/AmazonRedshift-CommandsAccessRole-20231215T223019' FORMAT AS CSV DELIMITER ',' QUOTE '"' IGNOREHEADER 1 REGION AS 'us-east-1'
+
+
+select * from sys_load_error_detail;    
+
+create datawarehouse;
+
+create schema bronze;
+
+create schema silver;
+
+
+COPY test.public.customer_raw_table FROM 's3://redshiftdatadec/bronze/cust_raw_data.txt' IAM_ROLE 'arn:aws:iam::908516814436:role/service-role/AmazonRedshift-CommandsAccessRole-20231215T223019' FORMAT AS CSV DELIMITER ',' QUOTE '"' IGNOREHEADER 1 REGION AS 'us-east-1';
+
+
+create table test.silver.customer AS
+select user_id as user , 
+upper(user_first_name) as first_name,
+upper(user_last_name) as last_name,
+user_age as age,
+case when profession is null then 'unemployed' 
+when profession like '%computer%' then 'Computer Science Engineer' 
+else profession end as profession
+from test.public.customer_raw_table;

@@ -1,0 +1,75 @@
+python -m pip install -U matplotlib
+
+Matplotlib:
+-----------
+Matplotlib is a Python library for 2D plotting. 
+It can be used to create a variety of plots, including line plots, scatter plots, histograms, bar charts, and error charts. 
+Matplotlib is a powerful tool that can be used to visualize data and communicate findings.
+
+
+python -m pip install -U seaborn
+
+Seaborn:
+========
+Seaborn is a Python library for creating statistical graphics. 
+It's built on top of matplotlib and integrates with pandas data structures
+Seaborn provides a high-level interface for creating informative statistical graphics with minimal code.
+
+Types:
+------
+Relational plots: This plot is used to understand the relation between two variables.
+Categorical plots: This plot deals with categorical variables and how they can be visualized.
+Distribution plots: This plot is used for examining univariate and bivariate distributions
+Regression plots: The regression plots in Seaborn are primarily intended to add a visual guide that helps to emphasize patterns in a dataset during exploratory data analyses.
+Matrix plots: A matrix plot is an array of scatterplots.
+Multi-plot grids: It is a useful approach to draw multiple instances of the same plot on different subsets of the dataset.
+
+components:
+-----------
+data: This is the array, series, or dataframe that you want to visualize. It is a required parameter.
+x: This specifies the column in the data to use for the histogram. If your data is a dataframe, you can specify the column by name.
+y: This specifies the column in the data to use for the histogram when you want to create a bivariate histogram. By default, it is set to None, meaning that a univariate histogram will be plotted.
+bins: This specifies the number of bins to use when dividing the data into intervals for plotting. By default, it is set to “auto”, which uses an algorithm to determine the optimal number of bins.
+kde: This parameter controls whether to display a kernel density estimate (KDE) of the data in addition to the histogram. By default, it is set to False, meaning that a KDE will not be plotted.
+
+
+
+python -m pip install dash   
+python -m pip install dash-html-components                                         
+python -m pip install dash-core-components                                     
+python -m pip install plotly
+
+
+import dash
+from dash import html
+from dash import dcc
+import plotly.graph_objects as go
+import plotly.express as px
+
+
+app = dash.Dash()   #initialising dash app
+df = px.data.stocks() #reading stock price dataset 
+
+def stock_prices():
+    # Function for creating line chart showing Google stock prices over time 
+    fig = go.Figure([go.Scatter(x = df['date'], y = df['GOOG'],\
+                     line = dict(color = 'firebrick', width = 4), name = 'Google')
+                     ])
+    fig.update_layout(title = 'Prices over time',
+                      xaxis_title = 'Dates',
+                      yaxis_title = 'Prices'
+                      )
+    return fig  
+
+ 
+app.layout = html.Div(id = 'parent', children = [
+    html.H1(id = 'H1', children = 'Styling using html components', style = {'textAlign':'center',\
+                                            'marginTop':40,'marginBottom':40}),
+
+        
+        dcc.Graph(id = 'line_plot', figure = stock_prices())    
+    ]
+                     )
+
+if __name__ == '__main__': 
+    app.run_server()

@@ -1,0 +1,32 @@
+
+1. AWS - s3
+
+2. IAM - Roles, user , policy , group. 
+
+3. EC2 : create a instance and see if you can run any python/shell jobs. 
+
+4. RDS - Relational db, mysql. connected to workbench
+
+5. Glue ETL : crawler , Glue notebooks , Glue catalog tables 
+
+    a) learn how to crawl anad create a data catlog table [hive table]
+            i) learn how to handle partiioned data and create partitioned table. 
+            ii) how to schedule a crawler.
+    b) build Glue pyspark jobs using jupyter notebooks. 
+    c) learn about athena.
+
+6. Athena
+
+7. EMR [its not on free tier]
+
+8. Redshift [create a ETL solution similar to Glue ETL] 
+
+9. Cloud watch [logs monitering space]
+
+10. Quicksight [reporting dashbaord]
+
+
+
+
+
+
