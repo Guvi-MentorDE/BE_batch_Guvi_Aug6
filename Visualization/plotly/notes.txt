@@ -1,0 +1,25 @@
+
+install all required python packages:
+-------------------------------------
+python -m pip install dash   
+python -m pip install dash-html-components                                         
+python -m pip install dash-core-components                                     
+python -m pip install plotly
+
+Dash
+====
+Dash is a python framework created by plotly for creating interactive web applications
+Dash is written on the top of Flask, Plotly.js and React.js.
+With Dash, you don’t have to learn HTML, CSS and Javascript in order to create interactive dashboards, you only need python
+Dash is open source and the application build using this framework are viewed on the web browser.
+
+
+Dash applications are made up of 2 building blocks :
+1) Layout
+2) Callbacks
+
+Layout describes the look and feel of the app, it defines the elements such as graphs, dropdowns etc and the placement, size, color etc of these elements.
+Dash contains Dash HTML components using which we can create and style HTML content such as headings, paragraph, images etc using python.
+
+
+Callbacks are used to bring interactivity to the dash applications. These are the functions using which, for example, we can define the activity that would happen on clicking a button or a dropdown.
