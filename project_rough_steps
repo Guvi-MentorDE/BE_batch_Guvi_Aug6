@@ -1,0 +1,19 @@
+1. unzip the data load to s3
+2. create RDS service , make it public. 
+    - rules [inbound and outbound will be there , make it access to any IP or your computer IP]
+
+    a) flatten the json using pandas or pyspark and load to cleaned s3 bucket 
+    or
+    b) load directly the json to SQL tables. 
+
+Method1:
+3. discover connecting between glue ETL notebook and RDS service. 
+
+4. connect and load the data using cursor , take the data to a dataframe to proceed. 
+
+(or)
+
+Method2:
+5. create a glue crawler -> choose source as RDS - > table -> query -> unload to a loaction or a athena table. / s3.
+
+6. read the table using spark.read() and proceed. 
