@@ -1,0 +1,29 @@
+prefix with "sudo" if you are a root user. 
+
+docker installation:
+docker run hello-world 
+
+search image:
+docker search apache
+
+pull an image from hub:
+docker pull <image_name>:latest
+
+check the list of images:
+docker images 
+
+check the running containers/task:
+docker ps 
+or
+docker ps -a 
+
+connect to a conainter (or) login to a container:
+
+docker start <container_id>
+
+docker exec -it <container_id> /bin/bash
+
+
+stopping a container:
+
+docker stop <container_id>
