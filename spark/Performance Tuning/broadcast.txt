@@ -1,0 +1,18 @@
+#Enable broadcast Join and 
+#Set Threshold limit of size in bytes of a DataFrame to broadcast
+spark.conf.set("spark.sql.autoBroadcastJoinThreshold", 104857600)
+
+#Disable broadcast Join
+spark.conf.set("spark.sql.autoBroadcastJoinThreshold", -1)
+
+
+# Perform broadast join
+from pyspark.sql.functions import broadcast
+largeDF.join(
+  broadcast(smallerDF),
+  smallerDF("code")  largeDf("UNIT")
+).show()
+
+
+
+file1: 20 MB       file2 : 1 GB

@@ -1,0 +1,11 @@
+spark.conf.set("spark.sql.adaptive.enabled", "true")
+spark.conf.set("spark.sql.adaptive.optimizerEnabled", "true")
+
+
+The AQE optimizer in Spark provides the following benefits:
+
+Dynamic optimization: The AQE optimizer is capable of dynamically changing the execution plan based on the data statistics. This approach enables Spark to optimize the data processing pipeline to provide better performance.
+Adaptive planning: The AQE optimizer uses adaptive planning to change the execution plan during runtime. This feature helps to optimize the query execution plan based on the data characteristics, ensuring the most efficient processing plan.
+Cost-based optimization: The AQE optimizer uses a cost-based optimization approach to determine the optimal query execution plan. This approach ensures that the query execution plan is optimized for the best performance and cost.
+Reduced overhead: By optimizing the query execution plan, the AQE optimizer reduces the overhead associated with data processing. This approach helps to improve the overall performance of Spark and reduce the cost of running queries.
+Faster processing: With the AQE optimizer, Spark can process queries faster and more efficiently, improving the overall performance of the system.

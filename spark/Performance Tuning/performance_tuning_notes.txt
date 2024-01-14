@@ -1,0 +1,8 @@
+Performance tuning:
+-------------------
+
+1. Using Broadcast when necessary. 
+2. handelling skew data. 
+3. UDF : dont use UDF it will create performance. catalyst optimizer will never be able to recognize the UDF.
+        : take necesary steps to move out of using UDF. 
+4. ADE. [available from spark 3.0 onwards]
