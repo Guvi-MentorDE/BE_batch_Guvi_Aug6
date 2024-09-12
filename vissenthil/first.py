@@ -1,0 +1,1 @@
+print('This is my python sample code created to push in git')
