@@ -1,3 +1,0 @@
-1. create a function for detmining palidrome , anagram and retun the result to the function call then print. 
-2. Create a function to accept one variable , which will return weather it is odd or even number. 
-    2.(a) check if the accpeted input is interger or not , if not then throw exception. 

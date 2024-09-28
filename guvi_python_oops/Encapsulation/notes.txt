@@ -1,3 +1,0 @@
-Encapsulation in Python describes the concept of bundling data and methods within a single unit. 
-So, for example, when you create a class, it means you are implementing encapsulation. 
-A class is an example of encapsulation as it binds all the data members (instance variables) and methods into a single unit.
